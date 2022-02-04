@@ -1,5 +1,6 @@
 package com.cleaning.facade.dto;
 
+import com.cleaning.entity.OfficeCleaningStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -11,4 +12,6 @@ public class OfficeCleaningDto {
     private final SpaceTypeDto spaceType;
     private final ContactInfoDto contactInfo;
     private final LocationDto location;
+    private final OfficeCleaningStatus status;
+    private final OfficeCleaningQuoteRequestDto quoteRequest;
 }

@@ -1,9 +1,18 @@
 package com.cleaning.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public enum HomeAccess {
+    @JsonProperty("Meet")
     Meet("Meet"),
-    KeyMailbox("Key Mailbox"),
+
+    @JsonProperty("Key In Mailbox")
+    KeyMailbox("Key In Mailbox"),
+
+    @JsonProperty("Pickup Key")
     PickupKey("Pickup Key"),
+
+    @JsonProperty("Meet")
     Call("Call");
 
     private final String label;

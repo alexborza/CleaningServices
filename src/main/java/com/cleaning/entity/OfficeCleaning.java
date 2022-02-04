@@ -28,4 +28,11 @@ public class OfficeCleaning {
 
     @Embedded
     private Location location;
+
+    @Enumerated(EnumType.STRING)
+    private OfficeCleaningStatus status;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "quote_request_id")
+    private OfficeCleaningQuoteRequest quoteRequest;
 }

@@ -1,13 +1,28 @@
 package com.cleaning.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public enum OfficeCleaningFrequency {
-    DailyIncludingWeekends("DailyIncludingWeekends"),
-    DailyWeekdaysOnly("DailyWeekdaysOnly"),
-    TwiceWeek("TwiceWeek"),
+    @JsonProperty("Daily Including Weekends")
+    DailyIncludingWeekends("Daily Including Weekends"),
+
+    @JsonProperty("Daily Weekdays Only")
+    DailyWeekdaysOnly("Daily Weekdays Only"),
+
+    @JsonProperty("Twice Week")
+    TwiceWeek("Twice Week"),
+
+    @JsonProperty("Weekly")
     Weekly("Weekly"),
-    Every2Weeks("Every2Weeks"),
+
+    @JsonProperty("Every 2 Weeks")
+    Every2Weeks("Every 2 Weeks"),
+
+    @JsonProperty("Monthly")
     Monthly("Monthly"),
-    ToBeDetermined("ToBeDetermined");
+
+    @JsonProperty("To Be Determined")
+    ToBeDetermined("To Be Determined");
 
     private final String label;
 

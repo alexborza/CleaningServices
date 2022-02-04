@@ -15,6 +15,9 @@ public class SpaceDetails {
     private String numberOfPersons;
 
     @Enumerated(EnumType.STRING)
+    private PrimaryUseOfSpace primaryUseOfSpace;
+
+    @Enumerated(EnumType.STRING)
     private OfficeCleaningFrequency frequencyOfCleaning;
 
     @Enumerated(EnumType.STRING)

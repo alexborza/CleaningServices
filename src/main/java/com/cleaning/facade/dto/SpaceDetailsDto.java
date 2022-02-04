@@ -2,15 +2,14 @@ package com.cleaning.facade.dto;
 
 import com.cleaning.entity.DayTimeOfficeCleaning;
 import com.cleaning.entity.OfficeCleaningFrequency;
+import com.cleaning.entity.PrimaryUseOfSpace;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 
 @Getter
 @AllArgsConstructor
 public class SpaceDetailsDto {
+    private final PrimaryUseOfSpace primaryUseOfSpace;
     private final int totalSquareMeters;
     private final String numberOfPersons;
     private final OfficeCleaningFrequency frequencyOfCleaning;
