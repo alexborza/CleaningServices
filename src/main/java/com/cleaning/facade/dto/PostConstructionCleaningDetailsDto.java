@@ -2,13 +2,9 @@ package com.cleaning.facade.dto;
 
 import com.cleaning.entity.Property;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.Data;
 
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 @JsonTypeName("postConstructionCleaning")
 public class PostConstructionCleaningDetailsDto extends CleaningDetailsDto{
     private Property property;

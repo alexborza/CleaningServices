@@ -4,13 +4,9 @@ import com.cleaning.entity.HomeAccess;
 import com.cleaning.entity.Parking;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.Data;
 
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = StandardCleaningDetailsDto.class, name = "standardCleaning"),
@@ -18,6 +14,7 @@ import lombok.NoArgsConstructor;
         @JsonSubTypes.Type(value = PostConstructionCleaningDetailsDto.class, name = "postConstructionCleaning")
 })
 public abstract class CleaningDetailsDto {
+    private Long id;
     private int squareMeters;
     private Parking parking;
     private HomeAccess homeAccess;

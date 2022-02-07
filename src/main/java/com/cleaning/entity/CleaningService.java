@@ -36,4 +36,7 @@ public class CleaningService {
     private PaymentMethod paymentMethod;
 
     private double total;
+
+    @Enumerated(EnumType.STRING)
+    private CleaningServiceType type;
 }

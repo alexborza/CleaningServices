@@ -19,7 +19,7 @@ public interface CleaningServiceMapper {
             return toDisinfectionCleaningDetailsEntity((DisinfectionCleaningDetailsDto) cleaningDetailsDto);
         }
 
-        throw new IllegalArgumentException("Unknown subtype of PetDTO");
+        throw new IllegalArgumentException("Unknown subtype of CleaningDetailsDto");
     }
 
     CleaningService toCleaningServiceEntity(CleaningServiceDto cleaningServiceDto);
@@ -29,4 +29,26 @@ public interface CleaningServiceMapper {
     StandardCleaningDetails toStandardCleaningDetailsEntity(StandardCleaningDetailsDto standardCleaningDetailsDto);
     PostConstructionCleaningDetails toPostConstructionCleaningDetailsEntity(PostConstructionCleaningDetailsDto postConstructionCleaningDetailsDto);
     DisinfectionCleaningDetails toDisinfectionCleaningDetailsEntity(DisinfectionCleaningDetailsDto disinfectionCleaningDetailsDto);
+
+    default CleaningDetailsDto toCleaningDetailsDto(CleaningDetails cleaningDetails) {
+        if (cleaningDetails instanceof StandardCleaningDetails) {
+            return toStandardCleaningDetailsDto((StandardCleaningDetails) cleaningDetails);
+        }
+
+        if (cleaningDetails instanceof PostConstructionCleaningDetails) {
+            return toPostConstructionCleaningDetailsDto((PostConstructionCleaningDetails) cleaningDetails);
+        }
+
+        if (cleaningDetails instanceof DisinfectionCleaningDetails) {
+            return toDisinfectionCleaningDetailsDto((DisinfectionCleaningDetails) cleaningDetails);
+        }
+
+        throw new IllegalArgumentException("Unknown subtype of CleaningDetails");
+    }
+
+    CleaningServiceDto toCleaningServiceDto(CleaningService cleaningService);
+
+    StandardCleaningDetailsDto toStandardCleaningDetailsDto(StandardCleaningDetails standardCleaningDetails);
+    PostConstructionCleaningDetailsDto toPostConstructionCleaningDetailsDto(PostConstructionCleaningDetails postConstructionCleaningDetails);
+    DisinfectionCleaningDetailsDto toDisinfectionCleaningDetailsDto(DisinfectionCleaningDetails disinfectionCleaningDetails);
 }

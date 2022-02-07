@@ -12,7 +12,7 @@ public enum HomeAccess {
     @JsonProperty("Pickup Key")
     PickupKey("Pickup Key"),
 
-    @JsonProperty("Meet")
+    @JsonProperty("Call")
     Call("Call");
 
     private final String label;

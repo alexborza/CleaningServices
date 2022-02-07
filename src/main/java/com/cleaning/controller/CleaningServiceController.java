@@ -24,4 +24,15 @@ public class CleaningServiceController {
     public List<String> getBookedHoursForDate(@RequestParam String date){
         return cleaningServiceFacade.getBookedHoursForDate(date);
     }
+
+    @GetMapping
+    public List<CleaningServiceDto> getCleaningServices(){
+        return cleaningServiceFacade.getCleaningServices();
+    }
+
+    @GetMapping("/{id}")
+    public CleaningServiceDto getCleaningService(@PathVariable Long id){
+        return cleaningServiceFacade.getCleaningService(id);
+    }
+
 }

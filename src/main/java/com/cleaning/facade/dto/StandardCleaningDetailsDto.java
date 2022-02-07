@@ -1,13 +1,9 @@
 package com.cleaning.facade.dto;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 @JsonTypeName("standardCleaning")
 public class StandardCleaningDetailsDto extends CleaningDetailsDto {
     private int bedrooms;
