@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.*;
 
 @Entity
 @Table(name = "OFFICE_CLEANING")
@@ -35,4 +36,10 @@ public class OfficeCleaning {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "quote_request_id")
     private OfficeCleaningQuoteRequest quoteRequest;
+
+    @ManyToOne
+    private User client;
+
+    @ManyToMany(mappedBy = "officeCleanings")
+    Set<Employee> employees;
 }

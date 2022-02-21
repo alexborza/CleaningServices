@@ -16,8 +16,8 @@ public class CleaningServiceController {
     private CleaningServiceFacade cleaningServiceFacade;
 
     @PostMapping
-    public void createCleaningService(@RequestBody CleaningServiceDto cleaningServiceDto){
-        cleaningServiceFacade.createCleaningService(cleaningServiceDto);
+    public void createCleaningService(@RequestParam(required = false) Long userId, @RequestBody CleaningServiceDto cleaningServiceDto){
+        cleaningServiceFacade.createCleaningService(userId, cleaningServiceDto);
     }
 
     @GetMapping("/booked-hours")

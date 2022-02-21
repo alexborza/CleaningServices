@@ -1,8 +1,10 @@
 package com.cleaning.facade;
 
 import com.cleaning.entity.*;
+import com.cleaning.facade.dto.*;
 import com.cleaning.facade.dto.request.*;
 import com.cleaning.facade.dto.response.*;
+import com.cleaning.facade.vo.*;
 import com.cleaning.repository.*;
 import com.cleaning.security.jwt.*;
 import com.cleaning.security.services.*;
@@ -54,60 +56,66 @@ public class AuthFacade {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: Username is already taken!"));
+                    .body(new MessageResponse("Username is already taken!"));
         }
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: Email is already in use!"));
+                    .body(new MessageResponse("Email is already in use!"));
         }
         // Create new user's account
         User user = this.createNewUserAccount(signUpRequest);
-        Set<Role> roles = this.getUserRoles(signUpRequest);
-        user.setRoles(roles);
+        user.setRoles(Set.of(this.getUserRole(ERole.ROLE_USER)));
         userRepository.save(user);
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 
     private User createNewUserAccount(SignupRequest signUpRequest){
-        return new User(signUpRequest.getUsername(), signUpRequest.getEmail(), encoder.encode(signUpRequest.getPassword()));
-    }
-
-    private Set<Role> getUserRoles(SignupRequest signUpRequest){
-        Set<String> strRoles = signUpRequest.getRole();
-        Set<Role> roles = new HashSet<>();
-        if (strRoles == null) {
-            Role userRole = this.getUserRole(ERole.ROLE_USER);
-            roles.add(userRole);
-        } else {
-            this.mapRoles(strRoles, roles);
-        }
-        return roles;
-    }
-
-    private void mapRoles(Set<String> strRoles, Set<Role> roles){
-        strRoles.forEach(role -> {
-            switch (role) {
-                case "admin":
-                    Role adminRole = this.getUserRole(ERole.ROLE_ADMIN);
-                    roles.add(adminRole);
-                    break;
-                case "employee":
-                    Role modRole = this.getUserRole(ERole.ROLE_EMPLOYEE);
-                    roles.add(modRole);
-                    break;
-                case "user":
-                    Role userRole = this.getUserRole(ERole.ROLE_USER);
-                    roles.add(userRole);
-                    break;
-                default:
-                    break;
-            }
-        });
+        return new Client(signUpRequest.getUsername(), signUpRequest.getEmail(), encoder.encode(signUpRequest.getPassword()));
     }
 
     private Role getUserRole(ERole role){
         return roleRepository.findByName(role)
                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
     }
+
+    public List<UserCredentialDto> getExistingUserCredentials(){
+        List<UserCredentialVo> userCredentialVos = userRepository.getUserCredentials();
+        return userCredentialVos.stream()
+                .map(vo -> new UserCredentialDto(vo.getUsername(), vo.getEmail()))
+                .collect(Collectors.toList());
+    }
+
+//    private Set<Role> getUserRoles(SignupRequest signUpRequest){
+//        Set<String> strRoles = signUpRequest.getRole();
+//        Set<Role> roles = new HashSet<>();
+//        if (strRoles == null) {
+//            Role userRole = this.getUserRole(ERole.ROLE_USER);
+//            roles.add(userRole);
+//        } else {
+//            this.mapRoles(strRoles, roles);
+//        }
+//        return roles;
+//    }
+//
+//    private void mapRoles(Set<String> strRoles, Set<Role> roles){
+//        strRoles.forEach(role -> {
+//            switch (role) {
+//                case "admin":
+//                    Role adminRole = this.getUserRole(ERole.ROLE_ADMIN);
+//                    roles.add(adminRole);
+//                    break;
+//                case "employee":
+//                    Role modRole = this.getUserRole(ERole.ROLE_EMPLOYEE);
+//                    roles.add(modRole);
+//                    break;
+//                case "user":
+//                    Role userRole = this.getUserRole(ERole.ROLE_USER);
+//                    roles.add(userRole);
+//                    break;
+//                default:
+//                    break;
+//            }
+//        });
+//    }
 }

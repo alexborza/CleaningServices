@@ -1,12 +1,10 @@
 package com.cleaning.facade;
 
-import com.cleaning.entity.OfficeCleaning;
-import com.cleaning.entity.OfficeCleaningQuoteRequest;
-import com.cleaning.entity.OfficeCleaningStatus;
+import com.cleaning.entity.*;
 import com.cleaning.facade.dto.OfficeCleaningDto;
 import com.cleaning.facade.dto.OfficeCleaningQuoteRequestDto;
 import com.cleaning.facade.mapper.OfficeCleaningServiceMapper;
-import com.cleaning.repository.OfficeCleaningRepository;
+import com.cleaning.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +21,20 @@ public class OfficeCleaningServiceFacade {
     @Autowired
     private OfficeCleaningServiceMapper mapper;
 
-    public void quoteRequestForOfficeCleaning(OfficeCleaningDto officeCleaningDto){
-        repository.save(mapper.toOfficeCleaningEntity(officeCleaningDto));
+    @Autowired
+    private UserRepository userRepository;
+
+    public void quoteRequestForOfficeCleaning(Long userId, OfficeCleaningDto officeCleaningDto){
+        if(userId == null) {
+            repository.save(mapper.toOfficeCleaningEntity(officeCleaningDto));
+        } else {
+            Client client = userRepository.findClientById(userId)
+                    .orElseThrow(EntityNotFoundException::new);
+            OfficeCleaning officeCleaning = mapper.toOfficeCleaningEntity(officeCleaningDto);
+            client.addOfficeCleaning(officeCleaning);
+            officeCleaning.setClient(client);
+            userRepository.save(client);
+        }
     }
 
     public void updateQuoteRequestForOfficeCleaning(Long id, OfficeCleaningQuoteRequestDto dto){

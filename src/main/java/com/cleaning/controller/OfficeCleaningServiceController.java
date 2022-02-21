@@ -17,8 +17,8 @@ public class OfficeCleaningServiceController {
     private OfficeCleaningServiceFacade facade;
 
     @PostMapping("/quote-request")
-    public void quoteRequestForOfficeCleaning(@RequestBody OfficeCleaningDto officeCleaningDto){
-        facade.quoteRequestForOfficeCleaning(officeCleaningDto);
+    public void quoteRequestForOfficeCleaning(@RequestParam(required = false) Long userId, @RequestBody OfficeCleaningDto officeCleaningDto){
+        facade.quoteRequestForOfficeCleaning(userId, officeCleaningDto);
     }
 
     @PutMapping("/quote-request/{id}")
