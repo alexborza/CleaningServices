@@ -51,7 +51,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/images/**",
             "/api/booking/cleaning-service/**",
             "/api/auth/**",
-            "/api/office-cleaning-service/quote-request"
+            "/api/office-cleaning-service/quote-request",
+            "/api/office-cleaning-service/quote-requests/**"
     };
 
     @Override

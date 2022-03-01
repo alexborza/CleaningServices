@@ -12,6 +12,7 @@ public interface AdministratorMapper {
         }
         throw new IllegalArgumentException("Unknown subtype of CleaningDetailsDto");
     }
-
+    UserInformation userInformationDtoToUserInformation(UserInformationDto userInformationDto);
     Employee toEmployeeEntity(EmployeeDto dto);
+    UserDto toUserDto(User dto);
 }
