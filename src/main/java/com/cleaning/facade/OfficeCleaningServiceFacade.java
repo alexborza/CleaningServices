@@ -22,18 +22,18 @@ public class OfficeCleaningServiceFacade {
     private OfficeCleaningServiceMapper mapper;
 
     @Autowired
-    private UserRepository userRepository;
+    private ClientRepository clientRepository;
 
     public void quoteRequestForOfficeCleaning(Long userId, OfficeCleaningDto officeCleaningDto){
         if(userId == null) {
             repository.save(mapper.toOfficeCleaningEntity(officeCleaningDto));
         } else {
-            Client client = userRepository.findClientById(userId)
+            Client client = clientRepository.findById(userId)
                     .orElseThrow(EntityNotFoundException::new);
             OfficeCleaning officeCleaning = mapper.toOfficeCleaningEntity(officeCleaningDto);
             client.addOfficeCleaning(officeCleaning);
             officeCleaning.setClient(client);
-            userRepository.save(client);
+            clientRepository.save(client);
         }
     }
 

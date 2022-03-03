@@ -11,7 +11,7 @@ import javax.transaction.*;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
-    private UserRepository userRepository;
+    private UserRepository<User> userRepository;
 
     @Override
     @Transactional
@@ -20,4 +20,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
         return UserDetailsImpl.build(user);
     }
+
+
 }

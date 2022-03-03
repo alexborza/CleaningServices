@@ -25,7 +25,7 @@ public class AuthFacade {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserRepository<User> userRepository;
 
     @Autowired
     private RoleRepository roleRepository;

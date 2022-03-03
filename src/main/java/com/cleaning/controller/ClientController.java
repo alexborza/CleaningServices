@@ -17,26 +17,6 @@ public class ClientController {
     @Autowired
     private ClientFacade facade;
 
-    @GetMapping("{userId}")
-    public UserDto getUser(@PathVariable Long userId){
-        return facade.getUser(userId);
-    }
-
-    @PostMapping("/email/{userId}")
-    public void modifyEmail(@PathVariable Long userId, @RequestBody String email) {
-        facade.modifyEmail(userId, email);
-    }
-
-    @PostMapping("/password/{userId}")
-    public ResponseEntity<MessageResponse> modifyPassword(@PathVariable Long userId, @RequestBody ModifyPasswordDto dto) {
-        return facade.modifyPassword(userId, dto);
-    }
-
-    @PostMapping("/personal-info/{userId}")
-    public void modifyPersonalInfo(@PathVariable Long userId, @RequestBody UserInformationDto dto) {
-        facade.modifyPersonalInfo(userId, dto);
-    }
-
     @GetMapping("/cleaning-services/{userId}")
     public List<CleaningServiceDto> getClientsCleaningServices(@PathVariable Long userId){
         return facade.getClientsCleaningServices(userId);

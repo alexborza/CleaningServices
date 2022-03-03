@@ -16,7 +16,7 @@ import java.util.*;
 public class AdministratorFacade {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserRepository<User> userRepository;
 
     @Autowired
     private RoleRepository roleRepository;

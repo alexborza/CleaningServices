@@ -21,18 +21,18 @@ public class CleaningServiceFacade {
     private CleaningServiceMapper mapper;
 
     @Autowired
-    private UserRepository userRepository;
+    private ClientRepository clientRepository;
 
     public void createCleaningService(Long userId, CleaningServiceDto cleaningServiceDto){
         if(userId == null) {
             repo.save(mapper.toCleaningServiceEntity(cleaningServiceDto));
         } else {
-            Client client = userRepository.findClientById(userId)
+            Client client = clientRepository.findById(userId)
                     .orElseThrow(EntityNotFoundException::new);
             CleaningService cleaningService = mapper.toCleaningServiceEntity(cleaningServiceDto);
             client.addCleaningService(cleaningService);
             cleaningService.setClient(client);
-            userRepository.save(client);
+            clientRepository.save(client);
         }
     }
 
