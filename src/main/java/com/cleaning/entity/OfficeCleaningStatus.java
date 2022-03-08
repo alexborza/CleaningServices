@@ -7,7 +7,13 @@ public enum OfficeCleaningStatus {
     Sent("Sent"),
 
     @JsonProperty("Not Sent")
-    NotSent("Not Sent");
+    NotSent("Not Sent"),
+
+    @JsonProperty("Accepted")
+    Accepted("Accepted"),
+
+    @JsonProperty("Declined")
+    Declined("Declined");
 
     private final String label;
 

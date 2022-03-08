@@ -8,8 +8,8 @@ import java.util.List;
 
 public interface CleaningServiceRepository extends CrudRepository<CleaningService, Long> {
 
-    @Query("Select cs.cleaningDate.cleaningHour from CleaningService cs Where cs.cleaningDate.cleaningDate = ?1")
-    List<String> getBookedHoursForDate(String cleaningDate);
+//    @Query("Select cs.cleaningDate.cleaningHour from CleaningService cs Where cs.cleaningDate.cleaningDate = ?1")
+//    List<String> getBookedHoursForDate(String cleaningDate);
 
     @Query("Select cs from CleaningService cs where cs.client.id = ?1")
     List<CleaningService> getClientsCleaningServices(Long clientId);

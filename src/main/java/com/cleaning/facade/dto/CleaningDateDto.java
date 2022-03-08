@@ -7,5 +7,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public class CleaningDateDto {
     private final String cleaningDate;
-    private final String cleaningHour;
+    private final String startingHour;
+    private final String finishingHour;
 }

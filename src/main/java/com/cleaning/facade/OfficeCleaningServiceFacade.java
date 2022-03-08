@@ -7,6 +7,7 @@ import com.cleaning.facade.mapper.OfficeCleaningServiceMapper;
 import com.cleaning.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -55,5 +56,12 @@ public class OfficeCleaningServiceFacade {
     public OfficeCleaningDto getQuoteRequest(Long id){
         OfficeCleaning officeCleaning = repository.findById(id).orElseThrow(EntityNotFoundException::new);
         return mapper.toOfficeCleaningDto(officeCleaning);
+    }
+
+    public void updateRequestStatus(Long id, OfficeCleaningStatus status){
+        OfficeCleaning officeCleaning = repository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
+        officeCleaning.setStatus(status);
+        repository.save(officeCleaning);
     }
 }

@@ -52,7 +52,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/api/booking/cleaning-service/**",
             "/api/auth/**",
             "/api/office-cleaning-service/quote-request",
-            "/api/office-cleaning-service/quote-requests/**"
+            "/api/office-cleaning-service/quote-requests/**",
+            "/api/employee/total-employees",
+            "/api/employee/employees-day-agenda"
     };
 
     @Override

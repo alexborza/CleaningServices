@@ -1,7 +1,7 @@
 package com.cleaning.facade;
 
 import com.cleaning.entity.*;
-import com.cleaning.facade.dto.CleaningServiceDto;
+import com.cleaning.facade.dto.*;
 import com.cleaning.facade.mapper.CleaningServiceMapper;
 import com.cleaning.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,10 +34,6 @@ public class CleaningServiceFacade {
             cleaningService.setClient(client);
             clientRepository.save(client);
         }
-    }
-
-    public List<String> getBookedHoursForDate(String date){
-        return repo.getBookedHoursForDate(date);
     }
 
     public List<CleaningServiceDto> getCleaningServices(){

@@ -14,6 +14,7 @@ public interface AdministratorMapper {
     }
     UserInformation userInformationDtoToUserInformation(UserInformationDto userInformationDto);
     EmergencyContactInformation emergencyContactInfoDtoToEntity(EmergencyContactInformationDto dto);
+    JobInformation jobInformationDtoToEntity(JobInformationDto dto);
     Employee toEmployeeEntity(EmployeeDto dto);
     default UserDto toUserDto(User entity){
         if(entity instanceof Employee){

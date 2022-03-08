@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.*;
 
 @Entity
 @Table(name = "CLEANING_SERVICE")
@@ -41,9 +40,11 @@ public class CleaningService {
     @Enumerated(EnumType.STRING)
     private CleaningServiceType type;
 
+    private int timeEstimation;
+
     @ManyToOne
     private User client;
 
-    @ManyToMany(mappedBy = "cleaningServices")
-    Set<Employee> employees;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Employee employee;
 }

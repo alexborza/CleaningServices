@@ -11,12 +11,16 @@ import org.springframework.security.crypto.password.*;
 import org.springframework.stereotype.*;
 
 import java.util.*;
+import java.util.stream.*;
 
 @Service
 public class AdministratorFacade {
 
     @Autowired
     private UserRepository<User> userRepository;
+
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
     @Autowired
     private RoleRepository roleRepository;
@@ -39,6 +43,13 @@ public class AdministratorFacade {
         setEmployeeRole(employee);
         userRepository.save(employee);
         return ResponseEntity.ok(new MessageResponse("Employee registered successfully!"));
+    }
+
+    public List<EmployeeDto> getAllEmployees(){
+        List<Employee> employees = employeeRepository.findAll();
+        return employees.stream()
+                .map(mapper::toEmployeeDto)
+                .collect(Collectors.toList());
     }
 
     private void encodePassword(UserDto dto){

@@ -18,5 +18,6 @@ public class CleaningServiceDto {
     private final CleaningDateDto cleaningDate;
     private final PaymentMethod paymentMethod;
     private final double total;
+    private final int timeEstimation;
     private final CleaningServiceType type;
 }

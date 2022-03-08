@@ -17,13 +17,16 @@ public class Employee extends User {
             inverseJoinColumns = @JoinColumn(name = "office_cleaning_id"))
     private Set<OfficeCleaning> officeCleanings = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(	name = "employees_cleaning_services",
-            joinColumns = @JoinColumn(name = "employee_id"),
-            inverseJoinColumns = @JoinColumn(name = "cleaning_service_id"))
-    private Set<OfficeCleaning> cleaningServices = new HashSet<>();
+    @OneToMany(mappedBy = "employee")
+    private List<CleaningService> cleaningServices = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "employee_info_id", referencedColumnName = "id")
     private EmployeeInformation employeeInformation;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "agenda_id", referencedColumnName = "id")
+    private Agenda agenda;
+
+    
 }

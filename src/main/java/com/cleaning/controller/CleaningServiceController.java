@@ -1,7 +1,7 @@
 package com.cleaning.controller;
 
 import com.cleaning.facade.CleaningServiceFacade;
-import com.cleaning.facade.dto.CleaningServiceDto;
+import com.cleaning.facade.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,11 +18,6 @@ public class CleaningServiceController {
     @PostMapping
     public void createCleaningService(@RequestParam(required = false) Long userId, @RequestBody CleaningServiceDto cleaningServiceDto){
         cleaningServiceFacade.createCleaningService(userId, cleaningServiceDto);
-    }
-
-    @GetMapping("/booked-hours")
-    public List<String> getBookedHoursForDate(@RequestParam String date){
-        return cleaningServiceFacade.getBookedHoursForDate(date);
     }
 
     @GetMapping
