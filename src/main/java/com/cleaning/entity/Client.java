@@ -11,7 +11,7 @@ import java.util.*;
 @NoArgsConstructor
 public class Client extends User {
 
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "client")
     private List<CleaningService> cleaningServices;
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)

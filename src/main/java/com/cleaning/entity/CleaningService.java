@@ -42,7 +42,7 @@ public class CleaningService {
 
     private int timeEstimation;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User client;
 
     @ManyToOne(fetch = FetchType.LAZY)

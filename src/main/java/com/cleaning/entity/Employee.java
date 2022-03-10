@@ -17,7 +17,7 @@ public class Employee extends User {
             inverseJoinColumns = @JoinColumn(name = "office_cleaning_id"))
     private Set<OfficeCleaning> officeCleanings = new HashSet<>();
 
-    @OneToMany(mappedBy = "employee")
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
     private List<CleaningService> cleaningServices = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -28,5 +28,8 @@ public class Employee extends User {
     @JoinColumn(name = "agenda_id", referencedColumnName = "id")
     private Agenda agenda;
 
+    public void addCleaningService(CleaningService cleaningService){
+        this.cleaningServices.add(cleaningService);
+    }
     
 }

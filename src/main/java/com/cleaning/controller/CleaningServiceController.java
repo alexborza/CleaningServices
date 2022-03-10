@@ -1,5 +1,6 @@
 package com.cleaning.controller;
 
+import com.cleaning.entity.*;
 import com.cleaning.facade.CleaningServiceFacade;
 import com.cleaning.facade.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +17,8 @@ public class CleaningServiceController {
     private CleaningServiceFacade cleaningServiceFacade;
 
     @PostMapping
-    public void createCleaningService(@RequestParam(required = false) Long userId, @RequestBody CleaningServiceDto cleaningServiceDto){
-        cleaningServiceFacade.createCleaningService(userId, cleaningServiceDto);
+    public void createCleaningService(@RequestParam Long employeeId, @RequestParam(required = false) Long userId, @RequestBody CleaningServiceDto cleaningServiceDto){
+        cleaningServiceFacade.createCleaningService(employeeId, userId, cleaningServiceDto);
     }
 
     @GetMapping

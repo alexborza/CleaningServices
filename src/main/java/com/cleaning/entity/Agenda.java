@@ -19,4 +19,8 @@ public class Agenda {
 
     @OneToOne(mappedBy = "agenda")
     private Employee employee;
+
+    public void addDay(Day day){
+        this.days.add(day);
+    }
 }
