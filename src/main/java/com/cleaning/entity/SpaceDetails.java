@@ -11,7 +11,7 @@ import javax.persistence.Enumerated;
 @Getter
 @Setter
 public class SpaceDetails {
-    private int totalSquareMeters;
+    private String totalSquareMeters;
     private String numberOfPersons;
 
     @Enumerated(EnumType.STRING)

@@ -18,7 +18,7 @@ public abstract class CleaningDetails {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private int squareMeters;
+    private String squareMeters;
 
     @Enumerated(EnumType.STRING)
     private Parking parking;

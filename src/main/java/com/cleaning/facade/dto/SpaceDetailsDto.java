@@ -10,7 +10,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class SpaceDetailsDto {
     private final PrimaryUseOfSpace primaryUseOfSpace;
-    private final int totalSquareMeters;
+    private final String totalSquareMeters;
     private final String numberOfPersons;
     private final OfficeCleaningFrequency frequencyOfCleaning;
     private final DayTimeOfficeCleaning dayTime;

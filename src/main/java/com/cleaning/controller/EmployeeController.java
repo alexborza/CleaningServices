@@ -31,13 +31,13 @@ public class EmployeeController {
         return facade.getEmployee(id);
     }
 
-    @GetMapping("/total-employees")
-    public long getTotalNumberOfEmployees(){
-        return facade.getTotalNumberOfEmployees();
-    }
-
     @GetMapping("/employees-day-agenda")
     public List<EmployeesDayAgenda> getEmployeesAgendaForDate(@RequestParam String date){
         return facade.getEmployeesAgendaForDate(date);
+    }
+
+    @GetMapping("/employee-agenda/{id}")
+    public List<CleaningServiceDto> getEmployeeCleaningServicesForDate(@PathVariable Long id, @RequestParam String date){
+        return facade.getEmployeeCleaningServicesForDate(id, date);
     }
 }

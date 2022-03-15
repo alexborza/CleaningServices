@@ -15,7 +15,7 @@ import lombok.Data;
 })
 public abstract class CleaningDetailsDto {
     private Long id;
-    private int squareMeters;
+    private String squareMeters;
     private Parking parking;
     private HomeAccess homeAccess;
 }

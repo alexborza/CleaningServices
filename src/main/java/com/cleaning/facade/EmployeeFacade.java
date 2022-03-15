@@ -19,6 +19,12 @@ public class EmployeeFacade {
     private EmployeeRepository employeeRepository;
 
     @Autowired
+    private CleaningServiceRepository cleaningServiceRepository;
+
+    @Autowired
+    private CleaningServiceMapper cleaningServiceMapper;
+
+    @Autowired
     private AdministratorMapper administratorMapper;
 
     public void modifyEmergencyContactInfo(Long userId, EmergencyContactInformationDto dto){
@@ -43,14 +49,17 @@ public class EmployeeFacade {
         return administratorMapper.toEmployeeDto(employee);
     }
 
-    public long getTotalNumberOfEmployees(){
-        return employeeRepository.count();
-    }
-
     public List<EmployeesDayAgenda> getEmployeesAgendaForDate(String date){
         List<Employee> employees = employeeRepository.findAll();
         return employees.stream()
                 .map(e -> toEmployeeDayAgenda(e, date))
+                .collect(Collectors.toList());
+    }
+
+    public List<CleaningServiceDto> getEmployeeCleaningServicesForDate(Long id, String date) {
+        List<CleaningService> cleaningServices = cleaningServiceRepository.getEmployeeCleaningServicesForDate(id, date);
+        return cleaningServices.stream()
+                .map(cleaningServiceMapper::toCleaningServiceDto)
                 .collect(Collectors.toList());
     }
 
