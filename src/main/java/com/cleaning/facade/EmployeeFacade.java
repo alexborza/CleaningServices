@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
 import javax.persistence.*;
+import java.time.*;
+import java.time.temporal.*;
 import java.util.*;
 import java.util.stream.*;
 
@@ -68,21 +70,29 @@ public class EmployeeFacade {
             return createEmptyDayAgenda(employee);
         }
         Agenda agenda = employee.getAgenda();
-        Optional<Day> day = getDayForDate(agenda, date);
+        Day day = getDayForDate(agenda, date);
+        day.setDate(date);
         return createDayAgenda(employee, day);
     }
 
-    private Optional<Day> getDayForDate(Agenda agenda, String date){
+    private Day getDayForDate(Agenda agenda, String date){
         return agenda.getDays().stream()
                 .filter(d -> d.getDate().equals(date))
-                .findFirst();
+                .findFirst()
+                .orElse(new Day());
     }
 
-    private EmployeesDayAgenda createDayAgenda(Employee employee, Optional<Day> day){
-        if(day.isEmpty()){
-            return createEmptyDayAgenda(employee);
-        }
-        return new EmployeesDayAgenda(employee.getId(), day.get().getAvailableIntervals());
+    private EmployeesDayAgenda createDayAgenda(Employee employee, Day day){
+        List<CleaningService> frequentServices = cleaningServiceRepository.getEmployeeCleaningServicesForDate(employee.getId(), day.getDate());
+        frequentServices.stream()
+                .filter(fs -> !fs.getCleaningDate().getCleaningDate().equals(day.getDate()))
+                .forEach(fs -> this.addBookedInterval(day, fs));
+        return new EmployeesDayAgenda(employee.getId(), day.getAvailableIntervals());
+    }
+
+    private void addBookedInterval(Day day, CleaningService cleaningService){
+        CleaningDate cleaningDate = cleaningService.getCleaningDate();
+        day.addBookedInterval(new BookedInterval(cleaningDate.getStartingHour(), cleaningDate.getFinishingHour(), null));
     }
 
     private EmployeesDayAgenda createEmptyDayAgenda(Employee employee){

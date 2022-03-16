@@ -11,6 +11,6 @@ import java.time.LocalDate;
 @Setter
 public class CleaningDate {
     private String cleaningDate;
-    private String startingHour;
-    private String finishingHour;
+    private int startingHour;
+    private int finishingHour;
 }
