@@ -3,14 +3,11 @@ package com.cleaning.facade;
 import com.cleaning.entity.*;
 import com.cleaning.facade.dto.*;
 import com.cleaning.facade.mapper.*;
-import com.cleaning.facade.vo.*;
 import com.cleaning.repository.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
 import javax.persistence.*;
-import java.time.*;
-import java.time.temporal.*;
 import java.util.*;
 import java.util.stream.*;
 
@@ -61,8 +58,22 @@ public class EmployeeFacade {
     public List<CleaningServiceDto> getEmployeeCleaningServicesForDate(Long id, String date) {
         List<CleaningService> cleaningServices = cleaningServiceRepository.getEmployeeCleaningServicesForDate(id, date);
         return cleaningServices.stream()
+                .filter(cs -> filterDeletedCleaningServices(cs, date))
                 .map(cleaningServiceMapper::toCleaningServiceDto)
                 .collect(Collectors.toList());
+    }
+
+    private boolean filterDeletedCleaningServices(CleaningService cleaningService, String date){
+        if(cleaningService.getStatus() == CleaningStatus.Deleted){
+            List<CleaningDate> futureCleaningDates = cleaningService.getDatesOfCleaning();
+            Optional<CleaningDate> futureCleaningDate = futureCleaningDates.stream()
+                    .filter(fc -> fc.getCleaningDate().equals(date))
+                    .findFirst();
+            if(futureCleaningDate.isPresent())
+                return true;
+            return false;
+        }
+        return true;
     }
 
     private EmployeesDayAgenda toEmployeeDayAgenda(Employee employee, String date){
@@ -79,13 +90,13 @@ public class EmployeeFacade {
         return agenda.getDays().stream()
                 .filter(d -> d.getDate().equals(date))
                 .findFirst()
-                .orElse(new Day());
+                .orElse(Day.create(date));
     }
 
     private EmployeesDayAgenda createDayAgenda(Employee employee, Day day){
         List<CleaningService> frequentServices = cleaningServiceRepository.getEmployeeCleaningServicesForDate(employee.getId(), day.getDate());
         frequentServices.stream()
-                .filter(fs -> !fs.getCleaningDate().getCleaningDate().equals(day.getDate()))
+                .filter(fs -> fs.getStatus() != CleaningStatus.Deleted && !fs.getCleaningDate().getCleaningDate().equals(day.getDate()))
                 .forEach(fs -> this.addBookedInterval(day, fs));
         return new EmployeesDayAgenda(employee.getId(), day.getAvailableIntervals());
     }

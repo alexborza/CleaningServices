@@ -32,6 +32,18 @@ public class Day {
         calculateAvailableIntervals();
     }
 
+    public void deleteBookedInterval(BookedInterval interval){
+        this.bookedIntervals.remove(interval);
+        calculateAvailableIntervals();
+    }
+
+    public static Day create(String date){
+        Day day = new Day();
+        day.setDate(date);
+        day.setAvailableIntervals(new ArrayList<>(List.of(new AvailableInterval(9, 17))));
+        return day;
+    }
+
     private void calculateAvailableIntervals(){
         ArrayList<Integer> hours = new ArrayList<>(List.of(9,10,11,12,13,14,15,16,17));
         List<Integer> bookedHours = getBookedHours();

@@ -26,7 +26,13 @@ public class AdministratorFacade {
     private RoleRepository roleRepository;
 
     @Autowired
+    private CleaningServiceRepository cleaningServiceRepository;
+
+    @Autowired
     private AdministratorMapper mapper;
+
+    @Autowired
+    private CleaningServiceMapper cleaningServiceMapper;
 
     @Autowired
     private PasswordEncoder encoder;
@@ -50,6 +56,36 @@ public class AdministratorFacade {
         return employees.stream()
                 .map(mapper::toEmployeeDto)
                 .collect(Collectors.toList());
+    }
+
+    public List<ServicesAgenda> getServicesAgenda(String date){
+        List<ServicesAgenda> servicesAgenda = new ArrayList<>();
+        List<CleaningService> cleaningServices = cleaningServiceRepository.getCleaningServicesForDate(date);
+        cleaningServices = cleaningServices.stream()
+                .filter(cs -> filterDeletedCleaningServices(cs, date))
+                .collect(Collectors.toList());
+        Map<String, List<CleaningService>> cleaningServiceMap = cleaningServices.stream()
+                .collect(Collectors.groupingBy(CleaningService::getEmployeeName));
+        for (Map.Entry<String,List<CleaningService>> entry : cleaningServiceMap.entrySet()){
+            List<CleaningServiceDto> cleaningServicesDto = entry.getValue().stream()
+                    .map(cleaningServiceMapper::toCleaningServiceDto)
+                    .collect(Collectors.toList());
+            servicesAgenda.add(new ServicesAgenda(entry.getKey(), cleaningServicesDto));
+        }
+        return servicesAgenda;
+    }
+
+    private boolean filterDeletedCleaningServices(CleaningService cleaningService, String date){
+        if(cleaningService.getStatus() == CleaningStatus.Deleted){
+            List<CleaningDate> futureCleaningDates = cleaningService.getDatesOfCleaning();
+            Optional<CleaningDate> futureCleaningDate = futureCleaningDates.stream()
+                    .filter(fc -> fc.getCleaningDate().equals(date))
+                    .findFirst();
+            if(futureCleaningDate.isPresent())
+                return true;
+            return false;
+        }
+        return true;
     }
 
     private void encodePassword(UserDto dto){

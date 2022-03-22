@@ -51,4 +51,5 @@ public interface CleaningServiceMapper {
     StandardCleaningDetailsDto toStandardCleaningDetailsDto(StandardCleaningDetails standardCleaningDetails);
     PostConstructionCleaningDetailsDto toPostConstructionCleaningDetailsDto(PostConstructionCleaningDetails postConstructionCleaningDetails);
     DisinfectionCleaningDetailsDto toDisinfectionCleaningDetailsDto(DisinfectionCleaningDetails disinfectionCleaningDetails);
+    CleaningDateDto toCleaningDateDto(CleaningDate cleaningDate);
 }

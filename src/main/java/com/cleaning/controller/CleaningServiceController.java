@@ -31,4 +31,18 @@ public class CleaningServiceController {
         return cleaningServiceFacade.getCleaningService(id);
     }
 
+    @PutMapping("/end-service/{id}")
+    public void endCleaningService(@PathVariable Long id){
+        cleaningServiceFacade.endCleaningService(id);
+    }
+
+    @PutMapping("/finish-service/{id}")
+    public void finishCleaningService(@PathVariable Long id, @RequestParam String date){
+        cleaningServiceFacade.finishCleaningService(id, date);
+    }
+
+    @GetMapping("/dates-of-cleaning/{id}")
+    public List<CleaningDateDto> getDatesOfCleaningForCleaningService(@PathVariable Long id){
+        return cleaningServiceFacade.getDatesOfCleaningForCleaningService(id);
+    }
 }

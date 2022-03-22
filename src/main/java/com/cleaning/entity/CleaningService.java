@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.*;
 
 @Entity
 @Table(name = "CLEANING_SERVICE")
@@ -47,4 +48,19 @@ public class CleaningService {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Employee employee;
+
+    @Enumerated(EnumType.STRING)
+    private CleaningStatus status;
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "dates_of_cleaning", joinColumns = @JoinColumn(name = "cleaning_service_id"))
+    private List<CleaningDate> datesOfCleaning = new ArrayList<>();
+
+    public String getEmployeeName(){
+        return employee.getUserInformation().getFullName();
+    }
+
+    public void addDateOfCleaning(CleaningDate futureCleaningDate){
+        this.datesOfCleaning.add(futureCleaningDate);
+    }
 }

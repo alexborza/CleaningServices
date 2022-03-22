@@ -1,12 +1,13 @@
 package com.cleaning.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Embeddable;
 import java.time.LocalDate;
 
 @Embeddable
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class CleaningDate {

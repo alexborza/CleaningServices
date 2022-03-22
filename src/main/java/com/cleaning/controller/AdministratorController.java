@@ -26,4 +26,9 @@ public class AdministratorController {
     public List<EmployeeDto> getAllEmployees(){
         return facade.getAllEmployees();
     }
+
+    @GetMapping("/services-agenda")
+    public List<ServicesAgenda> getServicesAgenda(@RequestParam String date){
+        return facade.getServicesAgenda(date);
+    }
 }

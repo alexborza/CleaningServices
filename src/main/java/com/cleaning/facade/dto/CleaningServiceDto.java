@@ -1,9 +1,7 @@
 package com.cleaning.facade.dto;
 
 
-import com.cleaning.entity.CleaningFrequency;
-import com.cleaning.entity.CleaningServiceType;
-import com.cleaning.entity.PaymentMethod;
+import com.cleaning.entity.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -20,4 +18,5 @@ public class CleaningServiceDto {
     private final double total;
     private final int timeEstimation;
     private final CleaningServiceType type;
+    private final CleaningStatus status;
 }

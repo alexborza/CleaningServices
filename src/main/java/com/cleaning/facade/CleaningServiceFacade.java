@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.time.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -46,6 +47,42 @@ public class CleaningServiceFacade {
     public CleaningServiceDto getCleaningService(Long id){
         CleaningService cleaningService = repo.findById(id).orElseThrow(EntityNotFoundException::new);
         return mapper.toCleaningServiceDto(cleaningService);
+    }
+
+    public void endCleaningService(Long id){
+        CleaningService cleaningService = repo.findById(id).orElseThrow(EntityNotFoundException::new);
+        cleaningService.setStatus(CleaningStatus.Deleted);
+        Employee employee = cleaningService.getEmployee();
+        deleteCleaningServiceFromAgenda(employee, cleaningService);
+        employeeRepository.save(employee);
+    }
+
+    public void finishCleaningService(Long id, String date) {
+        CleaningService cleaningService = repo.findById(id).orElseThrow(EntityNotFoundException::new);
+        addDateOfCleaning(cleaningService, date);
+        repo.save(cleaningService);
+    }
+
+    public List<CleaningDateDto> getDatesOfCleaningForCleaningService(Long id){
+        return repo.getDatesOfCleaningForCleaningService(id).stream()
+                .map(mapper::toCleaningDateDto)
+                .collect(Collectors.toList());
+    }
+
+    private void addDateOfCleaning(CleaningService cleaningService, String date){
+        CleaningDate cleaningDate = cleaningService.getCleaningDate();
+        cleaningService.addDateOfCleaning(new CleaningDate(date, cleaningDate.getStartingHour(), cleaningDate.getFinishingHour()));
+    }
+
+    private void deleteCleaningServiceFromAgenda(Employee employee, CleaningService cleaningService) {
+        Day day = employee.getAgenda().getDays().stream()
+                .filter(d -> d.getDate().equals(cleaningService.getCleaningDate().getCleaningDate()))
+                .findFirst().get();
+
+        BookedInterval bookedInterval = day.getBookedIntervals().stream()
+                .filter(bI -> bI.getStartingHour() == cleaningService.getCleaningDate().getStartingHour())
+                .findFirst().get();
+        day.deleteBookedInterval(bookedInterval);
     }
 
     private void setBookedIntervalToEmployeeAgenda(Employee employee, CleaningDateDto cleaningDateDto){
@@ -107,6 +144,7 @@ public class CleaningServiceFacade {
         CleaningService cleaningService = mapper.toCleaningServiceEntity(cleaningServiceDto);
         employee.addCleaningService(cleaningService);
         cleaningService.setEmployee(employee);
+        cleaningService.setStatus(CleaningStatus.InProgress);
         employeeRepository.save(employee);
     }
 
@@ -116,6 +154,7 @@ public class CleaningServiceFacade {
         cleaningService.setClient(client);
         employee.addCleaningService(cleaningService);
         cleaningService.setEmployee(employee);
+        cleaningService.setStatus(CleaningStatus.InProgress);
         userRepository.saveAll(List.of(client, employee));
     }
 }
