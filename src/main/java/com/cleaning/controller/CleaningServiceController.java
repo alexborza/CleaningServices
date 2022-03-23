@@ -45,4 +45,9 @@ public class CleaningServiceController {
     public List<CleaningDateDto> getDatesOfCleaningForCleaningService(@PathVariable Long id){
         return cleaningServiceFacade.getDatesOfCleaningForCleaningService(id);
     }
+
+    @GetMapping("/next-cleaning-date/{id}")
+    public CleaningDateDto getNextCleaningDate(@PathVariable Long id){
+        return cleaningServiceFacade.getNextCleaningDate(id);
+    }
 }

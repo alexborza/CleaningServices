@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.*;
 import java.util.*;
 
 @Entity
@@ -62,5 +63,34 @@ public class CleaningService {
 
     public void addDateOfCleaning(CleaningDate futureCleaningDate){
         this.datesOfCleaning.add(futureCleaningDate);
+    }
+
+    public CleaningDate getNextCleaningDate(){
+        if(status == CleaningStatus.Deleted){
+            return null;
+        }
+        if(datesOfCleaning.isEmpty())
+            return cleaningDate;
+        return getCleaningDateForFrequency();
+    }
+
+    private CleaningDate getCleaningDateForFrequency(){
+        switch(cleaningFrequency){
+            case Weekly:
+                return this.nextCleaningDate(7);
+            case BiWeekly:
+                return this.nextCleaningDate(14);
+            case Monthly:
+                return this.nextCleaningDate(28);
+            default:
+                return null;
+        }
+    }
+
+    private CleaningDate nextCleaningDate(long daysToAdd){
+        CleaningDate lastCleaningDate = datesOfCleaning.get(datesOfCleaning.size() - 1);
+        LocalDate date = LocalDate.parse(lastCleaningDate.getCleaningDate());
+        lastCleaningDate.setCleaningDate(date.plusDays(daysToAdd).toString());
+        return lastCleaningDate;
     }
 }

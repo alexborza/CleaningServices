@@ -65,8 +65,14 @@ public class CleaningServiceFacade {
 
     public List<CleaningDateDto> getDatesOfCleaningForCleaningService(Long id){
         return repo.getDatesOfCleaningForCleaningService(id).stream()
+                .filter(Objects::nonNull)
                 .map(mapper::toCleaningDateDto)
                 .collect(Collectors.toList());
+    }
+
+    public CleaningDateDto getNextCleaningDate(Long id){
+        CleaningService cleaningService = repo.findById(id).orElseThrow(EntityNotFoundException::new);
+        return mapper.toCleaningDateDto(cleaningService.getNextCleaningDate());
     }
 
     private void addDateOfCleaning(CleaningService cleaningService, String date){
