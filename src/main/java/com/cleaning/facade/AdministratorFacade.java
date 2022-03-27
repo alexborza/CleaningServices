@@ -10,6 +10,7 @@ import org.springframework.http.*;
 import org.springframework.security.crypto.password.*;
 import org.springframework.stereotype.*;
 
+import javax.persistence.*;
 import java.util.*;
 import java.util.stream.*;
 
@@ -27,6 +28,12 @@ public class AdministratorFacade {
 
     @Autowired
     private CleaningServiceRepository cleaningServiceRepository;
+
+    @Autowired
+    private CleaningServiceDescriptionRepository cleaningServiceDescriptionRepository;
+
+    @Autowired
+    private CleaningServiceDescriptionMapper cleaningServiceDescriptionMapper;
 
     @Autowired
     private AdministratorMapper mapper;
@@ -75,15 +82,39 @@ public class AdministratorFacade {
         return servicesAgenda;
     }
 
+    public CleaningServiceDescriptionDto getDescriptions(){
+        List<CleaningServiceDescription> descriptions = (List<CleaningServiceDescription>) cleaningServiceDescriptionRepository.findAll();
+        CleaningServiceDescription entity = descriptions.stream()
+                .findFirst()
+                .orElse(new CleaningServiceDescription());
+        return cleaningServiceDescriptionMapper.toCleaningServiceDescriptionDto(entity);
+    }
+
+    public void createDescriptions(CleaningServiceDescriptionDto dto){
+        cleaningServiceDescriptionRepository.save(cleaningServiceDescriptionMapper.toCleaningServiceDescriptionEntity(dto));
+    }
+
+    public void updateDescriptions(Long id, CleaningServiceDescriptionDto dto){
+        CleaningServiceDescription description = cleaningServiceDescriptionRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
+        updateDescriptions(description, dto);
+        cleaningServiceDescriptionRepository.save(description);
+    }
+
+    private void updateDescriptions(CleaningServiceDescription entity, CleaningServiceDescriptionDto dto){
+        entity.setStandardCleaningDescription(dto.getStandardCleaningDescription());
+        entity.setDeepCleaningDescription(dto.getDeepCleaningDescription());
+        entity.setDisinfectionCleaningDescription(dto.getDisinfectionCleaningDescription());
+        entity.setPostConstructionCleaningDescription(dto.getPostConstructionCleaningDescription());
+    }
+
     private boolean filterDeletedCleaningServices(CleaningService cleaningService, String date){
         if(cleaningService.getStatus() == CleaningStatus.Deleted){
             List<CleaningDate> futureCleaningDates = cleaningService.getDatesOfCleaning();
             Optional<CleaningDate> futureCleaningDate = futureCleaningDates.stream()
                     .filter(fc -> fc.getCleaningDate().equals(date))
                     .findFirst();
-            if(futureCleaningDate.isPresent())
-                return true;
-            return false;
+            return futureCleaningDate.isPresent();
         }
         return true;
     }

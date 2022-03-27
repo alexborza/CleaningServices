@@ -31,4 +31,19 @@ public class AdministratorController {
     public List<ServicesAgenda> getServicesAgenda(@RequestParam String date){
         return facade.getServicesAgenda(date);
     }
+
+    @GetMapping("/descriptions")
+    public CleaningServiceDescriptionDto getDescriptions(){
+        return facade.getDescriptions();
+    }
+
+    @PostMapping("/create-descriptions")
+    public void createDescriptions(@RequestBody CleaningServiceDescriptionDto dto){
+        facade.createDescriptions(dto);
+    }
+
+    @PutMapping("/update-descriptions/{id}")
+    public void updateDescriptions(@PathVariable Long id, @RequestBody CleaningServiceDescriptionDto dto){
+        facade.updateDescriptions(id, dto);
+    }
 }
