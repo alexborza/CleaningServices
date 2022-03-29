@@ -3,6 +3,7 @@ package com.cleaning.facade;
 import com.cleaning.entity.*;
 import com.cleaning.facade.dto.*;
 import com.cleaning.facade.mapper.CleaningServiceMapper;
+import com.cleaning.facade.vo.*;
 import com.cleaning.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,10 +38,10 @@ public class CleaningServiceFacade {
         createCleaningService(employee, cleaningServiceDto, userId);
     }
 
-    public List<CleaningServiceDto> getCleaningServices(){
-        List<CleaningService> cleaningServices = (List<CleaningService>) repo.findAll();
-        return cleaningServices.stream()
-                .map(mapper::toCleaningServiceDto)
+    public List<CleaningServiceDisplay> getCleaningServices(){
+        List<CleaningServiceDisplayVO> cleaningServicesVO = repo.getCleaningServices();
+        return cleaningServicesVO.stream()
+                .map(mapper::toCleaningServiceDisplay)
                 .collect(Collectors.toList());
     }
 

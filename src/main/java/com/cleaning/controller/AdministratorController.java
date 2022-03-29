@@ -46,4 +46,19 @@ public class AdministratorController {
     public void updateDescriptions(@PathVariable Long id, @RequestBody CleaningServiceDescriptionDto dto){
         facade.updateDescriptions(id, dto);
     }
+
+    @GetMapping("/prices")
+    public CleaningServicePricesDto getCleaningServicePrices(){
+        return facade.getCleaningServicePrices();
+    }
+
+    @PostMapping("/create-prices")
+    public void createCleaningPrices(@RequestBody CleaningServicePricesDto dto) {
+        facade.createCleaningPrices(dto);
+    }
+
+    @PutMapping("/update-prices/{id}")
+    public void updateCleaningPrices(@PathVariable Long id, @RequestBody CleaningServicePricesDto dto){
+        facade.updateCleaningPrices(id, dto);
+    }
 }

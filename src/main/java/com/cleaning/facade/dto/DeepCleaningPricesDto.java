@@ -3,10 +3,12 @@ package com.cleaning.facade.dto;
 import lombok.*;
 
 @Getter
+@Setter
+@NoArgsConstructor
 @AllArgsConstructor
 public class DeepCleaningPricesDto {
-    private final double deepServicePrice;
-    private final double deepServiceBedroom;
-    private final double deepServiceBathroom;
-    private final double deepServiceKitchen;
+    private double deepServicePrice;
+    private double deepServiceBedroom;
+    private double deepServiceBathroom;
+    private double deepServiceKitchen;
 }

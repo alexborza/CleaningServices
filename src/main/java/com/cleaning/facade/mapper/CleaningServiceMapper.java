@@ -2,6 +2,7 @@ package com.cleaning.facade.mapper;
 
 import com.cleaning.entity.*;
 import com.cleaning.facade.dto.*;
+import com.cleaning.facade.vo.*;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
@@ -52,4 +53,6 @@ public interface CleaningServiceMapper {
     PostConstructionCleaningDetailsDto toPostConstructionCleaningDetailsDto(PostConstructionCleaningDetails postConstructionCleaningDetails);
     DisinfectionCleaningDetailsDto toDisinfectionCleaningDetailsDto(DisinfectionCleaningDetails disinfectionCleaningDetails);
     CleaningDateDto toCleaningDateDto(CleaningDate cleaningDate);
+
+    CleaningServiceDisplay toCleaningServiceDisplay(CleaningServiceDisplayVO vo);
 }

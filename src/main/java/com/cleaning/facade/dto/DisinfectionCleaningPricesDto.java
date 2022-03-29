@@ -3,7 +3,9 @@ package com.cleaning.facade.dto;
 import lombok.*;
 
 @Getter
+@Setter
+@NoArgsConstructor
 @AllArgsConstructor
 public class DisinfectionCleaningPricesDto {
-    private final double disinfectionServicePrice;
+    private double disinfectionServicePrice;
 }

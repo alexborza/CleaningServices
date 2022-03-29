@@ -36,6 +36,12 @@ public class AdministratorFacade {
     private CleaningServiceDescriptionMapper cleaningServiceDescriptionMapper;
 
     @Autowired
+    private CleaningServicePricesRepository cleaningServicePricesRepository;
+
+    @Autowired
+    private CleaningServicePricesMapper cleaningServicePricesMapper;
+
+    @Autowired
     private AdministratorMapper mapper;
 
     @Autowired
@@ -99,6 +105,26 @@ public class AdministratorFacade {
                 .orElseThrow(EntityNotFoundException::new);
         updateDescriptions(description, dto);
         cleaningServiceDescriptionRepository.save(description);
+    }
+
+    public CleaningServicePricesDto getCleaningServicePrices(){
+        List<CleaningServicePrices> descriptions = (List<CleaningServicePrices>) cleaningServicePricesRepository.findAll();
+        CleaningServicePrices entity = descriptions.stream()
+                .findFirst()
+                .orElse(CleaningServicePrices.emptyInstance());
+        return cleaningServicePricesMapper.toCleaningServicePricesDto(entity);
+    }
+
+    public void createCleaningPrices(CleaningServicePricesDto dto){
+        cleaningServicePricesRepository.save(cleaningServicePricesMapper.toCleaningServicePricesEntity(dto));
+    }
+
+    public void updateCleaningPrices(Long id, CleaningServicePricesDto dto) {
+        CleaningServicePrices entity = cleaningServicePricesRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
+        CleaningServicePrices other = cleaningServicePricesMapper.toCleaningServicePricesEntity(dto);
+        entity.mapCleaningServicePrices(other);
+        cleaningServicePricesRepository.save(entity);
     }
 
     private void updateDescriptions(CleaningServiceDescription entity, CleaningServiceDescriptionDto dto){

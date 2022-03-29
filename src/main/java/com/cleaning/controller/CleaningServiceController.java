@@ -3,6 +3,7 @@ package com.cleaning.controller;
 import com.cleaning.entity.*;
 import com.cleaning.facade.CleaningServiceFacade;
 import com.cleaning.facade.dto.*;
+import com.cleaning.facade.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +23,7 @@ public class CleaningServiceController {
     }
 
     @GetMapping
-    public List<CleaningServiceDto> getCleaningServices(){
+    public List<CleaningServiceDisplay> getCleaningServices(){
         return cleaningServiceFacade.getCleaningServices();
     }
 

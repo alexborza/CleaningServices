@@ -3,13 +3,15 @@ package com.cleaning.facade.dto;
 import lombok.*;
 
 @Getter
+@Setter
+@NoArgsConstructor
 @AllArgsConstructor
 public class CleaningServicePricesDto {
-    private final Long id;
-    private final StandardCleaningPricesDto standardCleaningPrices;
-    private final DeepCleaningPricesDto deepCleaningPrices;
-    private final PostConstructionCleaningPricesDto postConstructionCleaningPrices;
-    private final DisinfectionCleaningPricesDto disinfectionCleaningPrices;
-    private final double paidParkingSpotPrice;
-    private final double pickUpKeysPrice;
+    private Long id;
+    private StandardCleaningPricesDto standardCleaningPrices;
+    private DeepCleaningPricesDto deepCleaningPrices;
+    private PostConstructionCleaningPricesDto postConstructionCleaningPrices;
+    private DisinfectionCleaningPricesDto disinfectionCleaningPrices;
+    private double paidParkingSpotPrice;
+    private double pickUpKeysPrice;
 }

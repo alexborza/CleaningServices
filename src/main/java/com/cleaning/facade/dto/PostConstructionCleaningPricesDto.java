@@ -3,8 +3,10 @@ package com.cleaning.facade.dto;
 import lombok.*;
 
 @Getter
+@Setter
+@NoArgsConstructor
 @AllArgsConstructor
 public class PostConstructionCleaningPricesDto {
-    private final double postConstructionServicePrice;
-    private final double roomPrice;
+    private double postConstructionServicePrice;
+    private double roomPrice;
 }
