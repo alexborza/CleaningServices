@@ -61,6 +61,10 @@ public class CleaningService {
         return employee.getUserInformation().getFullName();
     }
 
+    public void finishCleaning(){
+        status = CleaningStatus.Finished;
+    }
+
     public void addDateOfCleaning(CleaningDate futureCleaningDate){
         this.datesOfCleaning.add(futureCleaningDate);
     }
@@ -75,6 +79,8 @@ public class CleaningService {
     }
 
     private CleaningDate getCleaningDateForFrequency(){
+        if(cleaningFrequency == null)
+            return null;
         switch(cleaningFrequency){
             case Weekly:
                 return this.nextCleaningDate(7);

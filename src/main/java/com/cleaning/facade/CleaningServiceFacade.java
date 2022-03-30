@@ -61,6 +61,7 @@ public class CleaningServiceFacade {
     public void finishCleaningService(Long id, String date) {
         CleaningService cleaningService = repo.findById(id).orElseThrow(EntityNotFoundException::new);
         addDateOfCleaning(cleaningService, date);
+        cleaningService.finishCleaning();
         repo.save(cleaningService);
     }
 

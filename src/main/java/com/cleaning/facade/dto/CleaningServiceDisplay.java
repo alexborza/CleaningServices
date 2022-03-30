@@ -10,5 +10,5 @@ public class CleaningServiceDisplay {
     private String phoneNumber;
     private String email;
     private String squareMeters;
-    private String status;
+    private CleaningStatus status;
 }

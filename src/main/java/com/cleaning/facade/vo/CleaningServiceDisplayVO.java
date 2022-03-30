@@ -8,5 +8,5 @@ public interface CleaningServiceDisplayVO {
     String getPhoneNumber();
     String getEmail();
     String getSquareMeters();
-    String getStatus();
+    CleaningStatus getStatus();
 }
