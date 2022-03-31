@@ -2,7 +2,7 @@ package com.cleaning.facade;
 
 import com.cleaning.entity.*;
 import com.cleaning.facade.dto.*;
-import com.cleaning.facade.mapper.CleaningServiceMapper;
+import com.cleaning.facade.mapper.*;
 import com.cleaning.facade.vo.*;
 import com.cleaning.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +30,18 @@ public class CleaningServiceFacade {
 
     @Autowired
     private UserRepository<User> userRepository;
+
+    @Autowired
+    private CleaningServiceDescriptionRepository cleaningServiceDescriptionRepository;
+
+    @Autowired
+    private CleaningServiceDescriptionMapper cleaningServiceDescriptionMapper;
+
+    @Autowired
+    private CleaningServicePricesRepository cleaningServicePricesRepository;
+
+    @Autowired
+    private CleaningServicePricesMapper cleaningServicePricesMapper;
 
     public void createCleaningService(Long employeeId, Long userId, CleaningServiceDto cleaningServiceDto){
         Employee employee = employeeRepository.findById(employeeId)
@@ -75,6 +87,22 @@ public class CleaningServiceFacade {
     public CleaningDateDto getNextCleaningDate(Long id){
         CleaningService cleaningService = repo.findById(id).orElseThrow(EntityNotFoundException::new);
         return mapper.toCleaningDateDto(cleaningService.getNextCleaningDate());
+    }
+
+    public CleaningServiceDescriptionDto getDescriptions(){
+        List<CleaningServiceDescription> descriptions = (List<CleaningServiceDescription>) cleaningServiceDescriptionRepository.findAll();
+        CleaningServiceDescription entity = descriptions.stream()
+                .findFirst()
+                .orElse(new CleaningServiceDescription());
+        return cleaningServiceDescriptionMapper.toCleaningServiceDescriptionDto(entity);
+    }
+
+    public CleaningServicePricesDto getCleaningServicePrices(){
+        List<CleaningServicePrices> descriptions = (List<CleaningServicePrices>) cleaningServicePricesRepository.findAll();
+        CleaningServicePrices entity = descriptions.stream()
+                .findFirst()
+                .orElse(CleaningServicePrices.emptyInstance());
+        return cleaningServicePricesMapper.toCleaningServicePricesDto(entity);
     }
 
     private void addDateOfCleaning(CleaningService cleaningService, String date){

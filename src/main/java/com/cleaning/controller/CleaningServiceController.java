@@ -51,4 +51,14 @@ public class CleaningServiceController {
     public CleaningDateDto getNextCleaningDate(@PathVariable Long id){
         return cleaningServiceFacade.getNextCleaningDate(id);
     }
+
+    @GetMapping("/descriptions")
+    public CleaningServiceDescriptionDto getDescriptions(){
+        return cleaningServiceFacade.getDescriptions();
+    }
+
+    @GetMapping("/prices")
+    public CleaningServicePricesDto getCleaningServicePrices(){
+        return cleaningServiceFacade.getCleaningServicePrices();
+    }
 }

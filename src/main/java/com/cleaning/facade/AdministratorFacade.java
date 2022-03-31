@@ -88,14 +88,6 @@ public class AdministratorFacade {
         return servicesAgenda;
     }
 
-    public CleaningServiceDescriptionDto getDescriptions(){
-        List<CleaningServiceDescription> descriptions = (List<CleaningServiceDescription>) cleaningServiceDescriptionRepository.findAll();
-        CleaningServiceDescription entity = descriptions.stream()
-                .findFirst()
-                .orElse(new CleaningServiceDescription());
-        return cleaningServiceDescriptionMapper.toCleaningServiceDescriptionDto(entity);
-    }
-
     public void createDescriptions(CleaningServiceDescriptionDto dto){
         cleaningServiceDescriptionRepository.save(cleaningServiceDescriptionMapper.toCleaningServiceDescriptionEntity(dto));
     }
@@ -105,14 +97,6 @@ public class AdministratorFacade {
                 .orElseThrow(EntityNotFoundException::new);
         updateDescriptions(description, dto);
         cleaningServiceDescriptionRepository.save(description);
-    }
-
-    public CleaningServicePricesDto getCleaningServicePrices(){
-        List<CleaningServicePrices> descriptions = (List<CleaningServicePrices>) cleaningServicePricesRepository.findAll();
-        CleaningServicePrices entity = descriptions.stream()
-                .findFirst()
-                .orElse(CleaningServicePrices.emptyInstance());
-        return cleaningServicePricesMapper.toCleaningServicePricesDto(entity);
     }
 
     public void createCleaningPrices(CleaningServicePricesDto dto){

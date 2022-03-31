@@ -32,11 +32,6 @@ public class AdministratorController {
         return facade.getServicesAgenda(date);
     }
 
-    @GetMapping("/descriptions")
-    public CleaningServiceDescriptionDto getDescriptions(){
-        return facade.getDescriptions();
-    }
-
     @PostMapping("/create-descriptions")
     public void createDescriptions(@RequestBody CleaningServiceDescriptionDto dto){
         facade.createDescriptions(dto);
@@ -45,11 +40,6 @@ public class AdministratorController {
     @PutMapping("/update-descriptions/{id}")
     public void updateDescriptions(@PathVariable Long id, @RequestBody CleaningServiceDescriptionDto dto){
         facade.updateDescriptions(id, dto);
-    }
-
-    @GetMapping("/prices")
-    public CleaningServicePricesDto getCleaningServicePrices(){
-        return facade.getCleaningServicePrices();
     }
 
     @PostMapping("/create-prices")
