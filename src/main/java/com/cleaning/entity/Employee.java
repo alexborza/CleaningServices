@@ -11,12 +11,6 @@ import java.util.*;
 @NoArgsConstructor
 public class Employee extends User {
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(	name = "employees_office_cleaning",
-            joinColumns = @JoinColumn(name = "employee_id"),
-            inverseJoinColumns = @JoinColumn(name = "office_cleaning_id"))
-    private Set<OfficeCleaning> officeCleanings = new HashSet<>();
-
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
     private List<CleaningService> cleaningServices = new ArrayList<>();
 

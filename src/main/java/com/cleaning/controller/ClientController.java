@@ -2,9 +2,7 @@ package com.cleaning.controller;
 
 import com.cleaning.facade.*;
 import com.cleaning.facade.dto.*;
-import com.cleaning.facade.dto.response.*;
 import org.springframework.beans.factory.annotation.*;
-import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -20,11 +18,6 @@ public class ClientController {
     @GetMapping("/cleaning-services/{userId}")
     public List<CleaningServiceDto> getClientsCleaningServices(@PathVariable Long userId){
         return facade.getClientsCleaningServices(userId);
-    }
-
-    @GetMapping("/office-cleanings/{userId}")
-    public List<OfficeCleaningDto> getClientsOfficeCleanings(@PathVariable Long userId){
-        return facade.getClientsOfficeCleanings(userId);
     }
 
 }
