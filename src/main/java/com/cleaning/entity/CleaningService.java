@@ -62,7 +62,8 @@ public class CleaningService {
     }
 
     public void finishCleaning(){
-        status = CleaningStatus.Finished;
+        if(cleaningFrequency == CleaningFrequency.OneTime)
+            status = CleaningStatus.Finished;
     }
 
     public void addDateOfCleaning(CleaningDate futureCleaningDate){

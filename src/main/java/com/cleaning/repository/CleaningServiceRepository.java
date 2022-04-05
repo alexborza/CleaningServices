@@ -17,14 +17,6 @@ public interface CleaningServiceRepository extends CrudRepository<CleaningServic
     List<CleaningService> getClientsCleaningServices(Long clientId);
 
     @Query("Select cs From CleaningService cs " +
-            "where cs.employee.id = ?1 " +
-            "and cs.cleaningDate.cleaningDate = ?2 " +
-            "or (cs.cleaningFrequency = 'Weekly' and DATEDIFF(cs.cleaningDate.cleaningDate, ?2) < 0 and DATEDIFF(cs.cleaningDate.cleaningDate, ?2) % 7 = 0) " +
-            "or (cs.cleaningFrequency = 'BiWeekly' and DATEDIFF(cs.cleaningDate.cleaningDate, ?2) < 0 and DATEDIFF(cs.cleaningDate.cleaningDate, ?2) % 14 = 0) " +
-            "or (cs.cleaningFrequency = 'Monthly' and DATEDIFF(cs.cleaningDate.cleaningDate, ?2) < 0 and DATEDIFF(cs.cleaningDate.cleaningDate, ?2) % 28 = 0) ")
-    List<CleaningService> getEmployeeCleaningServicesForDate(Long id, String date);
-
-    @Query("Select cs From CleaningService cs " +
             "where cs.cleaningDate.cleaningDate = ?1 " +
             "or (cs.cleaningFrequency = 'Weekly' and DATEDIFF(cs.cleaningDate.cleaningDate, ?1) < 0 and DATEDIFF(cs.cleaningDate.cleaningDate, ?1) % 7 = 0) " +
             "or (cs.cleaningFrequency = 'BiWeekly' and DATEDIFF(cs.cleaningDate.cleaningDate, ?1) < 0 and DATEDIFF(cs.cleaningDate.cleaningDate, ?1) % 14 = 0) " +
