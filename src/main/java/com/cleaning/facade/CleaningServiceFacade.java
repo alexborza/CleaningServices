@@ -84,6 +84,19 @@ public class CleaningServiceFacade {
                 .collect(Collectors.toList());
     }
 
+    public void addMessageToCleaningService(Long id, MessageDto dto){
+        CleaningService cleaningService = repo.findById(id).orElseThrow(EntityNotFoundException::new);
+        cleaningService.addMessage(mapper.toCleaningMessageEntity(dto));
+        repo.save(cleaningService);
+    }
+
+    public List<MessageDto> getMessagesForCleaningService(Long id){
+        return repo.getMessagesForCleaningService(id).stream()
+                .filter(Objects::nonNull)
+                .map(mapper::toMessageDto)
+                .collect(Collectors.toList());
+    }
+
     public CleaningDateDto getNextCleaningDate(Long id){
         CleaningService cleaningService = repo.findById(id).orElseThrow(EntityNotFoundException::new);
         return mapper.toCleaningDateDto(cleaningService.getNextCleaningDate());

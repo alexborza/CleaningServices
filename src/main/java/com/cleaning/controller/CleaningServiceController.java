@@ -47,6 +47,16 @@ public class CleaningServiceController {
         return cleaningServiceFacade.getDatesOfCleaningForCleaningService(id);
     }
 
+    @PostMapping("/message/{id}")
+    public void addMessageToCleaningService(@PathVariable Long id, @RequestBody MessageDto dto){
+        cleaningServiceFacade.addMessageToCleaningService(id, dto);
+    }
+
+    @GetMapping("/messages/{id}")
+    public List<MessageDto> getMessagesForCleaningService(@PathVariable Long id){
+        return cleaningServiceFacade.getMessagesForCleaningService(id);
+    }
+
     @GetMapping("/next-cleaning-date/{id}")
     public CleaningDateDto getNextCleaningDate(@PathVariable Long id){
         return cleaningServiceFacade.getNextCleaningDate(id);

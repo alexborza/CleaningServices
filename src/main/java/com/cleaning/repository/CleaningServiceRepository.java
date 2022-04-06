@@ -25,4 +25,7 @@ public interface CleaningServiceRepository extends CrudRepository<CleaningServic
 
     @Query("Select datesOfCleaning From CleaningService cs Left Join cs.datesOfCleaning datesOfCleaning where cs.id = ?1")
     List<CleaningDate> getDatesOfCleaningForCleaningService(Long id);
+
+    @Query("Select messages From CleaningService cs Left Join cs.messages messages where cs.id = ?1")
+    List<Message> getMessagesForCleaningService(Long id);
 }

@@ -27,6 +27,7 @@ public interface CleaningServiceMapper {
     ContactInfo toContactInfoEntity(ContactInfoDto contactInfoDto);
     Location toLocationEntity(LocationDto locationDto);
     CleaningDate toCleaningDateEntity(CleaningDateDto cleaningDateDto);
+    Message toCleaningMessageEntity(MessageDto dto);
     StandardCleaningDetails toStandardCleaningDetailsEntity(StandardCleaningDetailsDto standardCleaningDetailsDto);
     PostConstructionCleaningDetails toPostConstructionCleaningDetailsEntity(PostConstructionCleaningDetailsDto postConstructionCleaningDetailsDto);
     DisinfectionCleaningDetails toDisinfectionCleaningDetailsEntity(DisinfectionCleaningDetailsDto disinfectionCleaningDetailsDto);
@@ -48,6 +49,7 @@ public interface CleaningServiceMapper {
     }
 
     CleaningServiceDto toCleaningServiceDto(CleaningService cleaningService);
+    MessageDto toMessageDto(Message message);
 
     StandardCleaningDetailsDto toStandardCleaningDetailsDto(StandardCleaningDetails standardCleaningDetails);
     PostConstructionCleaningDetailsDto toPostConstructionCleaningDetailsDto(PostConstructionCleaningDetails postConstructionCleaningDetails);

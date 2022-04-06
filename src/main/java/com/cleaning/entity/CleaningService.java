@@ -57,6 +57,10 @@ public class CleaningService {
     @CollectionTable(name = "dates_of_cleaning", joinColumns = @JoinColumn(name = "cleaning_service_id"))
     private List<CleaningDate> datesOfCleaning = new ArrayList<>();
 
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "messages", joinColumns = @JoinColumn(name = "cleaning_service_id"))
+    private List<Message> messages = new ArrayList<>();
+
     public String getEmployeeName(){
         return employee.getUserInformation().getFullName();
     }
@@ -68,6 +72,10 @@ public class CleaningService {
 
     public void addDateOfCleaning(CleaningDate futureCleaningDate){
         this.datesOfCleaning.add(futureCleaningDate);
+    }
+
+    public void addMessage(Message message) {
+        this.messages.add(message);
     }
 
     public CleaningDate getNextCleaningDate(){
