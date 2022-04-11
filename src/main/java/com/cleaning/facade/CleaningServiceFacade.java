@@ -118,6 +118,11 @@ public class CleaningServiceFacade {
         return cleaningServicePricesMapper.toCleaningServicePricesDto(entity);
     }
 
+    public List<String> getDatesToReschedule(Long id){
+        CleaningService cleaningService = repo.findById(id).orElseThrow(EntityNotFoundException::new);
+        return cleaningService.getDatesToReschedule();
+    }
+
     private void addDateOfCleaning(CleaningService cleaningService, String date){
         CleaningDate cleaningDate = cleaningService.getCleaningDate();
         cleaningService.addDateOfCleaning(new CleaningDate(date, cleaningDate.getStartingHour(), cleaningDate.getFinishingHour()));

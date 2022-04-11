@@ -66,7 +66,7 @@ public class CleaningService {
     }
 
     public void finishCleaning(){
-        if(cleaningFrequency == CleaningFrequency.OneTime)
+        if(cleaningFrequency == null || cleaningFrequency == CleaningFrequency.OneTime)
             status = CleaningStatus.Finished;
     }
 
@@ -107,5 +107,39 @@ public class CleaningService {
         LocalDate date = LocalDate.parse(lastCleaningDate.getCleaningDate());
         lastCleaningDate.setCleaningDate(date.plusDays(daysToAdd).toString());
         return lastCleaningDate;
+    }
+
+    public int getStartingHour(){
+        return cleaningDate.getStartingHour();
+    }
+
+    public List<String> getDatesToReschedule(){
+        CleaningDate cleaningDate = getNextCleaningDate();
+        if(cleaningFrequency == null || cleaningFrequency == CleaningFrequency.OneTime){
+            return List.of(cleaningDate.getCleaningDate());
+        }
+        return getDatesForFrequency(LocalDate.parse(cleaningDate.getCleaningDate()));
+    }
+
+    private List<String> getDatesForFrequency(LocalDate nextDate){
+        switch(cleaningFrequency){
+            case Weekly:
+                return calculateDatesToReschedule(nextDate, 5, 7);
+            case BiWeekly:
+                return calculateDatesToReschedule(nextDate, 3, 14);
+            case Monthly:
+                return calculateDatesToReschedule(nextDate, 2, 28);
+            default:
+                return Collections.emptyList();
+        }
+    }
+
+    private List<String> calculateDatesToReschedule(LocalDate nextDate, int numberOfDates, int daysToAdd){
+        List<String> datesToReschedule = new ArrayList<>();
+        for(int i = 0 ; i < numberOfDates; i++){
+            datesToReschedule.add(nextDate.toString());
+            nextDate = nextDate.plusDays(daysToAdd);
+        }
+        return datesToReschedule;
     }
 }

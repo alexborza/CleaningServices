@@ -59,14 +59,15 @@ public class EmployeeFacade {
         List<CleaningService> cleaningServices = employeeRepository.getEmployeeCleaningServicesForDate(id, date);
         return cleaningServices.stream()
                 .filter(cs -> filterDeletedCleaningServices(cs, date))
+                .sorted(Comparator.comparingInt(CleaningService::getStartingHour))
                 .map(cleaningServiceMapper::toCleaningServiceDto)
                 .collect(Collectors.toList());
     }
 
     private boolean filterDeletedCleaningServices(CleaningService cleaningService, String date){
         if(cleaningService.getStatus() == CleaningStatus.Deleted){
-            List<CleaningDate> futureCleaningDates = cleaningService.getDatesOfCleaning();
-            Optional<CleaningDate> futureCleaningDate = futureCleaningDates.stream()
+            List<CleaningDate> datesOfCleaning = cleaningService.getDatesOfCleaning();
+            Optional<CleaningDate> futureCleaningDate = datesOfCleaning.stream()
                     .filter(fc -> fc.getCleaningDate().equals(date))
                     .findFirst();
             return futureCleaningDate.isPresent();
@@ -94,7 +95,7 @@ public class EmployeeFacade {
     private EmployeesDayAgenda createDayAgenda(Employee employee, Day day){
         List<CleaningService> frequentServices = employeeRepository.getEmployeeCleaningServicesForDate(employee.getId(), day.getDate());
         frequentServices.stream()
-                .filter(fs -> fs.getStatus() != CleaningStatus.Deleted && !fs.getCleaningDate().getCleaningDate().equals(day.getDate()))
+                .filter(fs -> this.filterDeletedCleaningServices(fs, day.getDate()))
                 .forEach(fs -> this.addBookedInterval(day, fs));
         return new EmployeesDayAgenda(employee.getId(), day.getAvailableIntervals());
     }

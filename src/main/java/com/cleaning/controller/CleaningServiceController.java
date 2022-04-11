@@ -71,4 +71,9 @@ public class CleaningServiceController {
     public CleaningServicePricesDto getCleaningServicePrices(){
         return cleaningServiceFacade.getCleaningServicePrices();
     }
+
+    @GetMapping("/dates-to-reschedule/{id}")
+    public List<String> getDatesToReschedule(@PathVariable Long id){
+        return cleaningServiceFacade.getDatesToReschedule(id);
+    }
 }
