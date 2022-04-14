@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
-import java.time.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -97,9 +96,9 @@ public class CleaningServiceFacade {
                 .collect(Collectors.toList());
     }
 
-    public CleaningDateDto getNextCleaningDate(Long id){
+    public ObjectValueDto<String> getNextCleaningDate(Long id){
         CleaningService cleaningService = repo.findById(id).orElseThrow(EntityNotFoundException::new);
-        return mapper.toCleaningDateDto(cleaningService.getNextCleaningDate());
+        return new ObjectValueDto<>(cleaningService.getNextCleaningDate());
     }
 
     public CleaningServiceDescriptionDto getDescriptions(){
@@ -118,9 +117,15 @@ public class CleaningServiceFacade {
         return cleaningServicePricesMapper.toCleaningServicePricesDto(entity);
     }
 
-    public List<String> getDatesToReschedule(Long id){
+    public List<DatesToRescheduleDto> getDatesToReschedule(Long id){
         CleaningService cleaningService = repo.findById(id).orElseThrow(EntityNotFoundException::new);
         return cleaningService.getDatesToReschedule();
+    }
+
+    public void rescheduleCleaningService(Long id, RescheduleDateDto dto){
+        CleaningService cleaningService = repo.findById(id).orElseThrow(EntityNotFoundException::new);
+        cleaningService.addRescheduledDate(mapper.toRescheduleDateEntity(dto));
+        repo.save(cleaningService);
     }
 
     private void addDateOfCleaning(CleaningService cleaningService, String date){

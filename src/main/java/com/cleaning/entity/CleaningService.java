@@ -1,5 +1,6 @@
 package com.cleaning.entity;
 
+import com.cleaning.facade.dto.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -61,6 +62,10 @@ public class CleaningService {
     @CollectionTable(name = "messages", joinColumns = @JoinColumn(name = "cleaning_service_id"))
     private List<Message> messages = new ArrayList<>();
 
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "rescheduled_dates", joinColumns = @JoinColumn(name = "cleaning_service_id"))
+    private List<RescheduleDate> rescheduledDates = new ArrayList<>();
+
     public String getEmployeeName(){
         return employee.getUserInformation().getFullName();
     }
@@ -78,68 +83,102 @@ public class CleaningService {
         this.messages.add(message);
     }
 
-    public CleaningDate getNextCleaningDate(){
+    public void addRescheduledDate(RescheduleDate rescheduleDate) {
+        this.rescheduledDates.add(rescheduleDate);
+    }
+
+    public String getNextCleaningDate(){
+        String nextCleaningDate = getNextCleaningDateNoReschedule();
+        if(nextCleaningDate == null)
+            return null;
+        if(!isDateRescheduled(nextCleaningDate))
+            return nextCleaningDate;
+        return findRescheduledDateForDate(nextCleaningDate);
+    }
+
+    private String findRescheduledDateForDate(String date){
+        return rescheduledDates.stream()
+                .filter(rd -> rd.getDateToReschedule().equals(date))
+                .findFirst()
+                .map(RescheduleDate::getRescheduledDate)
+                .orElse(null);
+    }
+
+    private String getNextCleaningDateNoReschedule(){
         if(status == CleaningStatus.Deleted){
             return null;
         }
         if(datesOfCleaning.isEmpty())
-            return cleaningDate;
-        return getCleaningDateForFrequency();
+            return cleaningDate.getCleaningDate();
+        return calculateNextDateByFrequency();
     }
 
-    private CleaningDate getCleaningDateForFrequency(){
+    private String calculateNextDateByFrequency(){
+        LocalDate firstCleaningDate = LocalDate.parse(cleaningDate.getCleaningDate());
         if(cleaningFrequency == null)
             return null;
         switch(cleaningFrequency){
             case Weekly:
-                return this.nextCleaningDate(7);
+                return firstCleaningDate.plusDays(datesOfCleaning.size() * 7L).toString();
             case BiWeekly:
-                return this.nextCleaningDate(14);
+                return firstCleaningDate.plusDays(datesOfCleaning.size() * 14L).toString();
             case Monthly:
-                return this.nextCleaningDate(28);
+                return firstCleaningDate.plusDays(datesOfCleaning.size() * 28L).toString();
             default:
                 return null;
         }
-    }
-
-    private CleaningDate nextCleaningDate(long daysToAdd){
-        CleaningDate lastCleaningDate = datesOfCleaning.get(datesOfCleaning.size() - 1);
-        LocalDate date = LocalDate.parse(lastCleaningDate.getCleaningDate());
-        lastCleaningDate.setCleaningDate(date.plusDays(daysToAdd).toString());
-        return lastCleaningDate;
     }
 
     public int getStartingHour(){
         return cleaningDate.getStartingHour();
     }
 
-    public List<String> getDatesToReschedule(){
-        CleaningDate cleaningDate = getNextCleaningDate();
-        if(cleaningFrequency == null || cleaningFrequency == CleaningFrequency.OneTime){
-            return List.of(cleaningDate.getCleaningDate());
-        }
-        return getDatesForFrequency(LocalDate.parse(cleaningDate.getCleaningDate()));
+    public List<DatesToRescheduleDto> getDatesToReschedule(){
+        String date = getNextCleaningDateNoReschedule();
+        return getDatesForFrequency(date);
     }
 
-    private List<String> getDatesForFrequency(LocalDate nextDate){
+    private List<DatesToRescheduleDto> getDatesForFrequency(String cleaningDate){
+        if(cleaningDate == null)
+            return Collections.emptyList();
+
+        if(cleaningFrequency == null || cleaningFrequency == CleaningFrequency.OneTime) {
+            if(isDateRescheduled(cleaningDate))
+                return List.of(new DatesToRescheduleDto(cleaningDate, true));
+            return List.of(new DatesToRescheduleDto(cleaningDate, false));
+        }
+
+        LocalDate nextDate = LocalDate.parse(cleaningDate);
         switch(cleaningFrequency){
             case Weekly:
-                return calculateDatesToReschedule(nextDate, 5, 7);
+                return calculateDatesToReschedule(nextDate, 6, 7);
             case BiWeekly:
-                return calculateDatesToReschedule(nextDate, 3, 14);
+                return calculateDatesToReschedule(nextDate, 4, 14);
             case Monthly:
-                return calculateDatesToReschedule(nextDate, 2, 28);
+                return calculateDatesToReschedule(nextDate, 3, 28);
             default:
                 return Collections.emptyList();
         }
     }
 
-    private List<String> calculateDatesToReschedule(LocalDate nextDate, int numberOfDates, int daysToAdd){
-        List<String> datesToReschedule = new ArrayList<>();
-        for(int i = 0 ; i < numberOfDates; i++){
-            datesToReschedule.add(nextDate.toString());
+    private List<DatesToRescheduleDto> calculateDatesToReschedule(LocalDate nextDate, int numberOfDates, int daysToAdd){
+        List<DatesToRescheduleDto> datesToReschedule = new ArrayList<>();
+        for(int i = 0; i < numberOfDates; i++){
+            addDateToReschedule(datesToReschedule, nextDate.toString());
             nextDate = nextDate.plusDays(daysToAdd);
         }
         return datesToReschedule;
+    }
+
+    private void addDateToReschedule(List<DatesToRescheduleDto> datesToReschedule, String nextDate){
+        if(isDateRescheduled(nextDate))
+            datesToReschedule.add(new DatesToRescheduleDto(findRescheduledDateForDate(nextDate), true));
+        else
+            datesToReschedule.add(new DatesToRescheduleDto(nextDate, false));
+    }
+
+    public boolean isDateRescheduled(String date){
+        return this.rescheduledDates.stream()
+                .anyMatch(rd -> rd.getDateToReschedule().equals(date));
     }
 }

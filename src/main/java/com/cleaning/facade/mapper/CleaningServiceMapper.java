@@ -28,6 +28,7 @@ public interface CleaningServiceMapper {
     Location toLocationEntity(LocationDto locationDto);
     CleaningDate toCleaningDateEntity(CleaningDateDto cleaningDateDto);
     Message toCleaningMessageEntity(MessageDto dto);
+    RescheduleDate toRescheduleDateEntity(RescheduleDateDto dto);
     StandardCleaningDetails toStandardCleaningDetailsEntity(StandardCleaningDetailsDto standardCleaningDetailsDto);
     PostConstructionCleaningDetails toPostConstructionCleaningDetailsEntity(PostConstructionCleaningDetailsDto postConstructionCleaningDetailsDto);
     DisinfectionCleaningDetails toDisinfectionCleaningDetailsEntity(DisinfectionCleaningDetailsDto disinfectionCleaningDetailsDto);

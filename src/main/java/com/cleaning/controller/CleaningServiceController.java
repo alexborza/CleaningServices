@@ -1,10 +1,9 @@
 package com.cleaning.controller;
 
-import com.cleaning.entity.*;
 import com.cleaning.facade.CleaningServiceFacade;
 import com.cleaning.facade.dto.*;
-import com.cleaning.facade.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -58,7 +57,7 @@ public class CleaningServiceController {
     }
 
     @GetMapping("/next-cleaning-date/{id}")
-    public CleaningDateDto getNextCleaningDate(@PathVariable Long id){
+    public ObjectValueDto<String> getNextCleaningDate(@PathVariable Long id){
         return cleaningServiceFacade.getNextCleaningDate(id);
     }
 
@@ -73,7 +72,12 @@ public class CleaningServiceController {
     }
 
     @GetMapping("/dates-to-reschedule/{id}")
-    public List<String> getDatesToReschedule(@PathVariable Long id){
+    public List<DatesToRescheduleDto> getDatesToReschedule(@PathVariable Long id){
         return cleaningServiceFacade.getDatesToReschedule(id);
+    }
+
+    @PostMapping("/reschedule/{id}")
+    public void rescheduleCleaningService(@PathVariable Long id, @RequestBody RescheduleDateDto dto) {
+        cleaningServiceFacade.rescheduleCleaningService(id, dto);
     }
 }

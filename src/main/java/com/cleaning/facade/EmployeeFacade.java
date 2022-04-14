@@ -56,9 +56,11 @@ public class EmployeeFacade {
     }
 
     public List<CleaningServiceDto> getEmployeeCleaningServicesForDate(Long id, String date) {
-        List<CleaningService> cleaningServices = employeeRepository.getEmployeeCleaningServicesForDate(id, date);
+        List<CleaningService> cleaningServices = cleaningServiceRepository.getEmployeeCleaningServicesForDate(id, date);
         return cleaningServices.stream()
+                .distinct()
                 .filter(cs -> filterDeletedCleaningServices(cs, date))
+                .filter(cs -> filterRescheduledDates(cs,date))
                 .sorted(Comparator.comparingInt(CleaningService::getStartingHour))
                 .map(cleaningServiceMapper::toCleaningServiceDto)
                 .collect(Collectors.toList());
@@ -67,12 +69,14 @@ public class EmployeeFacade {
     private boolean filterDeletedCleaningServices(CleaningService cleaningService, String date){
         if(cleaningService.getStatus() == CleaningStatus.Deleted){
             List<CleaningDate> datesOfCleaning = cleaningService.getDatesOfCleaning();
-            Optional<CleaningDate> futureCleaningDate = datesOfCleaning.stream()
-                    .filter(fc -> fc.getCleaningDate().equals(date))
-                    .findFirst();
-            return futureCleaningDate.isPresent();
+            return datesOfCleaning.stream()
+                    .anyMatch(fc -> fc.getCleaningDate().equals(date));
         }
         return true;
+    }
+
+    private boolean filterRescheduledDates(CleaningService cleaningService, String date) {
+        return !cleaningService.isDateRescheduled(date);
     }
 
     private EmployeesDayAgenda toEmployeeDayAgenda(Employee employee, String date){
@@ -93,9 +97,11 @@ public class EmployeeFacade {
     }
 
     private EmployeesDayAgenda createDayAgenda(Employee employee, Day day){
-        List<CleaningService> frequentServices = employeeRepository.getEmployeeCleaningServicesForDate(employee.getId(), day.getDate());
+        List<CleaningService> frequentServices = cleaningServiceRepository.getEmployeeCleaningServicesForDate(employee.getId(), day.getDate());
         frequentServices.stream()
+                .distinct()
                 .filter(fs -> this.filterDeletedCleaningServices(fs, day.getDate()))
+                .filter(fs -> this.filterRescheduledDates(fs, day.getDate()))
                 .forEach(fs -> this.addBookedInterval(day, fs));
         return new EmployeesDayAgenda(employee.getId(), day.getAvailableIntervals());
     }

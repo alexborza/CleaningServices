@@ -75,7 +75,9 @@ public class AdministratorFacade {
         List<ServicesAgenda> servicesAgenda = new ArrayList<>();
         List<CleaningService> cleaningServices = cleaningServiceRepository.getCleaningServicesForDate(date);
         cleaningServices = cleaningServices.stream()
+                .distinct()
                 .filter(cs -> filterDeletedCleaningServices(cs, date))
+                .filter(cs -> filterRescheduledDates(cs, date))
                 .collect(Collectors.toList());
         Map<String, List<CleaningService>> cleaningServiceMap = cleaningServices.stream()
                 .collect(Collectors.groupingBy(CleaningService::getEmployeeName));
@@ -120,13 +122,15 @@ public class AdministratorFacade {
 
     private boolean filterDeletedCleaningServices(CleaningService cleaningService, String date){
         if(cleaningService.getStatus() == CleaningStatus.Deleted){
-            List<CleaningDate> futureCleaningDates = cleaningService.getDatesOfCleaning();
-            Optional<CleaningDate> futureCleaningDate = futureCleaningDates.stream()
-                    .filter(fc -> fc.getCleaningDate().equals(date))
-                    .findFirst();
-            return futureCleaningDate.isPresent();
+            List<CleaningDate> datesOfCleaning = cleaningService.getDatesOfCleaning();
+            return datesOfCleaning.stream()
+                    .anyMatch(fc -> fc.getCleaningDate().equals(date));
         }
         return true;
+    }
+
+    private boolean filterRescheduledDates(CleaningService cleaningService, String date) {
+        return !cleaningService.isDateRescheduled(date);
     }
 
     private void encodePassword(UserDto dto){
