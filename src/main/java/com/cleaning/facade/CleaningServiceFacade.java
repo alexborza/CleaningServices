@@ -65,7 +65,7 @@ public class CleaningServiceFacade {
         CleaningService cleaningService = repo.findById(id).orElseThrow(EntityNotFoundException::new);
         cleaningService.setStatus(CleaningStatus.Deleted);
         Employee employee = cleaningService.getEmployee();
-        deleteCleaningServiceFromAgenda(employee, cleaningService);
+        removeCleaningServiceFromEmployeeAgenda(employee, cleaningService, cleaningService.getCleaningDate().getCleaningDate());
         employeeRepository.save(employee);
     }
 
@@ -125,23 +125,23 @@ public class CleaningServiceFacade {
     public void rescheduleCleaningService(Long id, RescheduleDateDto dto){
         CleaningService cleaningService = repo.findById(id).orElseThrow(EntityNotFoundException::new);
         cleaningService.addRescheduledDate(mapper.toRescheduleDateEntity(dto));
-        repo.save(cleaningService);
+        Employee employee = cleaningService.getEmployee();
+        removeCleaningServiceFromEmployeeAgenda(employee, cleaningService, dto.getDateToReschedule());
+        employeeRepository.save(employee);
+    }
+
+    private void removeCleaningServiceFromEmployeeAgenda(Employee employee, CleaningService cleaningService, String date){
+        employee.getAgenda().getDays().stream()
+                .filter(d -> d.getDate().equals(date))
+                .findFirst().ifPresent(day -> day.getBookedIntervals().stream()
+                        .filter(bI -> bI.getStartingHour() == cleaningService.getCleaningDate().getStartingHour())
+                        .findFirst()
+                        .ifPresent(day::deleteBookedInterval));
     }
 
     private void addDateOfCleaning(CleaningService cleaningService, String date){
         CleaningDate cleaningDate = cleaningService.getCleaningDate();
         cleaningService.addDateOfCleaning(new CleaningDate(date, cleaningDate.getStartingHour(), cleaningDate.getFinishingHour()));
-    }
-
-    private void deleteCleaningServiceFromAgenda(Employee employee, CleaningService cleaningService) {
-        Day day = employee.getAgenda().getDays().stream()
-                .filter(d -> d.getDate().equals(cleaningService.getCleaningDate().getCleaningDate()))
-                .findFirst().get();
-
-        BookedInterval bookedInterval = day.getBookedIntervals().stream()
-                .filter(bI -> bI.getStartingHour() == cleaningService.getCleaningDate().getStartingHour())
-                .findFirst().get();
-        day.deleteBookedInterval(bookedInterval);
     }
 
     private void setBookedIntervalToEmployeeAgenda(Employee employee, CleaningDateDto cleaningDateDto){
