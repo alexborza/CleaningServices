@@ -1,6 +1,5 @@
 package com.cleaning.security.services;
 
-import com.cleaning.entity.*;
 import com.cleaning.entity.User;
 import com.fasterxml.jackson.annotation.*;
 import org.springframework.security.core.*;

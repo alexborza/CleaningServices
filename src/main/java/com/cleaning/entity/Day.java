@@ -44,11 +44,35 @@ public class Day {
         return day;
     }
 
+    public static Day dayWithOverlappingIntervals(List<AvailableInterval> availableIntervals, List<BookedInterval> overlappingIntervals){
+        Day day = new Day();
+        day.setAvailableIntervals(availableIntervals);
+        day.setBookedIntervals(overlappingIntervals);
+        return day;
+    }
+
+    public void calculateAvailableIntervalsForOverlappingIntervals(){
+        Set<Integer> hours = getAvailableHours();
+        List<Integer> bookedHours = getBookedHours();
+        bookedHours.forEach(hours::remove);
+        findAvailableIntervals(new ArrayList<>(hours));
+    }
+
     private void calculateAvailableIntervals(){
         ArrayList<Integer> hours = new ArrayList<>(List.of(9,10,11,12,13,14,15,16,17));
         List<Integer> bookedHours = getBookedHours();
         hours.removeAll(bookedHours);
         findAvailableIntervals(hours);
+    }
+
+    private Set<Integer> getAvailableHours(){
+        Set<Integer> availableHours = new TreeSet<>();
+        availableIntervals.forEach(aI -> {
+            for(int i = aI.getStartingHour(); i <= aI.getEndingHour(); i++){
+                availableHours.add(i);
+            }
+        });
+        return availableHours;
     }
 
     private List<Integer> getBookedHours(){
@@ -74,7 +98,8 @@ public class Day {
         ArrayList<Integer> interval = new ArrayList<>();
         for(int i = 0; i < hours.size(); i++) {
             interval.add(hours.get(i));
-            if(i + 1 < hours.size()  && (hours.get(i + 1) != hours.get(i) + 1)) {
+            if(i + 1 < hours.size() && (hours.get(i + 1) != hours.get(i) + 1)) {
+                // aici as putea face un improvement, sa nu adauge intervale mai mici decat 2 h, interval.size() < 2
                 intervals.add(interval);
                 interval = new ArrayList<>();
             }

@@ -3,7 +3,6 @@ package com.cleaning.entity;
 import lombok.*;
 
 import javax.persistence.Embeddable;
-import java.time.LocalDate;
 
 @Embeddable
 @NoArgsConstructor

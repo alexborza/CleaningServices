@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.*;
+import java.util.stream.*;
 
 @Entity
 @Getter
@@ -24,6 +25,13 @@ public class Employee extends User {
 
     public void addCleaningService(CleaningService cleaningService){
         this.cleaningServices.add(cleaningService);
+    }
+
+    public List<CleaningService> getFrequentCleaningServicesForDate(String date){
+        return cleaningServices.stream()
+                .filter(CleaningService::isCleaningServiceDoneFrequently)
+                .filter(cs -> cs.isDateOneOfTheNextCleaningDates(date))
+                .collect(Collectors.toList());
     }
     
 }

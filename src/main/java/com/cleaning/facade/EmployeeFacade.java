@@ -50,9 +50,11 @@ public class EmployeeFacade {
 
     public List<EmployeesDayAgenda> getEmployeesAgendaForDate(String date){
         List<Employee> employees = employeeRepository.findAll();
-        return employees.stream()
+        List<EmployeesDayAgenda> employeesDayAgenda = employees.stream()
                 .map(e -> toEmployeeDayAgenda(e, date))
                 .collect(Collectors.toList());
+        calculateAvailableIntervalsForOverlapping(employeesDayAgenda, employees, date);
+        return employeesDayAgenda;
     }
 
     public List<CleaningServiceDto> getEmployeeCleaningServicesForDate(Long id, String date) {
@@ -64,6 +66,29 @@ public class EmployeeFacade {
                 .sorted(Comparator.comparingInt(CleaningService::getStartingHour))
                 .map(cleaningServiceMapper::toCleaningServiceDto)
                 .collect(Collectors.toList());
+    }
+
+    private void calculateAvailableIntervalsForOverlapping(List<EmployeesDayAgenda> employeesDayAgenda, List<Employee> employees, String date){
+        employeesDayAgenda.forEach(employeeDayAgenda -> {
+            List<BookedInterval> bookedIntervals = new ArrayList<>();
+            Employee employee = employees.stream()
+                    .filter(e -> Objects.equals(e.getId(), employeeDayAgenda.getEmployeeId()))
+                    .findFirst()
+                    .orElse(null);
+            employee.getFrequentCleaningServicesForDate(date).forEach(cs -> {
+                BookedInterval bookedInterval = new BookedInterval(cs.getStartingHour(), cs.getFinishingHour(), null);
+                bookedIntervals.add(bookedInterval);
+            });
+            calculateEmployeeAvailableIntervalsForOverlapping(employeeDayAgenda, bookedIntervals);
+        });
+    }
+
+    private void calculateEmployeeAvailableIntervalsForOverlapping(EmployeesDayAgenda employeesDayAgenda, List<BookedInterval> bookedIntervals){
+        if(!bookedIntervals.isEmpty()){
+            Day day = Day.dayWithOverlappingIntervals(employeesDayAgenda.getAvailableIntervals(), bookedIntervals);
+            day.calculateAvailableIntervalsForOverlappingIntervals();
+            employeesDayAgenda.setAvailableIntervalsForOverlapping(day.getAvailableIntervals());
+        }
     }
 
     private boolean filterDeletedCleaningServices(CleaningService cleaningService, String date){

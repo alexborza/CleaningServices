@@ -11,4 +11,10 @@ import java.util.*;
 public class EmployeesDayAgenda {
     private Long employeeId;
     private List<AvailableInterval> availableIntervals;
+    private List<AvailableInterval> availableIntervalsForOverlapping;
+
+    public EmployeesDayAgenda(Long employeeId, List<AvailableInterval> availableIntervals){
+        this.employeeId = employeeId;
+        this.availableIntervals = availableIntervals;
+    }
 }

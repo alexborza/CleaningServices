@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.*;
+import java.time.temporal.*;
 import java.util.*;
 
 @Entity
@@ -101,7 +102,7 @@ public class CleaningService {
                 .filter(rd -> rd.getDateToReschedule().equals(date))
                 .findFirst()
                 .map(RescheduleDate::getRescheduledDate)
-                .orElse(null);
+                .orElse(date);
     }
 
     private String getNextCleaningDateNoReschedule(){
@@ -110,27 +111,41 @@ public class CleaningService {
         }
         if(datesOfCleaning.isEmpty())
             return cleaningDate.getCleaningDate();
-        return calculateNextDateByFrequency();
+        return calculateNextDate();
     }
 
-    private String calculateNextDateByFrequency(){
+    private String calculateNextDate(){
         LocalDate firstCleaningDate = LocalDate.parse(cleaningDate.getCleaningDate());
         if(cleaningFrequency == null)
             return null;
         switch(cleaningFrequency){
             case Weekly:
-                return firstCleaningDate.plusDays(datesOfCleaning.size() * 7L).toString();
+                return calculateNextDateByFrequency(firstCleaningDate, 7L);
             case BiWeekly:
-                return firstCleaningDate.plusDays(datesOfCleaning.size() * 14L).toString();
+                return calculateNextDateByFrequency(firstCleaningDate, 14L);
             case Monthly:
-                return firstCleaningDate.plusDays(datesOfCleaning.size() * 28L).toString();
+                return calculateNextDateByFrequency(firstCleaningDate, 28L);
             default:
                 return null;
         }
     }
 
+    private String calculateNextDateByFrequency(LocalDate firstCleaningDate, long daysToAdd){
+        String nextCleaningDate = firstCleaningDate.plusDays(datesOfCleaning.size() * daysToAdd).toString();
+        int i = 1;
+        while(isDateCanceled(nextCleaningDate)){
+            nextCleaningDate = firstCleaningDate.plusDays((datesOfCleaning.size() + i) * daysToAdd).toString();
+            i++;
+        }
+        return nextCleaningDate;
+    }
+
     public int getStartingHour(){
         return cleaningDate.getStartingHour();
+    }
+
+    public int getFinishingHour(){
+        return cleaningDate.getFinishingHour();
     }
 
     public List<DatesToRescheduleDto> getDatesToReschedule(){
@@ -164,6 +179,8 @@ public class CleaningService {
     private List<DatesToRescheduleDto> calculateDatesToReschedule(LocalDate nextDate, int numberOfDates, int daysToAdd){
         List<DatesToRescheduleDto> datesToReschedule = new ArrayList<>();
         for(int i = 0; i < numberOfDates; i++){
+            if(isDateCanceled(nextDate.toString()))
+                i--;
             addDateToReschedule(datesToReschedule, nextDate.toString());
             nextDate = nextDate.plusDays(daysToAdd);
         }
@@ -171,14 +188,49 @@ public class CleaningService {
     }
 
     private void addDateToReschedule(List<DatesToRescheduleDto> datesToReschedule, String nextDate){
-        if(isDateRescheduled(nextDate))
-            datesToReschedule.add(new DatesToRescheduleDto(findRescheduledDateForDate(nextDate), true));
-        else
+        if(isDateRescheduled(nextDate)){
+            if(!isDateCanceled(nextDate))
+                datesToReschedule.add(new DatesToRescheduleDto(findRescheduledDateForDate(nextDate), true));
+        } else {
             datesToReschedule.add(new DatesToRescheduleDto(nextDate, false));
+        }
     }
 
     public boolean isDateRescheduled(String date){
         return this.rescheduledDates.stream()
                 .anyMatch(rd -> rd.getDateToReschedule().equals(date));
+    }
+
+    public boolean isDateCanceled(String date){
+        Optional<RescheduleDate> rescheduleDate = this.rescheduledDates.stream()
+                .filter(rd -> rd.getDateToReschedule().equals(date))
+                .findFirst();
+        if(rescheduleDate.isEmpty())
+            return false;
+        return rescheduleDate.map(RescheduleDate::getRescheduledDate).isEmpty();
+    }
+
+    public boolean isCleaningServiceDoneFrequently(){
+        return cleaningFrequency == CleaningFrequency.Weekly || cleaningFrequency == CleaningFrequency.BiWeekly || cleaningFrequency == CleaningFrequency.Monthly;
+    }
+
+    public boolean isDateOneOfTheNextCleaningDates(String date) {
+        LocalDate firstCleaningDate = LocalDate.parse(cleaningDate.getCleaningDate());
+        LocalDate nextCleaningDate = LocalDate.parse(date);
+        long days = ChronoUnit.DAYS.between(firstCleaningDate, nextCleaningDate);
+        return isDateOneOfTheNextCleaningDatesByFrequency(days);
+    }
+
+    private boolean isDateOneOfTheNextCleaningDatesByFrequency(long days){
+        switch (cleaningFrequency){
+            case Weekly:
+                return days % 7 == 0;
+            case BiWeekly:
+                return days % 14 == 0;
+            case Monthly:
+                return days % 28 == 0;
+            default:
+                return false;
+        }
     }
 }
