@@ -1,5 +1,6 @@
 package com.cleaning.facade.dto.request;
 
+import com.cleaning.entity.*;
 import lombok.*;
 
 import java.util.*;
@@ -9,6 +10,6 @@ import java.util.*;
 public class SignupRequest {
     private String username;
     private String email;
-    private Set<String> role;
+    private String role;
     private String password;
 }

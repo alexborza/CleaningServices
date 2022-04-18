@@ -24,9 +24,6 @@ public class AdministratorFacade {
     private EmployeeRepository employeeRepository;
 
     @Autowired
-    private RoleRepository roleRepository;
-
-    @Autowired
     private CleaningServiceRepository cleaningServiceRepository;
 
     @Autowired
@@ -59,7 +56,7 @@ public class AdministratorFacade {
         }
         encodePassword(dto);
         User employee = mapper.toUserEntity(dto);
-        setEmployeeRole(employee);
+        employee.setRole(ERole.ROLE_EMPLOYEE);
         userRepository.save(employee);
         return ResponseEntity.ok(new MessageResponse("Employee registered successfully!"));
     }
@@ -135,14 +132,5 @@ public class AdministratorFacade {
 
     private void encodePassword(UserDto dto){
         dto.setPassword(encoder.encode(dto.getPassword()));
-    }
-
-    private void setEmployeeRole(User employee){
-        employee.setRoles(Set.of(this.getEmployeeRole(ERole.ROLE_EMPLOYEE)));
-    }
-
-    private Role getEmployeeRole(ERole role){
-        return roleRepository.findByName(role)
-                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
     }
 }

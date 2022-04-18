@@ -6,16 +6,19 @@ import org.slf4j.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.boot.*;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.password.*;
 
 import java.util.*;
 
 @SpringBootApplication
 public class CleaningServicesApplication implements CommandLineRunner {
 
-	private static final Logger LOG = LoggerFactory.getLogger(CleaningServicesApplication.class);
+	@Autowired
+	private AdminRepository adminRepository;
 
 	@Autowired
-	private RoleRepository roleRepository;
+	private PasswordEncoder encoder;
+	private static final Logger LOG = LoggerFactory.getLogger(CleaningServicesApplication.class);
 
 	public static void main(String[] args) {
 		SpringApplication.run(CleaningServicesApplication.class, args);
@@ -23,13 +26,17 @@ public class CleaningServicesApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		if(roleRepository.findAll().size() == 3){
-			LOG.info("Roles already exists. Nothing will be done.");
+		addAdminAccount();
+	}
+
+	private void addAdminAccount(){
+		Optional<User> user = adminRepository.findByRole(ERole.ROLE_ADMIN);
+		if(user.isPresent()){
+			LOG.info("Admin account already exists. Nothing will be done.");
 		} else {
-			Role userRole = new Role(0, ERole.ROLE_USER);
-			Role employeeRole = new Role(0, ERole.ROLE_EMPLOYEE);
-			Role adminRole = new Role(0, ERole.ROLE_ADMIN);
-			roleRepository.saveAll(List.of(userRole, employeeRole, adminRole));
+			Admin admin = new Admin("admin", encoder.encode("admin"));
+			admin.setRole(ERole.ROLE_ADMIN);
+			adminRepository.save(admin);
 		}
 	}
 }

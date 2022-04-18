@@ -28,9 +28,6 @@ public class AuthFacade {
     private UserRepository<User> userRepository;
 
     @Autowired
-    private RoleRepository roleRepository;
-
-    @Autowired
     private PasswordEncoder encoder;
 
     @Autowired
@@ -42,14 +39,16 @@ public class AuthFacade {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        List<String> roles = userDetails.getAuthorities().stream()
+        String role = userDetails.getAuthorities().stream()
+                .findFirst()
                 .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
+                .orElse(null);
+
         return new JwtResponse(jwt,
                 userDetails.getId(),
                 userDetails.getUsername(),
                 userDetails.getEmail(),
-                roles);
+                role);
     }
 
     public ResponseEntity<MessageResponse> registerUser(SignupRequest signUpRequest){
@@ -65,7 +64,7 @@ public class AuthFacade {
         }
         // Create new user's account
         User user = this.createNewUserAccount(signUpRequest);
-        user.setRoles(Set.of(this.getUserRole(ERole.ROLE_USER)));
+        user.setRole(ERole.ROLE_USER);
         userRepository.save(user);
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
@@ -74,48 +73,10 @@ public class AuthFacade {
         return new Client(signUpRequest.getUsername(), signUpRequest.getEmail(), encoder.encode(signUpRequest.getPassword()));
     }
 
-    private Role getUserRole(ERole role){
-        return roleRepository.findByName(role)
-                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-    }
-
     public List<UserCredentialDto> getExistingUserCredentials(){
         List<UserCredentialVo> userCredentialVos = userRepository.getUserCredentials();
         return userCredentialVos.stream()
                 .map(vo -> new UserCredentialDto(vo.getUsername(), vo.getEmail()))
                 .collect(Collectors.toList());
     }
-
-//    private Set<Role> getUserRoles(SignupRequest signUpRequest){
-//        Set<String> strRoles = signUpRequest.getRole();
-//        Set<Role> roles = new HashSet<>();
-//        if (strRoles == null) {
-//            Role userRole = this.getUserRole(ERole.ROLE_USER);
-//            roles.add(userRole);
-//        } else {
-//            this.mapRoles(strRoles, roles);
-//        }
-//        return roles;
-//    }
-//
-//    private void mapRoles(Set<String> strRoles, Set<Role> roles){
-//        strRoles.forEach(role -> {
-//            switch (role) {
-//                case "admin":
-//                    Role adminRole = this.getUserRole(ERole.ROLE_ADMIN);
-//                    roles.add(adminRole);
-//                    break;
-//                case "employee":
-//                    Role modRole = this.getUserRole(ERole.ROLE_EMPLOYEE);
-//                    roles.add(modRole);
-//                    break;
-//                case "user":
-//                    Role userRole = this.getUserRole(ERole.ROLE_USER);
-//                    roles.add(userRole);
-//                    break;
-//                default:
-//                    break;
-//            }
-//        });
-//    }
 }
