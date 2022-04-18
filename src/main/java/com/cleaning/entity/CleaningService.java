@@ -214,14 +214,21 @@ public class CleaningService {
         return cleaningFrequency == CleaningFrequency.Weekly || cleaningFrequency == CleaningFrequency.BiWeekly || cleaningFrequency == CleaningFrequency.Monthly;
     }
 
-    public boolean isDateOneOfTheNextCleaningDates(String date) {
-        LocalDate firstCleaningDate = LocalDate.parse(cleaningDate.getCleaningDate());
+    public boolean isDateOneOfTheNextCleaningDates(String date, String frequency) {
+        LocalDate firstCleaningDate = getFirstCleaningDate();
         LocalDate nextCleaningDate = LocalDate.parse(date);
         long days = ChronoUnit.DAYS.between(firstCleaningDate, nextCleaningDate);
-        return isDateOneOfTheNextCleaningDatesByFrequency(days);
+        return isDateOneOfTheNextCleaningDatesByFrequency(days, frequency);
     }
 
-    private boolean isDateOneOfTheNextCleaningDatesByFrequency(long days){
+    private LocalDate getFirstCleaningDate(){
+        if(!isCleaningServiceDoneFrequently() && isDateRescheduled(cleaningDate.getCleaningDate()))
+            return LocalDate.parse(this.rescheduledDates.get(0).getRescheduledDate());
+        return LocalDate.parse(cleaningDate.getCleaningDate());
+    }
+
+
+    private boolean isDateOneOfTheNextCleaningDatesByFrequency(long days, String frequency){
         switch (cleaningFrequency){
             case Weekly:
                 return days % 7 == 0;
@@ -230,7 +237,17 @@ public class CleaningService {
             case Monthly:
                 return days % 28 == 0;
             default:
-                return false;
+                return areFrequenciesOverlapped(days, frequency);
         }
+    }
+
+    private boolean areFrequenciesOverlapped(long days, String frequency){
+        if(frequency.equals("Weekly"))
+            return days % 7 == 0;
+        if(frequency.equals("BiWeekly"))
+            return days % 14 == 0;
+        if(frequency.equals("Monthly"))
+            return days % 28 == 0;
+        return false;
     }
 }

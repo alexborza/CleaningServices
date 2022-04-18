@@ -32,8 +32,8 @@ public class EmployeeController {
     }
 
     @GetMapping("/employees-day-agenda")
-    public List<EmployeesDayAgenda> getEmployeesAgendaForDate(@RequestParam String date){
-        return facade.getEmployeesAgendaForDate(date);
+    public List<EmployeesDayAgenda> getEmployeesAgendaForDate(@RequestParam String date, @RequestParam String frequency){
+        return facade.getEmployeesAgendaForDate(date, frequency);
     }
 
     @GetMapping("/employee-agenda/{id}")

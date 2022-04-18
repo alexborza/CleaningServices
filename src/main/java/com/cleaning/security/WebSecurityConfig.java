@@ -51,7 +51,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/images/**",
             "/api/booking/cleaning-service/**",
             "/api/auth/**",
-            "/api/employee/total-employees",
             "/api/employee/employees-day-agenda"
     };
 

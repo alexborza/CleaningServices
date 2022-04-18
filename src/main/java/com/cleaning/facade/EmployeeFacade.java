@@ -48,12 +48,12 @@ public class EmployeeFacade {
         return administratorMapper.toEmployeeDto(employee);
     }
 
-    public List<EmployeesDayAgenda> getEmployeesAgendaForDate(String date){
+    public List<EmployeesDayAgenda> getEmployeesAgendaForDate(String date, String frequency){
         List<Employee> employees = employeeRepository.findAll();
         List<EmployeesDayAgenda> employeesDayAgenda = employees.stream()
                 .map(e -> toEmployeeDayAgenda(e, date))
                 .collect(Collectors.toList());
-        calculateAvailableIntervalsForOverlapping(employeesDayAgenda, employees, date);
+        calculateAvailableIntervalsForOverlapping(employeesDayAgenda, employees, date, frequency);
         return employeesDayAgenda;
     }
 
@@ -68,14 +68,14 @@ public class EmployeeFacade {
                 .collect(Collectors.toList());
     }
 
-    private void calculateAvailableIntervalsForOverlapping(List<EmployeesDayAgenda> employeesDayAgenda, List<Employee> employees, String date){
+    private void calculateAvailableIntervalsForOverlapping(List<EmployeesDayAgenda> employeesDayAgenda, List<Employee> employees, String date, String frequency){
         employeesDayAgenda.forEach(employeeDayAgenda -> {
             List<BookedInterval> bookedIntervals = new ArrayList<>();
             Employee employee = employees.stream()
                     .filter(e -> Objects.equals(e.getId(), employeeDayAgenda.getEmployeeId()))
                     .findFirst()
                     .orElse(null);
-            employee.getFrequentCleaningServicesForDate(date).forEach(cs -> {
+            employee.getFrequentCleaningServicesForDate(date, frequency).forEach(cs -> {
                 BookedInterval bookedInterval = new BookedInterval(cs.getStartingHour(), cs.getFinishingHour(), null);
                 bookedIntervals.add(bookedInterval);
             });
