@@ -229,25 +229,27 @@ public class CleaningService {
 
 
     private boolean isDateOneOfTheNextCleaningDatesByFrequency(long days, String frequency){
-        switch (cleaningFrequency){
-            case Weekly:
-                return days % 7 == 0;
-            case BiWeekly:
-                return days % 14 == 0;
-            case Monthly:
-                return days % 28 == 0;
-            default:
-                return areFrequenciesOverlapped(days, frequency);
-        }
+        return areFrequenciesOverlapped(days, frequency);
     }
 
     private boolean areFrequenciesOverlapped(long days, String frequency){
         if(frequency.equals("Weekly"))
             return days % 7 == 0;
-        if(frequency.equals("BiWeekly"))
+        if(frequency.equals("BiWeekly")){
+            if(cleaningFrequency == CleaningFrequency.Weekly){
+                return days % 7 == 0;
+            }
             return days % 14 == 0;
-        if(frequency.equals("Monthly"))
+        }
+        if(frequency.equals("Monthly")){
+            if(cleaningFrequency == CleaningFrequency.Weekly){
+                return days % 7 == 0;
+            }
+            if(cleaningFrequency == CleaningFrequency.BiWeekly){
+                return days % 14 == 0;
+            }
             return days % 28 == 0;
+        }
         return false;
     }
 }
