@@ -159,7 +159,7 @@ public class CleaningService {
 
         if(cleaningFrequency == null || cleaningFrequency == CleaningFrequency.OneTime) {
             if(isDateRescheduled(cleaningDate))
-                return List.of(new DatesToRescheduleDto(cleaningDate, true));
+                return List.of(new DatesToRescheduleDto(findRescheduledDateForDate(cleaningDate), true));
             return List.of(new DatesToRescheduleDto(cleaningDate, false));
         }
 
@@ -229,10 +229,10 @@ public class CleaningService {
 
 
     private boolean isDateOneOfTheNextCleaningDatesByFrequency(long days, String frequency){
-        return areFrequenciesOverlapped(days, frequency);
+        return areServicesOverlapped(days, frequency);
     }
 
-    private boolean areFrequenciesOverlapped(long days, String frequency){
+    private boolean areServicesOverlapped(long days, String frequency){
         if(frequency.equals("Weekly"))
             return days % 7 == 0;
         if(frequency.equals("BiWeekly")){

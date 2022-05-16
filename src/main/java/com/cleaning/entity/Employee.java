@@ -29,7 +29,6 @@ public class Employee extends User {
 
     public List<CleaningService> getFrequentCleaningServicesForDate(String date, String frequency){
         return cleaningServices.stream()
-//                .filter(CleaningService::isCleaningServiceDoneFrequently)
                 .filter(cs -> cs.isDateOneOfTheNextCleaningDates(date, frequency))
                 .collect(Collectors.toList());
     }

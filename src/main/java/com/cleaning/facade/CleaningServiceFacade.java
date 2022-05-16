@@ -102,18 +102,12 @@ public class CleaningServiceFacade {
     }
 
     public CleaningServiceDescriptionDto getDescriptions(){
-        List<CleaningServiceDescription> descriptions = (List<CleaningServiceDescription>) cleaningServiceDescriptionRepository.findAll();
-        CleaningServiceDescription entity = descriptions.stream()
-                .findFirst()
-                .orElse(new CleaningServiceDescription());
+        CleaningServiceDescription entity = cleaningServiceDescriptionRepository.findFirstBy().orElse(new CleaningServiceDescription());
         return cleaningServiceDescriptionMapper.toCleaningServiceDescriptionDto(entity);
     }
 
     public CleaningServicePricesDto getCleaningServicePrices(){
-        List<CleaningServicePrices> descriptions = (List<CleaningServicePrices>) cleaningServicePricesRepository.findAll();
-        CleaningServicePrices entity = descriptions.stream()
-                .findFirst()
-                .orElse(CleaningServicePrices.emptyInstance());
+        CleaningServicePrices entity = cleaningServicePricesRepository.findFirstBy().orElse(CleaningServicePrices.emptyInstance());
         return cleaningServicePricesMapper.toCleaningServicePricesDto(entity);
     }
 

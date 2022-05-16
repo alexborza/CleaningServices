@@ -40,6 +40,7 @@ public class Day {
     public static Day create(String date){
         Day day = new Day();
         day.setDate(date);
+        //aici ar trebui vazut si refactorizat
         day.setAvailableIntervals(new ArrayList<>(List.of(new AvailableInterval(9, 17))));
         return day;
     }
@@ -59,7 +60,7 @@ public class Day {
     }
 
     private void calculateAvailableIntervals(){
-        ArrayList<Integer> hours = new ArrayList<>(List.of(9,10,11,12,13,14,15,16,17));
+        List<Integer> hours = new ArrayList<>(List.of(9,10,11,12,13,14,15,16,17));
         List<Integer> bookedHours = getBookedHours();
         hours.removeAll(bookedHours);
         findAvailableIntervals(hours);
@@ -100,7 +101,8 @@ public class Day {
             interval.add(hours.get(i));
             if(i + 1 < hours.size() && (hours.get(i + 1) != hours.get(i) + 1)) {
                 // aici as putea face un improvement, sa nu adauge intervale mai mici decat 2 h, interval.size() < 2
-                intervals.add(interval);
+                if(interval.size() > 2)
+                    intervals.add(interval);
                 interval = new ArrayList<>();
             }
         }
