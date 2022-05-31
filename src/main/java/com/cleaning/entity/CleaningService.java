@@ -102,23 +102,23 @@ public class CleaningService {
                 .filter(rd -> rd.getDateToReschedule().equals(date))
                 .findFirst()
                 .map(RescheduleDate::getRescheduledDate)
-                .orElse(date);
+                .orElse(this.getNextDateByFrequency(date));
     }
 
     private String getNextCleaningDateNoReschedule(){
-        if(status == CleaningStatus.Deleted){
+        if(status == CleaningStatus.Deleted || status == CleaningStatus.Finished){
             return null;
         }
-        if(datesOfCleaning.isEmpty())
-            return cleaningDate.getCleaningDate();
         return calculateNextDate();
     }
 
     private String calculateNextDate(){
         LocalDate firstCleaningDate = LocalDate.parse(cleaningDate.getCleaningDate());
         if(cleaningFrequency == null)
-            return null;
+            return calculateNextDateByFrequency(firstCleaningDate, 0L);
         switch(cleaningFrequency){
+            case OneTime:
+                return calculateNextDateByFrequency(firstCleaningDate, 0L);
             case Weekly:
                 return calculateNextDateByFrequency(firstCleaningDate, 7L);
             case BiWeekly:
@@ -133,7 +133,7 @@ public class CleaningService {
     private String calculateNextDateByFrequency(LocalDate firstCleaningDate, long daysToAdd){
         String nextCleaningDate = firstCleaningDate.plusDays(datesOfCleaning.size() * daysToAdd).toString();
         int i = 1;
-        while(isDateCanceled(nextCleaningDate)){
+        while(isDateCanceled(nextCleaningDate) || isDateFinished(nextCleaningDate)){
             nextCleaningDate = firstCleaningDate.plusDays((datesOfCleaning.size() + i) * daysToAdd).toString();
             i++;
         }
@@ -210,6 +210,15 @@ public class CleaningService {
         return rescheduleDate.map(RescheduleDate::getRescheduledDate).isEmpty();
     }
 
+    public boolean isDateFinished(String date) {
+        if(isDateRescheduled(date))
+            date = findRescheduledDateForDate(date);
+        String finalDate = date;
+        return datesOfCleaning.stream()
+                .map(CleaningDate::getCleaningDate)
+                .anyMatch(cleaningDate -> cleaningDate.equals(finalDate));
+    }
+
     public boolean isCleaningServiceDoneFrequently(){
         return cleaningFrequency == CleaningFrequency.Weekly || cleaningFrequency == CleaningFrequency.BiWeekly || cleaningFrequency == CleaningFrequency.Monthly;
     }
@@ -251,5 +260,19 @@ public class CleaningService {
             return days % 28 == 0;
         }
         return false;
+    }
+
+    private String getNextDateByFrequency(String date) {
+        LocalDate currentDate = LocalDate.parse(date);
+        switch(cleaningFrequency){
+            case Weekly:
+                return currentDate.plusDays(7L).toString();
+            case BiWeekly:
+                return currentDate.plusDays(14L).toString();
+            case Monthly:
+                return currentDate.plusDays(28L).toString();
+            default:
+                return null;
+        }
     }
 }

@@ -13,10 +13,7 @@ public enum CleaningServiceType {
     DisinfectionCleaning("Disinfection Cleaning"),
 
     @JsonProperty("Post Construction Cleaning")
-    PostContructionCleaning("Post Construction Cleaning"),
-
-    @JsonProperty("Office Cleaning")
-    OfficeCleaning("Office Cleaning");
+    PostContructionCleaning("Post Construction Cleaning");
 
     private final String label;
 
