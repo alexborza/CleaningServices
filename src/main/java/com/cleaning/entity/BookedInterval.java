@@ -12,5 +12,4 @@ import javax.persistence.*;
 public class BookedInterval {
     private int startingHour;
     private int endingHour;
-    private Long cleaningServiceId;
 }

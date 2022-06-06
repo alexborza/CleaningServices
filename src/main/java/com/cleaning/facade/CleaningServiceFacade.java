@@ -96,9 +96,10 @@ public class CleaningServiceFacade {
                 .collect(Collectors.toList());
     }
 
-    public ObjectValueDto<String> getNextCleaningDate(Long id){
+    public CleaningDateDto getNextCleaningDate(Long id){
         CleaningService cleaningService = repo.findById(id).orElseThrow(EntityNotFoundException::new);
-        return new ObjectValueDto<>(cleaningService.getNextCleaningDate());
+        String nextCleaningDate = cleaningService.getNextCleaningDate();
+        return mapper.toCleaningDateDto(cleaningService.getDateOfCleaning(nextCleaningDate));
     }
 
     public CleaningServiceDescriptionDto getDescriptions(){
@@ -145,7 +146,7 @@ public class CleaningServiceFacade {
     }
 
     private BookedInterval getBookedInterval(CleaningDateDto cleaningDateDto){
-        return new BookedInterval(cleaningDateDto.getStartingHour(), cleaningDateDto.getFinishingHour(), null);
+        return new BookedInterval(cleaningDateDto.getStartingHour(), cleaningDateDto.getFinishingHour());
     }
 
     private void setBookedIntervalToEmployeeAgenda(BookedInterval bookedInterval, Agenda agenda, Employee employee, String cleaningDate){

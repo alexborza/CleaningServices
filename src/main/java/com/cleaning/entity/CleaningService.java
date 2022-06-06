@@ -97,6 +97,63 @@ public class CleaningService {
         return findRescheduledDateForDate(nextCleaningDate);
     }
 
+
+    public boolean isDateRescheduled(String date){
+        return this.rescheduledDates.stream()
+                .anyMatch(rd -> rd.getDateToReschedule().equals(date));
+    }
+
+    public boolean isDateCanceled(String date){
+        Optional<RescheduleDate> rescheduleDate = this.rescheduledDates.stream()
+                .filter(rd -> rd.getDateToReschedule().equals(date))
+                .findFirst();
+        if(rescheduleDate.isEmpty())
+            return false;
+        return rescheduleDate.map(RescheduleDate::getRescheduledDate).isEmpty();
+    }
+
+    public boolean isDateFinished(String date) {
+        if(isDateRescheduled(date))
+            date = findRescheduledDateForDate(date);
+        String finalDate = date;
+        return datesOfCleaning.stream()
+                .map(CleaningDate::getCleaningDate)
+                .anyMatch(cleaningDate -> cleaningDate.equals(finalDate));
+    }
+
+    public boolean isDateFutureCleaningDate(String date, String frequency) {
+        LocalDate firstCleaningDate = getFirstCleaningDate();
+        LocalDate nextCleaningDate = LocalDate.parse(date);
+        long days = ChronoUnit.DAYS.between(firstCleaningDate, nextCleaningDate);
+        return areServicesOverlapped(days, frequency);
+    }
+
+    public int getStartingHour(){
+        return cleaningDate.getStartingHour();
+    }
+
+    public int getFinishingHour(){
+        return cleaningDate.getFinishingHour();
+    }
+
+    public List<DatesToRescheduleDto> getDatesToReschedule(){
+        String date = getNextCleaningDateNoReschedule();
+        return getDatesToReschedule(date);
+    }
+
+    public CleaningDate getDateOfCleaning(String date){
+        if(date == null)
+            return null;
+
+        RescheduleDate rescheduleDate = rescheduledDates.stream()
+                .filter(rd -> date.equals(rd.getRescheduledDate()))
+                .findFirst()
+                .orElse(null);
+        if(rescheduleDate == null)
+            return new CleaningDate(date, cleaningDate.getStartingHour(), cleaningDate.getFinishingHour());
+        return new CleaningDate(date, rescheduleDate.getStartingHour(), rescheduleDate.getEndingHour());
+    }
+
     private String findRescheduledDateForDate(String date){
         return rescheduledDates.stream()
                 .filter(rd -> rd.getDateToReschedule().equals(date))
@@ -140,20 +197,7 @@ public class CleaningService {
         return nextCleaningDate;
     }
 
-    public int getStartingHour(){
-        return cleaningDate.getStartingHour();
-    }
-
-    public int getFinishingHour(){
-        return cleaningDate.getFinishingHour();
-    }
-
-    public List<DatesToRescheduleDto> getDatesToReschedule(){
-        String date = getNextCleaningDateNoReschedule();
-        return getDatesForFrequency(date);
-    }
-
-    private List<DatesToRescheduleDto> getDatesForFrequency(String cleaningDate){
+    private List<DatesToRescheduleDto> getDatesToReschedule(String cleaningDate){
         if(cleaningDate == null)
             return Collections.emptyList();
 
@@ -196,49 +240,14 @@ public class CleaningService {
         }
     }
 
-    public boolean isDateRescheduled(String date){
-        return this.rescheduledDates.stream()
-                .anyMatch(rd -> rd.getDateToReschedule().equals(date));
-    }
-
-    public boolean isDateCanceled(String date){
-        Optional<RescheduleDate> rescheduleDate = this.rescheduledDates.stream()
-                .filter(rd -> rd.getDateToReschedule().equals(date))
-                .findFirst();
-        if(rescheduleDate.isEmpty())
-            return false;
-        return rescheduleDate.map(RescheduleDate::getRescheduledDate).isEmpty();
-    }
-
-    public boolean isDateFinished(String date) {
-        if(isDateRescheduled(date))
-            date = findRescheduledDateForDate(date);
-        String finalDate = date;
-        return datesOfCleaning.stream()
-                .map(CleaningDate::getCleaningDate)
-                .anyMatch(cleaningDate -> cleaningDate.equals(finalDate));
-    }
-
-    public boolean isCleaningServiceDoneFrequently(){
-        return cleaningFrequency == CleaningFrequency.Weekly || cleaningFrequency == CleaningFrequency.BiWeekly || cleaningFrequency == CleaningFrequency.Monthly;
-    }
-
-    public boolean isDateOneOfTheNextCleaningDates(String date, String frequency) {
-        LocalDate firstCleaningDate = getFirstCleaningDate();
-        LocalDate nextCleaningDate = LocalDate.parse(date);
-        long days = ChronoUnit.DAYS.between(firstCleaningDate, nextCleaningDate);
-        return isDateOneOfTheNextCleaningDatesByFrequency(days, frequency);
-    }
-
     private LocalDate getFirstCleaningDate(){
-        if(!isCleaningServiceDoneFrequently() && isDateRescheduled(cleaningDate.getCleaningDate()))
+        if(!isFrequentlyDone() && isDateRescheduled(cleaningDate.getCleaningDate()))
             return LocalDate.parse(this.rescheduledDates.get(0).getRescheduledDate());
         return LocalDate.parse(cleaningDate.getCleaningDate());
     }
 
-
-    private boolean isDateOneOfTheNextCleaningDatesByFrequency(long days, String frequency){
-        return areServicesOverlapped(days, frequency);
+    private boolean isFrequentlyDone(){
+        return cleaningFrequency == CleaningFrequency.Weekly || cleaningFrequency == CleaningFrequency.BiWeekly || cleaningFrequency == CleaningFrequency.Monthly;
     }
 
     private boolean areServicesOverlapped(long days, String frequency){

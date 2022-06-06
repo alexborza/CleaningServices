@@ -59,6 +59,7 @@ public class EmployeeFacade {
 
     public List<CleaningServiceDto> getEmployeeCleaningServicesForDate(Long id, String date) {
         List<CleaningService> cleaningServices = cleaningServiceRepository.getEmployeeCleaningServicesForDate(id, date);
+        mapCleaningServiceDate(cleaningServices, date);
         return cleaningServices.stream()
                 .distinct()
                 .filter(cs -> filterDeletedCleaningServices(cs, date))
@@ -68,6 +69,10 @@ public class EmployeeFacade {
                 .collect(Collectors.toList());
     }
 
+    private void mapCleaningServiceDate(List<CleaningService> cleaningServices, String date){
+        cleaningServices.forEach(cs -> cs.setCleaningDate(cs.getDateOfCleaning(date)));
+    }
+
     private void calculateAvailableIntervalsForOverlapping(List<EmployeesDayAgenda> employeesDayAgenda, List<Employee> employees, String date, String frequency){
         employeesDayAgenda.forEach(employeeDayAgenda -> {
             List<BookedInterval> bookedIntervals = new ArrayList<>();
@@ -75,8 +80,8 @@ public class EmployeeFacade {
                     .filter(e -> Objects.equals(e.getId(), employeeDayAgenda.getEmployeeId()))
                     .findFirst()
                     .orElse(null);
-            employee.getFrequentCleaningServicesForDate(date, frequency).forEach(cs -> {
-                BookedInterval bookedInterval = new BookedInterval(cs.getStartingHour(), cs.getFinishingHour(), null);
+            employee.getFrequentServices(date, frequency).forEach(cs -> {
+                BookedInterval bookedInterval = new BookedInterval(cs.getStartingHour(), cs.getFinishingHour());
                 bookedIntervals.add(bookedInterval);
             });
             calculateEmployeeAvailableIntervalsForOverlapping(employeeDayAgenda, bookedIntervals);
@@ -132,8 +137,8 @@ public class EmployeeFacade {
     }
 
     private void addBookedInterval(Day day, CleaningService cleaningService){
-        CleaningDate cleaningDate = cleaningService.getCleaningDate();
-        day.addBookedInterval(new BookedInterval(cleaningDate.getStartingHour(), cleaningDate.getFinishingHour(), null));
+        CleaningDate cleaningDate = cleaningService.getDateOfCleaning(day.getDate());
+        day.addBookedInterval(new BookedInterval(cleaningDate.getStartingHour(), cleaningDate.getFinishingHour()));
     }
 
     private EmployeesDayAgenda createEmptyDayAgenda(Employee employee){

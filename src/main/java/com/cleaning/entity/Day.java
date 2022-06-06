@@ -40,7 +40,6 @@ public class Day {
     public static Day create(String date){
         Day day = new Day();
         day.setDate(date);
-        //aici ar trebui vazut si refactorizat
         day.setAvailableIntervals(new ArrayList<>(List.of(new AvailableInterval(9, 17))));
         return day;
     }

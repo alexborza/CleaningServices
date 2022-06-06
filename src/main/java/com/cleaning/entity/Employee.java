@@ -27,9 +27,9 @@ public class Employee extends User {
         this.cleaningServices.add(cleaningService);
     }
 
-    public List<CleaningService> getFrequentCleaningServicesForDate(String date, String frequency){
+    public List<CleaningService> getFrequentServices(String date, String frequency){
         return cleaningServices.stream()
-                .filter(cs -> cs.isDateOneOfTheNextCleaningDates(date, frequency))
+                .filter(cs -> cs.isDateFutureCleaningDate(date, frequency))
                 .collect(Collectors.toList());
     }
     
