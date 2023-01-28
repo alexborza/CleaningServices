@@ -1,7 +1,8 @@
 package com.cleaning.facade.dto;
 
 
-import com.cleaning.entity.*;
+import com.cleaning.entity.appointment.*;
+import com.cleaning.entity.cleaning_service.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -12,11 +13,11 @@ public class CleaningServiceDto {
     private final ContactInfoDto contactInfo;
     private final LocationDto location;
     private final CleaningDetailsDto cleaningDetails;
-    private final CleaningFrequency cleaningFrequency;
+    private final Frequency cleaningFrequency;
     private final CleaningDateDto cleaningDate;
-    private final PaymentMethod paymentMethod;
+    private final Payment paymentMethod;
     private final double total;
     private final int timeEstimation;
-    private final CleaningServiceType type;
-    private final CleaningStatus status;
+    private final CleaningType type;
+    private final AppointmentStatus status;
 }

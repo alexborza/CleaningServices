@@ -1,6 +1,6 @@
 package com.cleaning.facade;
 
-import com.cleaning.entity.*;
+import com.cleaning.entity.users.*;
 import com.cleaning.facade.dto.*;
 import com.cleaning.facade.dto.response.*;
 import com.cleaning.facade.mapper.*;

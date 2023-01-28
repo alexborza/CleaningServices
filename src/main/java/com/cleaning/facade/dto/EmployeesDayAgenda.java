@@ -1,6 +1,6 @@
 package com.cleaning.facade.dto;
 
-import com.cleaning.entity.*;
+import com.cleaning.entity.appointment.*;
 import lombok.*;
 
 import java.util.*;
@@ -10,11 +10,11 @@ import java.util.*;
 @AllArgsConstructor
 public class EmployeesDayAgenda {
     private Long employeeId;
-    private List<AvailableInterval> availableIntervals;
-    private List<AvailableInterval> availableIntervalsForOverlapping;
+    private List<TimeSlot> timeSlots;
+    private List<TimeSlot> availableIntervalsForOverlapping;
 
-    public EmployeesDayAgenda(Long employeeId, List<AvailableInterval> availableIntervals){
+    public EmployeesDayAgenda(Long employeeId, List<TimeSlot> timeSlots){
         this.employeeId = employeeId;
-        this.availableIntervals = availableIntervals;
+        this.timeSlots = timeSlots;
     }
 }

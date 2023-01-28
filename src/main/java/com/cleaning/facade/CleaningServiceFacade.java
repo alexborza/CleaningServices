@@ -1,6 +1,10 @@
 package com.cleaning.facade;
 
-import com.cleaning.entity.*;
+import com.cleaning.entity.appointment.*;
+import com.cleaning.entity.cleaning_service.*;
+import com.cleaning.entity.cleaning_service.description.*;
+import com.cleaning.entity.cleaning_service.prices.*;
+import com.cleaning.entity.users.*;
 import com.cleaning.facade.dto.*;
 import com.cleaning.facade.mapper.*;
 import com.cleaning.facade.vo.*;
@@ -63,7 +67,7 @@ public class CleaningServiceFacade {
 
     public void endCleaningService(Long id){
         CleaningService cleaningService = repo.findById(id).orElseThrow(EntityNotFoundException::new);
-        cleaningService.setStatus(CleaningStatus.Deleted);
+        cleaningService.setStatus(AppointmentStatus.Deleted);
         Employee employee = cleaningService.getEmployee();
         removeCleaningServiceFromEmployeeAgenda(employee, cleaningService, cleaningService.getCleaningDate().getCleaningDate());
         employeeRepository.save(employee);
@@ -103,7 +107,7 @@ public class CleaningServiceFacade {
     }
 
     public CleaningServiceDescriptionDto getDescriptions(){
-        CleaningServiceDescription entity = cleaningServiceDescriptionRepository.findFirstBy().orElse(new CleaningServiceDescription());
+        CleaningDescription entity = cleaningServiceDescriptionRepository.findFirstBy().orElse(new CleaningDescription());
         return cleaningServiceDescriptionMapper.toCleaningServiceDescriptionDto(entity);
     }
 
@@ -198,7 +202,7 @@ public class CleaningServiceFacade {
         CleaningService cleaningService = mapper.toCleaningServiceEntity(cleaningServiceDto);
         employee.addCleaningService(cleaningService);
         cleaningService.setEmployee(employee);
-        cleaningService.setStatus(CleaningStatus.InProgress);
+        cleaningService.setStatus(AppointmentStatus.InProgress);
         employeeRepository.save(employee);
     }
 
@@ -208,7 +212,7 @@ public class CleaningServiceFacade {
         cleaningService.setClient(client);
         employee.addCleaningService(cleaningService);
         cleaningService.setEmployee(employee);
-        cleaningService.setStatus(CleaningStatus.InProgress);
+        cleaningService.setStatus(AppointmentStatus.InProgress);
         userRepository.saveAll(List.of(client, employee));
     }
 }

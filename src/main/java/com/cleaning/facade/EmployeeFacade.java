@@ -1,6 +1,8 @@
 package com.cleaning.facade;
 
-import com.cleaning.entity.*;
+import com.cleaning.entity.appointment.*;
+import com.cleaning.entity.cleaning_service.*;
+import com.cleaning.entity.users.*;
 import com.cleaning.facade.dto.*;
 import com.cleaning.facade.mapper.*;
 import com.cleaning.repository.*;
@@ -90,14 +92,14 @@ public class EmployeeFacade {
 
     private void calculateEmployeeAvailableIntervalsForOverlapping(EmployeesDayAgenda employeesDayAgenda, List<BookedInterval> bookedIntervals){
         if(!bookedIntervals.isEmpty()){
-            Day day = Day.dayWithOverlappingIntervals(employeesDayAgenda.getAvailableIntervals(), bookedIntervals);
+            Day day = Day.dayWithOverlappingIntervals(employeesDayAgenda.getTimeSlots(), bookedIntervals);
             day.calculateAvailableIntervalsForOverlappingIntervals();
             employeesDayAgenda.setAvailableIntervalsForOverlapping(day.getAvailableIntervals());
         }
     }
 
     private boolean filterDeletedCleaningServices(CleaningService cleaningService, String date){
-        if(cleaningService.getStatus() == CleaningStatus.Deleted){
+        if(cleaningService.getStatus() == AppointmentStatus.Deleted){
             List<CleaningDate> datesOfCleaning = cleaningService.getDatesOfCleaning();
             return datesOfCleaning.stream()
                     .anyMatch(fc -> fc.getCleaningDate().equals(date));
@@ -142,6 +144,6 @@ public class EmployeeFacade {
     }
 
     private EmployeesDayAgenda createEmptyDayAgenda(Employee employee){
-        return new EmployeesDayAgenda(employee.getId(), new ArrayList<>(List.of(new AvailableInterval(9, 17))));
+        return new EmployeesDayAgenda(employee.getId(), new ArrayList<>(List.of(new TimeSlot(9, 17))));
     }
 }

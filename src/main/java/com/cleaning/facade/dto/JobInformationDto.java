@@ -1,6 +1,6 @@
 package com.cleaning.facade.dto;
 
-import com.cleaning.entity.*;
+import com.cleaning.entity.users.*;
 import lombok.*;
 
 @Data

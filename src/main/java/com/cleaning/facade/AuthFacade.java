@@ -1,6 +1,6 @@
 package com.cleaning.facade;
 
-import com.cleaning.entity.*;
+import com.cleaning.entity.users.*;
 import com.cleaning.facade.dto.*;
 import com.cleaning.facade.dto.request.*;
 import com.cleaning.facade.dto.response.*;
@@ -64,7 +64,7 @@ public class AuthFacade {
         }
         // Create new user's account
         User user = this.createNewUserAccount(signUpRequest);
-        user.setRole(ERole.ROLE_USER);
+        user.setRole(Role.USER);
         userRepository.save(user);
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }

@@ -1,7 +1,7 @@
 package com.cleaning.facade.dto;
 
-import com.cleaning.entity.HomeAccess;
-import com.cleaning.entity.Parking;
+import com.cleaning.entity.cleaning_service.details.HomeAccess;
+import com.cleaning.entity.cleaning_service.details.Parking;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.Data;

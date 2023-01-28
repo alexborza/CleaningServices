@@ -1,6 +1,7 @@
 package com.cleaning.repository;
 
-import com.cleaning.entity.*;
+import com.cleaning.entity.appointment.*;
+import com.cleaning.entity.cleaning_service.*;
 import com.cleaning.facade.vo.*;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;

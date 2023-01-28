@@ -1,12 +1,13 @@
 package com.cleaning.facade.vo;
 
-import com.cleaning.entity.*;
+import com.cleaning.entity.appointment.*;
+import com.cleaning.entity.cleaning_service.*;
 
 public interface CleaningServiceDisplayVO {
     Long getId();
-    CleaningServiceType getType();
+    CleaningType getType();
     String getPhoneNumber();
     String getEmail();
     String getSquareMeters();
-    CleaningStatus getStatus();
+    AppointmentStatus getStatus();
 }

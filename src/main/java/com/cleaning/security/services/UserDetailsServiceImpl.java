@@ -1,6 +1,6 @@
 package com.cleaning.security.services;
 
-import com.cleaning.entity.User;
+import com.cleaning.entity.users.User;
 import com.cleaning.repository.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.security.core.userdetails.*;

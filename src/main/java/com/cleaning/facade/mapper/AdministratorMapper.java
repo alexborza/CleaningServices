@@ -1,6 +1,6 @@
 package com.cleaning.facade.mapper;
 
-import com.cleaning.entity.*;
+import com.cleaning.entity.users.*;
 import com.cleaning.facade.dto.*;
 import org.mapstruct.*;
 

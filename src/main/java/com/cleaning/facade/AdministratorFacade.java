@@ -1,6 +1,10 @@
 package com.cleaning.facade;
 
-import com.cleaning.entity.*;
+import com.cleaning.entity.appointment.*;
+import com.cleaning.entity.cleaning_service.*;
+import com.cleaning.entity.cleaning_service.description.*;
+import com.cleaning.entity.cleaning_service.prices.*;
+import com.cleaning.entity.users.*;
 import com.cleaning.facade.dto.*;
 import com.cleaning.facade.dto.response.*;
 import com.cleaning.facade.mapper.*;
@@ -56,7 +60,7 @@ public class AdministratorFacade {
         }
         encodePassword(dto);
         User employee = mapper.toUserEntity(dto);
-        employee.setRole(ERole.ROLE_EMPLOYEE);
+        employee.setRole(Role.EMPLOYEE);
         userRepository.save(employee);
         return ResponseEntity.ok(new MessageResponse("Employee registered successfully!"));
     }
@@ -92,7 +96,7 @@ public class AdministratorFacade {
     }
 
     public void updateDescriptions(Long id, CleaningServiceDescriptionDto dto){
-        CleaningServiceDescription description = cleaningServiceDescriptionRepository.findById(id)
+        CleaningDescription description = cleaningServiceDescriptionRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
         updateDescriptions(description, dto);
         cleaningServiceDescriptionRepository.save(description);
@@ -110,7 +114,7 @@ public class AdministratorFacade {
         cleaningServicePricesRepository.save(entity);
     }
 
-    private void updateDescriptions(CleaningServiceDescription entity, CleaningServiceDescriptionDto dto){
+    private void updateDescriptions(CleaningDescription entity, CleaningServiceDescriptionDto dto){
         entity.setStandardCleaningDescription(dto.getStandardCleaningDescription());
         entity.setDeepCleaningDescription(dto.getDeepCleaningDescription());
         entity.setDisinfectionCleaningDescription(dto.getDisinfectionCleaningDescription());
@@ -118,7 +122,7 @@ public class AdministratorFacade {
     }
 
     private boolean filterDeletedCleaningServices(CleaningService cleaningService, String date){
-        if(cleaningService.getStatus() == CleaningStatus.Deleted){
+        if(cleaningService.getStatus() == AppointmentStatus.Deleted){
             List<CleaningDate> datesOfCleaning = cleaningService.getDatesOfCleaning();
             return datesOfCleaning.stream()
                     .anyMatch(fc -> fc.getCleaningDate().equals(date));

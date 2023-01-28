@@ -1,6 +1,6 @@
 package com.cleaning;
 
-import com.cleaning.entity.*;
+import com.cleaning.entity.users.*;
 import com.cleaning.repository.*;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.*;
@@ -30,12 +30,11 @@ public class CleaningServicesApplication implements CommandLineRunner {
 	}
 
 	private void addAdminAccount(){
-		Optional<User> user = adminRepository.findByRole(ERole.ROLE_ADMIN);
+		Optional<User> user = adminRepository.findByRole(Role.ADMIN);
 		if(user.isPresent()){
 			LOG.info("Admin account already exists. Nothing will be done.");
 		} else {
 			Admin admin = new Admin("admin", encoder.encode("admin"));
-			admin.setRole(ERole.ROLE_ADMIN);
 			adminRepository.save(admin);
 		}
 	}

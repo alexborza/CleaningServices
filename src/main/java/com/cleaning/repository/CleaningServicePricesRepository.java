@@ -1,6 +1,6 @@
 package com.cleaning.repository;
 
-import com.cleaning.entity.*;
+import com.cleaning.entity.cleaning_service.prices.*;
 import org.springframework.data.repository.*;
 
 import java.util.*;
