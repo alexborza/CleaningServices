@@ -1,7 +1,7 @@
 package com.cleaning;
 
-import com.cleaning.entity.users.*;
-import com.cleaning.repository.*;
+import com.cleaning.domain.users.*;
+import com.cleaning.infrastructure.*;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.boot.*;
