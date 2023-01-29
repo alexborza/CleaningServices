@@ -2,7 +2,6 @@ package com.cleaning.application;
 
 import com.cleaning.domain.users.*;
 import com.cleaning.exposition.representation.response.*;
-import com.cleaning.exposition.mapper.*;
 import com.cleaning.infrastructure.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
@@ -15,9 +14,6 @@ import javax.persistence.*;
 public class UserService {
     @Autowired
     private UserRepository<User> userRepository;
-
-    @Autowired
-    private AdministratorMapper administratorMapper;
 
     @Autowired
     private PasswordEncoder encoder;

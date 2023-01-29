@@ -3,7 +3,6 @@ package com.cleaning.application;
 import com.cleaning.domain.cleaning_service.*;
 import com.cleaning.domain.cleaning_service.description.*;
 import com.cleaning.domain.users.*;
-import com.cleaning.exposition.mapper.*;
 import com.cleaning.infrastructure.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
@@ -19,9 +18,6 @@ public class CleaningServiceService {
     private CleaningServiceRepository repo;
 
     @Autowired
-    private CleaningServiceMapper mapper;
-
-    @Autowired
     private ClientRepository clientRepository;
 
     @Autowired
@@ -34,13 +30,7 @@ public class CleaningServiceService {
     private CleaningServiceDescriptionRepository cleaningServiceDescriptionRepository;
 
     @Autowired
-    private CleaningServiceDescriptionMapper cleaningServiceDescriptionMapper;
-
-    @Autowired
     private CleaningServicePricesRepository cleaningServicePricesRepository;
-
-    @Autowired
-    private CleaningServicePricesMapper cleaningServicePricesMapper;
 
     public void createCleaningService(Long employeeId, Long userId, CleaningServiceDto cleaningServiceDto){
     }

@@ -1,7 +1,6 @@
 package com.cleaning.application;
 
 import com.cleaning.domain.users.*;
-import com.cleaning.exposition.mapper.*;
 import com.cleaning.infrastructure.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
@@ -17,12 +16,6 @@ public class EmployeeService {
 
     @Autowired
     private CleaningServiceRepository cleaningServiceRepository;
-
-    @Autowired
-    private CleaningServiceMapper cleaningServiceMapper;
-
-    @Autowired
-    private AdministratorMapper administratorMapper;
 
     public void modifyEmergencyContactInfo(Long userId, EmergencyContactInformationDto dto){
 

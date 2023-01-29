@@ -2,7 +2,6 @@ package com.cleaning.application;
 
 import com.cleaning.domain.users.*;
 import com.cleaning.exposition.representation.response.*;
-import com.cleaning.exposition.mapper.*;
 import com.cleaning.infrastructure.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
@@ -28,19 +27,7 @@ public class AdministratorService {
     private CleaningServiceDescriptionRepository cleaningServiceDescriptionRepository;
 
     @Autowired
-    private CleaningServiceDescriptionMapper cleaningServiceDescriptionMapper;
-
-    @Autowired
     private CleaningServicePricesRepository cleaningServicePricesRepository;
-
-    @Autowired
-    private CleaningServicePricesMapper cleaningServicePricesMapper;
-
-    @Autowired
-    private AdministratorMapper mapper;
-
-    @Autowired
-    private CleaningServiceMapper cleaningServiceMapper;
 
     @Autowired
     private PasswordEncoder encoder;
