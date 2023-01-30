@@ -11,30 +11,30 @@ import java.util.*;
 @Service
 public class EmployeeService {
 
-    @Autowired
-    private EmployeeRepository employeeRepository;
-
-    @Autowired
-    private CleaningServiceRepository cleaningServiceRepository;
-
-    public void modifyEmergencyContactInfo(Long userId, EmergencyContactInformationDto dto){
-
-    }
-
-    public void modifyJobInfo(Long userId, JobInformationDto dto){
-    }
-
-    public EmployeeDto getEmployee(Long id){
-        Employee employee = employeeRepository.findById(id)
-                .orElseThrow(EntityNotFoundException::new);
-        return administratorMapper.toEmployeeDto(employee);
-    }
-
-    public List<EmployeesDayAgenda> getEmployeesAgendaForDate(String date, String frequency){
-        return null;
-    }
-
-    public List<CleaningServiceDto> getEmployeeCleaningServicesForDate(Long id, String date) {
-        return null;
-    }
+//    @Autowired
+//    private EmployeeRepository employeeRepository;
+//
+//    @Autowired
+//    private CleaningServiceRepository cleaningServiceRepository;
+//
+//    public void modifyEmergencyContactInfo(Long userId, EmergencyContactInformationDto dto){
+//
+//    }
+//
+//    public void modifyJobInfo(Long userId, JobInformationDto dto){
+//    }
+//
+//    public EmployeeDto getEmployee(Long id){
+//        Employee employee = employeeRepository.findById(id)
+//                .orElseThrow(EntityNotFoundException::new);
+//        return administratorMapper.toEmployeeDto(employee);
+//    }
+//
+//    public List<EmployeesDayAgenda> getEmployeesAgendaForDate(String date, String frequency){
+//        return null;
+//    }
+//
+//    public List<CleaningServiceDto> getEmployeeCleaningServicesForDate(Long id, String date) {
+//        return null;
+//    }
 }

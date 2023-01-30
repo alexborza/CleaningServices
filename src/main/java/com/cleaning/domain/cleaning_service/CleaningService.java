@@ -51,11 +51,12 @@ public class CleaningService {
 
     private Integer timeEstimation;
 
-    public CleaningService(ContactInfo contactInfo, Location location, CleaningDetails cleaningDetails, User client, List<Message> messages, Frequency frequency, Payment paymentMethod, CleaningType type, Double total, Integer timeEstimation) {
+    public CleaningService(ContactInfo contactInfo, Location location, CleaningDetails cleaningDetails, User client, List<Appointment> appointments, List<Message> messages, Frequency frequency, Payment paymentMethod, CleaningType type, Double total, Integer timeEstimation) {
         this.contactInfo = contactInfo;
         this.location = location;
         this.cleaningDetails = cleaningDetails;
         this.client = client;
+        this.appointments = appointments;
         this.messages = messages;
         this.frequency = frequency;
         this.paymentMethod = paymentMethod;

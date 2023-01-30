@@ -10,13 +10,13 @@ import java.util.*;
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/client")
 public class ClientController {
-
-    @Autowired
-    private ClientService clientService;
-
-    @GetMapping("/cleaning-services/{userId}")
-    public List<CleaningServiceDto> getClientsCleaningServices(@PathVariable Long userId){
-        return clientService.getClientsCleaningServices(userId);
-    }
-
+//
+//    @Autowired
+//    private ClientService clientService;
+//
+//    @GetMapping("/cleaning-services/{userId}")
+//    public List<CleaningServiceDto> getClientsCleaningServices(@PathVariable Long userId){
+//        return clientService.getClientsCleaningServices(userId);
+//    }
+//
 }

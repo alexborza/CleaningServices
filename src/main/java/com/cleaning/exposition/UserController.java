@@ -10,27 +10,27 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/user")
 public class UserController {
-
-    @Autowired
-    private UserService userService;
-
-    @GetMapping("{userId}")
-    public UserDto getUser(@PathVariable Long userId){
-        return userService.getUser(userId);
-    }
-
-    @PostMapping("/email/{userId}")
-    public void modifyEmail(@PathVariable Long userId, @RequestBody String email) {
-        userService.modifyEmail(userId, email);
-    }
-
-    @PostMapping("/password/{userId}")
-    public ResponseEntity<MessageResponse> modifyPassword(@PathVariable Long userId, @RequestBody ModifyPasswordDto dto) {
-        return userService.modifyPassword(userId, dto);
-    }
-
-    @PostMapping("/personal-info/{userId}")
-    public void modifyPersonalInfo(@PathVariable Long userId, @RequestBody UserInformationDto dto) {
-        userService.modifyPersonalInfo(userId, dto);
-    }
+//
+//    @Autowired
+//    private UserService userService;
+//
+//    @GetMapping("{userId}")
+//    public UserDto getUser(@PathVariable Long userId){
+//        return userService.getUser(userId);
+//    }
+//
+//    @PostMapping("/email/{userId}")
+//    public void modifyEmail(@PathVariable Long userId, @RequestBody String email) {
+//        userService.modifyEmail(userId, email);
+//    }
+//
+//    @PostMapping("/password/{userId}")
+//    public ResponseEntity<MessageResponse> modifyPassword(@PathVariable Long userId, @RequestBody ModifyPasswordDto dto) {
+//        return userService.modifyPassword(userId, dto);
+//    }
+//
+//    @PostMapping("/personal-info/{userId}")
+//    public void modifyPersonalInfo(@PathVariable Long userId, @RequestBody UserInformationDto dto) {
+//        userService.modifyPersonalInfo(userId, dto);
+//    }
 }

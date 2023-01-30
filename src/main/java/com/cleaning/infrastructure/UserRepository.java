@@ -1,9 +1,8 @@
 package com.cleaning.infrastructure;
 
 import com.cleaning.domain.users.*;
-import com.cleaning.application.vo.*;
 import org.springframework.data.jpa.repository.*;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.*;
 
 import java.util.*;
 
@@ -13,7 +12,7 @@ public interface UserRepository<E extends User> extends JpaRepository<E, Long> {
     Optional<User> findByRole(Role role);
     Boolean existsByUsername(String username);
     Boolean existsByEmail(String email);
-
-    @Query("Select user.username as username, user.email as email from User user")
-    List<UserCredentialVo> getUserCredentials();
+//
+//    @Query("Select user.username as username, user.email as email from User user")
+//    List<UserCredentialVo> getUserCredentials();
 }

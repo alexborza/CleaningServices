@@ -11,14 +11,14 @@ import java.util.stream.*;
 @Service
 public class ClientService {
 
-    @Autowired
-    private CleaningServiceRepository cleaningServiceRepository;
-
-
-    public List<CleaningServiceDto> getClientsCleaningServices(Long userId){
-        List<CleaningService> cleaningServices = cleaningServiceRepository.getClientsCleaningServices(userId);
-        return cleaningServices.stream()
-                .map(cleaningServiceMapper::toCleaningServiceDto)
-                .collect(Collectors.toList());
-    }
+//    @Autowired
+//    private CleaningServiceRepository cleaningServiceRepository;
+//
+//
+//    public List<CleaningServiceDto> getClientsCleaningServices(Long userId){
+//        List<CleaningService> cleaningServices = cleaningServiceRepository.getClientsCleaningServices(userId);
+//        return cleaningServices.stream()
+//                .map(cleaningServiceMapper::toCleaningServiceDto)
+//                .collect(Collectors.toList());
+//    }
 }

@@ -14,22 +14,22 @@ import java.util.*;
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/auth")
 public class AuthController {
-
-    @Autowired
-    private AuthService authService;
-
-    @PostMapping("/signin")
-    public JwtResponse authenticateUser(@RequestBody LoginRequest loginRequest) {
-        return authService.authenticateUser(loginRequest);
-
-    }
-    @PostMapping("/signup")
-    public ResponseEntity<MessageResponse> registerUser(@RequestBody SignupRequest signUpRequest) {
-        return authService.registerUser(signUpRequest);
-    }
-
-    @GetMapping("/existing-credentials")
-    public List<UserCredentialDto> getExistingUserCredentials(){
-        return authService.getExistingUserCredentials();
-    }
+//
+//    @Autowired
+//    private AuthService authService;
+//
+//    @PostMapping("/signin")
+//    public JwtResponse authenticateUser(@RequestBody LoginRequest loginRequest) {
+//        return authService.authenticateUser(loginRequest);
+//
+//    }
+//    @PostMapping("/signup")
+//    public ResponseEntity<MessageResponse> registerUser(@RequestBody SignupRequest signUpRequest) {
+//        return authService.registerUser(signUpRequest);
+//    }
+//
+//    @GetMapping("/existing-credentials")
+//    public List<UserCredentialDto> getExistingUserCredentials(){
+//        return authService.getExistingUserCredentials();
+//    }
 }
