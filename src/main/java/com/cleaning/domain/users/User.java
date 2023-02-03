@@ -11,7 +11,7 @@ import javax.persistence.*;
         @UniqueConstraint(columnNames = "email")})
 @NoArgsConstructor
 @Getter
-public class User {
+public abstract class User {
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)

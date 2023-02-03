@@ -25,10 +25,49 @@ public class CleaningDescription {
     @Lob
     private String disinfectionCleaningDescription;
 
-    public CleaningDescription(String standardCleaningDescription, String deepCleaningDescription, String postConstructionCleaningDescription, String disinfectionCleaningDescription) {
-        this.standardCleaningDescription = standardCleaningDescription;
-        this.deepCleaningDescription = deepCleaningDescription;
-        this.postConstructionCleaningDescription = postConstructionCleaningDescription;
-        this.disinfectionCleaningDescription = disinfectionCleaningDescription;
+    @NoArgsConstructor
+    @Getter
+    public static class CleaningDescriptionBuilder {
+
+        private String standardCleaningDescription;
+        private String deepCleaningDescription;
+        private String postConstructionCleaningDescription;
+        private String disinfectionCleaningDescription;
+
+        public CleaningDescriptionBuilder withStandardCleaningDescription(String standardCleaningDescription) {
+
+            this.standardCleaningDescription = standardCleaningDescription;
+            return this;
+        }
+
+        public CleaningDescriptionBuilder withDeepCleaningDescription(String deepCleaningDescription) {
+
+            this.deepCleaningDescription = deepCleaningDescription;
+            return this;
+        }
+
+        public CleaningDescriptionBuilder withPostConstructionCleaningDescription(String postConstructionCleaningDescription) {
+
+            this.postConstructionCleaningDescription = postConstructionCleaningDescription;
+            return this;
+        }
+
+        public CleaningDescriptionBuilder withDisinfectionCleaningDescription(String disinfectionCleaningDescription) {
+
+            this.disinfectionCleaningDescription = disinfectionCleaningDescription;
+            return this;
+        }
+
+        public CleaningDescription build() {
+
+            return new CleaningDescription(this);
+        }
+    }
+
+    private CleaningDescription(CleaningDescriptionBuilder builder) {
+        this.standardCleaningDescription = builder.getStandardCleaningDescription();
+        this.deepCleaningDescription = builder.getDeepCleaningDescription();
+        this.postConstructionCleaningDescription = builder.getPostConstructionCleaningDescription();
+        this.disinfectionCleaningDescription = builder.getDisinfectionCleaningDescription();
     }
 }

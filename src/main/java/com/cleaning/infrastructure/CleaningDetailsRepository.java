@@ -1,7 +1,7 @@
 package com.cleaning.infrastructure;
 
-import com.cleaning.domain.cleaning_service.details.CleaningDetails;
-import org.springframework.data.repository.CrudRepository;
+import com.cleaning.domain.cleaning_service.details.*;
+import org.springframework.data.jpa.repository.*;
 
-public interface CleaningDetailsRepository extends CrudRepository<CleaningDetails, Long> {
+public interface CleaningDetailsRepository extends JpaRepository<CleaningDetails, Long> {
 }

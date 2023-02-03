@@ -1,10 +1,8 @@
 package com.cleaning.domain.users;
 
-import com.cleaning.domain.appointment.*;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.*;
 
 @Entity
 @Getter
@@ -15,12 +13,8 @@ public class Employee extends User {
     @JoinColumn(name = "employee_info_id")
     private EmployeeInformation employeeInformation;
 
-    @OneToMany(mappedBy = "employee")
-    private List<Appointment> appointments;
-
-    public Employee(String username, String email, String password, UserInformation userInformation, Role role, EmployeeInformation employeeInformation, List<Appointment> appointments) {
-        super(username, email, password, userInformation, role);
+    public Employee(String username, String email, String password, UserInformation userInformation, EmployeeInformation employeeInformation) {
+        super(username, email, password, userInformation, Role.EMPLOYEE);
         this.employeeInformation = employeeInformation;
-        this.appointments = appointments;
     }
 }
