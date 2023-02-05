@@ -13,9 +13,9 @@ import java.util.*;
 @RequestMapping("/api/administrator")
 public class AdministratorController {
 
-//    @Autowired
-//    private AdministratorService administratorService;
-//
+    @Autowired
+    private AdministratorService administratorService;
+
 //    @PostMapping("/employee-contract")
 //    public ResponseEntity<MessageResponse> createEmployeeContract(@RequestBody UserDto dto){
 //        return administratorService.createEmployeeContract(dto);
