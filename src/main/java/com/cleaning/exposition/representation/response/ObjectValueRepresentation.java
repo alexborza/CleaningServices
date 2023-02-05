@@ -2,10 +2,8 @@ package com.cleaning.exposition.representation.response;
 
 import lombok.*;
 
-@Getter
-@Setter
 @AllArgsConstructor
-@NoArgsConstructor
-public class MessageResponse {
-    private String message;
+@Getter
+public class ObjectValueRepresentation<T> {
+    private final T value;
 }

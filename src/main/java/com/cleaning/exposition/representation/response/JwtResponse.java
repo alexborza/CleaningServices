@@ -2,20 +2,13 @@ package com.cleaning.exposition.representation.response;
 
 import lombok.*;
 
-@Data
+@AllArgsConstructor
+@Getter
 public class JwtResponse {
-    private String token;
-    private String type = "Bearer";
-    private Long id;
-    private String username;
-    private String email;
-    private String role;
-
-    public JwtResponse(String accessToken, Long id, String username, String email, String role) {
-        this.token = accessToken;
-        this.id = id;
-        this.username = username;
-        this.email = email;
-        this.role = role;
-    }
+    private final String token;
+    private final String type = "Bearer";
+    private final Long id;
+    private final String username;
+    private final String email;
+    private final String role;
 }
