@@ -2,6 +2,7 @@ package com.cleaning.exposition;
 
 import com.cleaning.application.*;
 import com.cleaning.exposition.representation.response.*;
+import com.cleaning.exposition.representation.response.users.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
@@ -16,10 +17,11 @@ public class AdministratorController {
     @Autowired
     private AdministratorService administratorService;
 
-//    @PostMapping("/employee-contract")
-//    public ResponseEntity<MessageResponse> createEmployeeContract(@RequestBody UserDto dto){
-//        return administratorService.createEmployeeContract(dto);
-//    }
+    @PostMapping("/employee-contract")
+    public void createEmployeeContract(@RequestBody UserRepresentation representation){
+        administratorService.createEmployeeContract(representation);
+    }
+
 //
 //    @GetMapping("/employees")
 //    public List<EmployeeDto> getAllEmployees(){

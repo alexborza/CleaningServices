@@ -1,4 +1,4 @@
-package com.cleaning.users.data;
+package com.cleaning.infrastructure.users.data;
 
 import com.cleaning.domain.users.*;
 
@@ -8,7 +8,9 @@ public class UserTestData {
         return new Client(
                 "clientUser",
                 "clientEmail",
-                "password");
+                "password",
+                dummyUserInformation()
+        );
     }
 
     public static Employee dummyEmployee() {
@@ -26,14 +28,7 @@ public class UserTestData {
     }
 
     private static EmployeeInformation dummyEmployeeInformation() {
-        return new EmployeeInformation(
-                dummyJobInformation(),
-                dummyEmergencyContactInformation()
-        );
-    }
-
-    private static EmergencyContactInformation dummyEmergencyContactInformation() {
-        return new EmergencyContactInformation("fullName", "address", "phoneNumber", "relationship");
+        return new EmployeeInformation(dummyJobInformation());
     }
 
     private static JobInformation dummyJobInformation() {

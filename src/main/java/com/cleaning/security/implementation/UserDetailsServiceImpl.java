@@ -11,7 +11,7 @@ import javax.transaction.*;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
-    private UserRepository<User> userRepository;
+    private UserRepository userRepository;
 
     @Override
     @Transactional

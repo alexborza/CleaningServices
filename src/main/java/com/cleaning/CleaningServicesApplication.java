@@ -5,7 +5,7 @@ import com.cleaning.infrastructure.*;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.boot.*;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.*;
 import org.springframework.security.crypto.password.*;
 
 import java.util.*;
@@ -14,7 +14,7 @@ import java.util.*;
 public class CleaningServicesApplication implements CommandLineRunner {
 
 	@Autowired
-	private AdminRepository adminRepository;
+	private UserRepository userRepository;
 
 	@Autowired
 	private PasswordEncoder encoder;
@@ -30,12 +30,12 @@ public class CleaningServicesApplication implements CommandLineRunner {
 	}
 
 	private void addAdminAccount(){
-		Optional<User> user = adminRepository.findByRole(Role.ADMIN);
+		Optional<User> user = userRepository.findByRole(Role.ADMIN);
 		if(user.isPresent()){
 			LOG.info("Admin account already exists. Nothing will be done.");
 		} else {
-			Admin admin = new Admin("admin", encoder.encode("admin"));
-			adminRepository.save(admin);
+			User admin = new Admin("admin", encoder.encode("admin"));
+			userRepository.save(admin);
 		}
 	}
 }

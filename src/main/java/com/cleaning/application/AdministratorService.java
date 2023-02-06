@@ -1,7 +1,9 @@
 package com.cleaning.application;
 
 import com.cleaning.domain.users.*;
+import com.cleaning.exposition.mapper.*;
 import com.cleaning.exposition.representation.response.*;
+import com.cleaning.exposition.representation.response.users.*;
 import com.cleaning.infrastructure.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
@@ -14,8 +16,11 @@ import java.util.stream.*;
 @Service
 public class AdministratorService {
 
-//    @Autowired
-//    private UserRepository<User> userRepository;
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private UserMapper userMapper;
 //
 //    @Autowired
 //    private EmployeeRepository employeeRepository;
@@ -31,10 +36,11 @@ public class AdministratorService {
 //
 //    @Autowired
 //    private PasswordEncoder encoder;
-//
-//    public ResponseEntity<MessageResponse> createEmployeeContract(UserDto dto){
-//        return null;
-//    }
+
+    public void createEmployeeContract(UserRepresentation representation){
+        User user = representation.toDomain();
+        userRepository.save(user);
+    }
 //
 //    public List<EmployeeDto> getAllEmployees(){
 //        List<Employee> employees = employeeRepository.findAll();

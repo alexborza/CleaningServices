@@ -16,11 +16,7 @@ public class EmployeeInformation {
     @Embedded
     private JobInformation jobInformation;
 
-    @Embedded
-    private EmergencyContactInformation emergencyContactInformation;
-
-    public EmployeeInformation(JobInformation jobInformation, EmergencyContactInformation emergencyContactInformation) {
+    public EmployeeInformation(JobInformation jobInformation) {
         this.jobInformation = jobInformation;
-        this.emergencyContactInformation = emergencyContactInformation;
     }
 }
