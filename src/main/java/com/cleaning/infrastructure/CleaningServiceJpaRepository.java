@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.*;
 
 import java.util.*;
 
-public interface CleaningServiceRepository extends JpaRepository<CleaningService, Long> {
+public interface CleaningServiceJpaRepository extends JpaRepository<CleaningService, Long> {
 
 //    @Query("Select cs.id as id, cs.type as type, cs.contactInfo.phoneNumber as phoneNumber, " +
 //            "cs.contactInfo.email as email, cs.cleaningDetails.squareMeters as squareMeters, cs.status as status from CleaningService cs")

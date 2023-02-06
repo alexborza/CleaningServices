@@ -1,26 +1,15 @@
 package com.cleaning.application;
 
 import com.cleaning.domain.users.*;
-import com.cleaning.exposition.mapper.*;
-import com.cleaning.exposition.representation.response.*;
 import com.cleaning.exposition.representation.response.users.*;
-import com.cleaning.infrastructure.*;
 import org.springframework.beans.factory.annotation.*;
-import org.springframework.http.*;
-import org.springframework.security.crypto.password.*;
 import org.springframework.stereotype.*;
-
-import java.util.*;
-import java.util.stream.*;
 
 @Service
 public class AdministratorService {
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private UserMapper userMapper;
+    private Users users;
 //
 //    @Autowired
 //    private EmployeeRepository employeeRepository;
@@ -39,7 +28,7 @@ public class AdministratorService {
 
     public void createEmployeeContract(UserRepresentation representation){
         User user = representation.toDomain();
-        userRepository.save(user);
+        users.save(user);
     }
 //
 //    public List<EmployeeDto> getAllEmployees(){

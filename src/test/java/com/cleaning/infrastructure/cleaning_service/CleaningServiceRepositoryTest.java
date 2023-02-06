@@ -22,10 +22,10 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CleaningServiceRepositoryTest {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserJpaRepository userJpaRepository;
 
     @Autowired
-    private CleaningServiceRepository cleaningServiceRepository;
+    private CleaningServiceJpaRepository cleaningServiceJpaRepository;
 
     @Autowired
     private AppointmentRepository appointmentRepository;
@@ -34,8 +34,8 @@ public class CleaningServiceRepositoryTest {
     @Transactional
     public void create_cleaning_service_with_user_and_appointments() {
 
-        Optional<User> optionalClient = userRepository.findById(10001L);
-        Optional<User> optionalEmployee = userRepository.findById(10002L);
+        Optional<User> optionalClient = userJpaRepository.findById(10001L);
+        Optional<User> optionalEmployee = userJpaRepository.findById(10002L);
 
         Client client = null;
         Employee employee = null;
@@ -51,7 +51,7 @@ public class CleaningServiceRepositoryTest {
         CleaningService dummyCleaningService = CleaningServiceTestData.dummyCleaningService(client);
         Appointment dummyAppointment = AppointmentTestData.dummyAppointment(dummyCleaningService, employee);
 
-        CleaningService cleaningService = cleaningServiceRepository.saveAndFlush(dummyCleaningService);
+        CleaningService cleaningService = cleaningServiceJpaRepository.saveAndFlush(dummyCleaningService);
         Appointment appointment = appointmentRepository.saveAndFlush(dummyAppointment);
         CleaningService appointmentCleaningService = appointment.getCleaningService();
 

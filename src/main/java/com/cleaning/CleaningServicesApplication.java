@@ -14,7 +14,7 @@ import java.util.*;
 public class CleaningServicesApplication implements CommandLineRunner {
 
 	@Autowired
-	private UserRepository userRepository;
+	private UserJpaRepository userJpaRepository;
 
 	@Autowired
 	private PasswordEncoder encoder;
@@ -30,12 +30,12 @@ public class CleaningServicesApplication implements CommandLineRunner {
 	}
 
 	private void addAdminAccount(){
-		Optional<User> user = userRepository.findByRole(Role.ADMIN);
+		Optional<User> user = userJpaRepository.findByRole(Role.ADMIN);
 		if(user.isPresent()){
 			LOG.info("Admin account already exists. Nothing will be done.");
 		} else {
 			User admin = new Admin("admin", encoder.encode("admin"));
-			userRepository.save(admin);
+			userJpaRepository.save(admin);
 		}
 	}
 }
