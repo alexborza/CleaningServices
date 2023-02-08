@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
 @Repository
-public class CleaningPriceRepositoryImplementation implements CleaningPrices {
+public class CleaningPriceRepositoryImplementation implements CleaningPriceRepository {
 
     @Autowired
     private CleaningPriceJpaRepository jpaRepository;

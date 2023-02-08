@@ -25,7 +25,6 @@ public class AdministratorController {
         administratorService.createEmployeeContract(representation);
     }
 
-
     @GetMapping("/employees")
     public List<UserRepresentation> getAllEmployees(){
         return administratorService.getAllEmployees();

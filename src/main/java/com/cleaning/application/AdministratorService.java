@@ -19,16 +19,16 @@ import java.util.stream.*;
 public class AdministratorService {
 
     @Autowired
-    private Users usersRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    private Appointments appointmentsRepository;
+    private AppointmentRepository appointmentRepository;
 
     @Autowired
-    private CleaningDescriptions cleaningDescriptionsRepository;
+    private CleaningDescriptionRepository cleaningDescriptionRepository;
 
     @Autowired
-    private CleaningPrices cleaningPricesRepository;
+    private CleaningPriceRepository cleaningPriceRepository;
 
     @Autowired
     private PasswordEncoder encoder;
@@ -38,11 +38,11 @@ public class AdministratorService {
         representation.setPassword(encodedPassword);
 
         User user = representation.toDomain();
-        usersRepository.save(user);
+        userRepository.save(user);
     }
 
     public List<UserRepresentation> getAllEmployees(){
-        List<User> employees = usersRepository.findAllByRole(Role.EMPLOYEE);
+        List<User> employees = userRepository.findAllByRole(Role.EMPLOYEE);
 
         return employees.stream()
                 .map(UserRepresentation::fromDomain)
@@ -51,7 +51,7 @@ public class AdministratorService {
 
     public List<AppointmentRepresentation> getAppointmentsByDate(String date){
 
-        List<Appointment> appointmentList = appointmentsRepository.findAllByCleaningDate(date);
+        List<Appointment> appointmentList = appointmentRepository.findAllByCleaningDate(date);
 
         return appointmentList.stream()
                 .map(AppointmentRepresentation::fromDomain)
@@ -62,12 +62,12 @@ public class AdministratorService {
     public void createDescriptions(CleaningDescriptionRepresentation representation){
 
         CleaningDescription cleaningDescription = representation.toDomain();
-        cleaningDescriptionsRepository.save(cleaningDescription);
+        cleaningDescriptionRepository.save(cleaningDescription);
     }
 
     public void createCleaningPrices(CleaningPricesRepresentation representation){
 
         CleaningPrice cleaningPrice = representation.toDomain();
-        cleaningPricesRepository.save(cleaningPrice);
+        cleaningPriceRepository.save(cleaningPrice);
     }
 }

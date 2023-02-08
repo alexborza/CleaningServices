@@ -8,7 +8,7 @@ import org.springframework.stereotype.*;
 import java.util.*;
 
 @Repository
-public class UserRepositoryImplementation implements Users {
+public class UserRepositoryImplementation implements UserRepository {
 
     @Autowired
     private UserJpaRepository jpaRepository;
@@ -16,6 +16,11 @@ public class UserRepositoryImplementation implements Users {
     @Override
     public User save(User user) {
         return jpaRepository.save(user);
+    }
+
+    @Override
+    public Optional<User> findById(Long id) {
+        return jpaRepository.findById(id);
     }
 
     @Override

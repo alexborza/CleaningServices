@@ -8,12 +8,12 @@ import java.time.*;
 
 public class AppointmentTestData {
 
-    public static Appointment dummyAppointment(CleaningService cleaningService, Employee employee) {
+    public static Appointment dummyAppointment(CleaningService cleaningService, Employee employee, TimeSlot timeSlot, LocalDate localDate) {
         return new Appointment.AppointmentBuilder()
                 .withCleaningService(cleaningService)
                 .withEmployee(employee)
-                .withCleaningDate(LocalDate.of(2023, 2, 19))
-                .withTimeSlot(new TimeSlot(9, 11))
+                .withCleaningDate(localDate)
+                .withTimeSlot(timeSlot)
                 .withStatus(AppointmentStatus.ACTIVE)
                 .build();
     }

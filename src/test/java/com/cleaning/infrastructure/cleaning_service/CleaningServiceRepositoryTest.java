@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.*;
 import org.springframework.test.context.junit.jupiter.*;
 import org.springframework.transaction.annotation.*;
 
+import java.time.*;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -49,7 +50,7 @@ public class CleaningServiceRepositoryTest {
         }
 
         CleaningService dummyCleaningService = CleaningServiceTestData.dummyCleaningService(client);
-        Appointment dummyAppointment = AppointmentTestData.dummyAppointment(dummyCleaningService, employee);
+        Appointment dummyAppointment = AppointmentTestData.dummyAppointment(dummyCleaningService, employee, new TimeSlot(9, 11), LocalDate.of(2023, 2, 19));
 
         CleaningService cleaningService = cleaningServiceJpaRepository.saveAndFlush(dummyCleaningService);
         Appointment appointment = appointmentJpaRepository.saveAndFlush(dummyAppointment);

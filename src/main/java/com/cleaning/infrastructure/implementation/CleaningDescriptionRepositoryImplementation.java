@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
 @Repository
-public class CleaningDescriptionRepositoryImplementation implements CleaningDescriptions {
+public class CleaningDescriptionRepositoryImplementation implements CleaningDescriptionRepository {
 
     @Autowired
     private CleaningDescriptionJpaRepository jpaRepository;
