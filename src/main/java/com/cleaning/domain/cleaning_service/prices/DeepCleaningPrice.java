@@ -8,7 +8,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class DeepCleaningPrices {
+public class DeepCleaningPrice {
     private Double deepServicePrice;
     private Double deepServiceBedroom;
     private Double deepServiceBathroom;

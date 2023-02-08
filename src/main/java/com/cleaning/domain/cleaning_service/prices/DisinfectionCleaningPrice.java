@@ -8,6 +8,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class DisinfectionCleaningPrices {
+public class DisinfectionCleaningPrice {
     private Double disinfectionServicePrice;
 }

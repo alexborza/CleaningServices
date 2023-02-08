@@ -28,7 +28,7 @@ public class CleaningServiceRepositoryTest {
     private CleaningServiceJpaRepository cleaningServiceJpaRepository;
 
     @Autowired
-    private AppointmentRepository appointmentRepository;
+    private AppointmentJpaRepository appointmentJpaRepository;
 
     @Test
     @Transactional
@@ -52,7 +52,7 @@ public class CleaningServiceRepositoryTest {
         Appointment dummyAppointment = AppointmentTestData.dummyAppointment(dummyCleaningService, employee);
 
         CleaningService cleaningService = cleaningServiceJpaRepository.saveAndFlush(dummyCleaningService);
-        Appointment appointment = appointmentRepository.saveAndFlush(dummyAppointment);
+        Appointment appointment = appointmentJpaRepository.saveAndFlush(dummyAppointment);
         CleaningService appointmentCleaningService = appointment.getCleaningService();
 
         assertEquals(cleaningService.getId(), appointmentCleaningService.getId());

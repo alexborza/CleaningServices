@@ -6,17 +6,18 @@ import lombok.*;
 
 @AllArgsConstructor
 @Getter
+@Setter
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = EmployeeRepresentation.class, name = "employee"),
         @JsonSubTypes.Type(value = ClientRepresentation.class, name = "client")
 })
 public abstract class UserRepresentation {
-    private final Long id;
-    private final String username;
-    private final String email;
-    private transient final String password;
-    private final UserInformationRepresentation userInformation;
+    private Long id;
+    private String username;
+    private String email;
+    private transient String password;
+    private UserInformationRepresentation userInformation;
 
     public abstract User toDomain();
 
@@ -27,14 +28,5 @@ public abstract class UserRepresentation {
             return ClientRepresentation.mapFromDomain((Client) user);
 
         throw new IllegalArgumentException("Unknown subtype of UserRepresentation");
-    }
-
-    protected UserInformation toDomainUserInformation(UserInformationRepresentation representation) {
-        return new UserInformation(
-                representation.getFullName(),
-                representation.getAddress(),
-                representation.getPhoneNumber(),
-                representation.getBirthDate()
-        );
     }
 }

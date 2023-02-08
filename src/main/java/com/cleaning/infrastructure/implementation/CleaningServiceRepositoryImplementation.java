@@ -3,7 +3,9 @@ package com.cleaning.infrastructure.implementation;
 import com.cleaning.domain.cleaning_service.*;
 import com.cleaning.infrastructure.*;
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
 
+@Repository
 public class CleaningServiceRepositoryImplementation implements CleaningServices {
 
     @Autowired

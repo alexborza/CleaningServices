@@ -18,7 +18,7 @@ public class ClientRepresentation extends UserRepresentation {
                 getUsername(),
                 getEmail(),
                 getPassword(),
-                toDomainUserInformation(getUserInformation())
+                getUserInformation().toDomain()
         );
     }
 

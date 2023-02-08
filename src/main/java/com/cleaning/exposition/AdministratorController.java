@@ -2,6 +2,9 @@ package com.cleaning.exposition;
 
 import com.cleaning.application.*;
 import com.cleaning.exposition.representation.response.*;
+import com.cleaning.exposition.representation.response.appointment.*;
+import com.cleaning.exposition.representation.response.cleaning_service.description.*;
+import com.cleaning.exposition.representation.response.cleaning_service.prices.*;
 import com.cleaning.exposition.representation.response.users.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
@@ -22,34 +25,24 @@ public class AdministratorController {
         administratorService.createEmployeeContract(representation);
     }
 
-//
-//    @GetMapping("/employees")
-//    public List<EmployeeDto> getAllEmployees(){
-//        return administratorService.getAllEmployees();
-//    }
-//
-//    @GetMapping("/services-agenda")
-//    public List<ServicesAgenda> getServicesAgenda(@RequestParam String date){
-//        return administratorService.getServicesAgenda(date);
-//    }
-//
-//    @PostMapping("/create-descriptions")
-//    public void createDescriptions(@RequestBody CleaningServiceDescriptionDto dto){
-//        administratorService.createDescriptions(dto);
-//    }
-//
-//    @PutMapping("/update-descriptions/{id}")
-//    public void updateDescriptions(@PathVariable Long id, @RequestBody CleaningServiceDescriptionDto dto){
-//        administratorService.updateDescriptions(id, dto);
-//    }
-//
-//    @PostMapping("/create-prices")
-//    public void createCleaningPrices(@RequestBody CleaningServicePricesDto dto) {
-//        administratorService.createCleaningPrices(dto);
-//    }
-//
-//    @PutMapping("/update-prices/{id}")
-//    public void updateCleaningPrices(@PathVariable Long id, @RequestBody CleaningServicePricesDto dto){
-//        administratorService.updateCleaningPrices(id, dto);
-//    }
+
+    @GetMapping("/employees")
+    public List<UserRepresentation> getAllEmployees(){
+        return administratorService.getAllEmployees();
+    }
+
+    @GetMapping("/services-agenda/{date}")
+    public List<AppointmentRepresentation> getAppointmentsByDate(@PathVariable String date){
+        return administratorService.getAppointmentsByDate(date);
+    }
+
+    @PostMapping("/create-descriptions")
+    public void createDescriptions(@RequestBody CleaningDescriptionRepresentation representation){
+        administratorService.createDescriptions(representation);
+    }
+
+    @PostMapping("/create-prices")
+    public void createCleaningPrices(@RequestBody CleaningPricesRepresentation representation) {
+        administratorService.createCleaningPrices(representation);
+    }
 }

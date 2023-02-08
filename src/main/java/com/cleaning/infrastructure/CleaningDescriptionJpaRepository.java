@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.*;
 
 import java.util.*;
 
-public interface CleaningDescriptionRepository extends JpaRepository<CleaningDescription, Long> {
+public interface CleaningDescriptionJpaRepository extends JpaRepository<CleaningDescription, Long> {
     Optional<CleaningDescription> findFirstBy();
 }

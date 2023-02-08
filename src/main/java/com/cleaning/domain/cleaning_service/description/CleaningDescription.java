@@ -1,8 +1,12 @@
 package com.cleaning.domain.cleaning_service.description;
 
 import lombok.*;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import java.time.*;
 
 @Entity
 @Table(name = "cleaning_description")
@@ -24,6 +28,9 @@ public class CleaningDescription {
 
     @Lob
     private String disinfectionCleaningDescription;
+
+    @CreationTimestamp
+    private LocalDateTime createDateTime;
 
     @NoArgsConstructor
     @Getter
