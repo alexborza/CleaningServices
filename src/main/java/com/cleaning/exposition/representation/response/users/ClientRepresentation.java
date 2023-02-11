@@ -4,6 +4,8 @@ import com.cleaning.domain.users.*;
 import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 
+import static com.cleaning.domain.users.Role.*;
+
 @Getter
 @JsonTypeName("client")
 public class ClientRepresentation extends UserRepresentation {
@@ -14,12 +16,12 @@ public class ClientRepresentation extends UserRepresentation {
 
     @Override
     public User toDomain() {
-        return new Client(
-                getUsername(),
-                getEmail(),
-                getPassword(),
-                getUserInformation().toDomain()
-        );
+        return new Client.Builder()
+                .withUsername(getUsername())
+                .withEmail(getEmail())
+                .withPassword(getPassword())
+                .withUserInformation(getUserInformation().toDomain())
+                .build();
     }
 
     public static ClientRepresentation mapFromDomain(Client client) {

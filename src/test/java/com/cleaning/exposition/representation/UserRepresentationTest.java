@@ -32,7 +32,7 @@ public class UserRepresentationTest {
 
     @Test
     public void fromDomainClient() {
-        Client client = UserTestData.dummyClient();
+        Client client = UserTestData.dummyClient("dummyUser", "dummyEmail");
         UserRepresentation representation = UserRepresentation.fromDomain(client);
         UserInformationRepresentation userInformationRepresentation = representation.getUserInformation();
         UserInformation userInformation = client.getUserInformation();
@@ -48,7 +48,7 @@ public class UserRepresentationTest {
     }
 
     public void fromDomainEmployee() {
-        Employee employee = UserTestData.dummyEmployee();
+        Employee employee = UserTestData.dummyEmployee("dummyEmployeeUser", "dummyEmployeeEmail");
         UserRepresentation representation = UserRepresentation.fromDomain(employee);
         UserInformationRepresentation userInformationRepresentation = representation.getUserInformation();
         UserInformation userInformation = employee.getUserInformation();

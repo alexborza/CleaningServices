@@ -9,7 +9,20 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Admin extends User {
 
-    public Admin(String username, String password) {
-        super(username, password, Role.ADMIN);
+    public static class Builder extends User.Builder<Admin.Builder> {
+
+        @Override
+        protected Admin.Builder self() {
+            return this;
+        }
+
+        @Override
+        public Admin build() {
+            return new Admin(this);
+        }
+    }
+
+    private Admin(Admin.Builder builder) {
+        super(builder, Role.ADMIN);
     }
 }

@@ -19,6 +19,11 @@ public class UserRepositoryImplementation implements UserRepository {
     }
 
     @Override
+    public List<User> saveAll(List<User> users) {
+        return jpaRepository.saveAll(users);
+    }
+
+    @Override
     public Optional<User> findById(Long id) {
         return jpaRepository.findById(id);
     }
@@ -26,5 +31,35 @@ public class UserRepositoryImplementation implements UserRepository {
     @Override
     public List<User> findAllByRole(Role role) {
         return jpaRepository.findAllByRole(role);
+    }
+
+    @Override
+    public boolean existsById(Long id) {
+        return jpaRepository.existsById(id);
+    }
+
+    @Override
+    public boolean existsByUsername(String username) {
+        return jpaRepository.existsByUsername(username);
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return jpaRepository.existsByEmail(email);
+    }
+
+    @Override
+    public void updateEmail(Long userId, String email) {
+        jpaRepository.updateEmail(userId, email);
+    }
+
+    @Override
+    public void updatePassword(Long userId, String password) {
+        jpaRepository.updatePassword(userId, password);
+    }
+
+    @Override
+    public void updateUserInformation(Long userId, UserInformation userInformation) {
+        jpaRepository.updateUserInformation(userId, userInformation.getFullName(), userInformation.getAddress(), userInformation.getBirthDate(), userInformation.getPhoneNumber());
     }
 }

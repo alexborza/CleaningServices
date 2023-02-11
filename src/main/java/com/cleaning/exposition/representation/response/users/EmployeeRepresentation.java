@@ -23,13 +23,13 @@ public class EmployeeRepresentation extends UserRepresentation {
 
     @Override
     public User toDomain() {
-        return new Employee(
-                getUsername(),
-                getEmail(),
-                getPassword(),
-                getUserInformation().toDomain(),
-                getEmployeeInformation().toDomain()
-        );
+        return new Employee.Builder()
+                .withUsername(getUsername())
+                .withEmail(getEmail())
+                .withPassword(getPassword())
+                .withUserInformation(getUserInformation().toDomain())
+                .withEmployeeInformation(getEmployeeInformation().toDomain())
+                .build();
     }
 
     public static EmployeeRepresentation mapFromDomain(Employee employee) {

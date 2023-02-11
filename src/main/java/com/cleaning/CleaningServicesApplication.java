@@ -25,7 +25,7 @@ public class CleaningServicesApplication implements CommandLineRunner {
 	}
 
 	@Override
-	public void run(String... args) throws Exception {
+	public void run(String... args) {
 		addAdminAccount();
 	}
 
@@ -34,7 +34,10 @@ public class CleaningServicesApplication implements CommandLineRunner {
 		if(user.isPresent()){
 			LOG.info("Admin account already exists. Nothing will be done.");
 		} else {
-			User admin = new Admin("admin", encoder.encode("admin"));
+			User admin = new Admin.Builder()
+					.withUsername("admin")
+					.withPassword(encoder.encode("admin"))
+					.build();
 			userJpaRepository.save(admin);
 		}
 	}

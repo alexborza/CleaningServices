@@ -14,11 +14,6 @@ public class EmployeeController {
 //    @Autowired
 //    private EmployeeService employeeService;
 //
-//    @PostMapping("emergency-contact-info/{userId}")
-//    public void modifyEmergencyContactInfo(@PathVariable Long userId, @RequestBody EmergencyContactInformationDto dto){
-//        employeeService.modifyEmergencyContactInfo(userId, dto);
-//    }
-//
 //    @PostMapping("job-info/{userId}")
 //    public void modifyJobInfo(@PathVariable Long userId, @RequestBody JobInformationDto dto){
 //        employeeService.modifyJobInfo(userId, dto);

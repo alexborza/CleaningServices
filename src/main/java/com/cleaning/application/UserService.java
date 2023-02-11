@@ -1,45 +1,74 @@
 package com.cleaning.application;
 
 import com.cleaning.domain.users.*;
-import com.cleaning.exposition.representation.response.*;
-import com.cleaning.infrastructure.*;
+import com.cleaning.exposition.representation.request.*;
+import com.cleaning.exposition.representation.response.users.*;
 import org.springframework.beans.factory.annotation.*;
-import org.springframework.http.*;
 import org.springframework.security.crypto.password.*;
 import org.springframework.stereotype.*;
+import org.springframework.transaction.annotation.*;
 
 import javax.persistence.*;
 
+@Transactional
 @Service
 public class UserService {
-//    @Autowired
-//    private UserRepository<User> userRepository;
-//
-//    @Autowired
-//    private PasswordEncoder encoder;
-//
-//    public UserDto getUser(Long userId){
-//        User client = userRepository.findById(userId)
-//                .orElseThrow(EntityNotFoundException::new);
-//        return administratorMapper.toUserDto(client);
-//    }
-//
-//    public void modifyEmail(Long userId, String email) {
-//
-//    }
-//
-//    public ResponseEntity<MessageResponse> modifyPassword(Long userId, ModifyPasswordDto dto) {
-//        User client = userRepository.findById(userId)
-//                .orElseThrow(EntityNotFoundException::new);
-//        if(!encoder.matches(dto.getPassword(), client.getPassword())){
-//            return ResponseEntity.badRequest().body(new MessageResponse("Incorrect password entered!"));
-//        }
-////        client.setPassword(encoder.encode(dto.getNewPassword()));
-//        userRepository.save(client);
-//        return ResponseEntity.ok(new MessageResponse("Successfully modified the password!"));
-//    }
-//
-//    public void modifyPersonalInfo(Long id, UserInformationDto dto){
-//
-//    }
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder encoder;
+
+    public void registerUser(SignupRequest signUpRequest){
+        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+            throw new UserAlreadyExistsException("Username is already taken!");
+        }
+        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+            throw new UserAlreadyExistsException("Email is already in use!");
+        }
+
+        User user = new Client.Builder()
+                .withUsername(signUpRequest.getUsername())
+                .withEmail(signUpRequest.getEmail())
+                .withPassword(encoder.encode(signUpRequest.getPassword()))
+                .build();
+
+        userRepository.save(user);
+    }
+
+    public UserRepresentation getUser(Long userId){
+        //probably and where role <> 'ADMIN'
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found for id: " + userId.toString()));
+
+        return UserRepresentation.fromDomain(user);
+    }
+
+    public void updateEmail(Long userId, String email) {
+        if(!userRepository.existsById(userId)) {
+            throw new EntityNotFoundException("User not found for id: " + userId.toString());
+        }
+
+        userRepository.updateEmail(userId, email);
+    }
+
+    public void updatePassword(Long userId, ModifyPassword representation) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found for id: " + userId.toString()));
+
+        if(!encoder.matches(representation.getPassword(), user.getPassword())){
+            throw new PasswordNotMatchingException("Introduced password is not matching the existing password");
+        }
+
+        String encodedPassword = encoder.encode(representation.getNewPassword());
+        userRepository.updatePassword(userId, encodedPassword);
+    }
+
+    public void updateUserInformation(Long id, UserInformationRepresentation representation){
+        if(!userRepository.existsById(id)) {
+            throw new EntityNotFoundException("User not found for id: " + id.toString());
+        }
+
+        userRepository.updateUserInformation(id, representation.toDomain());
+    }
 }

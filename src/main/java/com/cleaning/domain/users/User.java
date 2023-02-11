@@ -26,17 +26,50 @@ public abstract class User {
         @Enumerated(EnumType.STRING)
         private Role role;
 
-        public User(String username, String email, String password, UserInformation userInformation, Role role) {
-                this.username = username;
-                this.email = email;
-                this.password = password;
-                this.userInformation = userInformation;
-                this.role = role;
+        @NoArgsConstructor
+        @Getter
+        public abstract static class Builder<T extends Builder<T>> {
+                private Long id;
+                private String username;
+                private String email;
+                private String password;
+                private UserInformation userInformation;
+
+                public T withId(Long id){
+                        this.id = id;
+                        return self();
+                }
+
+                public T withUsername(String username){
+                        this.username = username;
+                        return self();
+                }
+
+                public T withEmail(String email) {
+                        this.email = email;
+                        return self();
+                }
+
+                public T withPassword(String password) {
+                        this.password = password;
+                        return self();
+                }
+
+                public T withUserInformation(UserInformation userInformation) {
+                        this.userInformation = userInformation;
+                        return self();
+                }
+
+                protected abstract T self();
+
+                public abstract User build();
         }
 
-        public User(String username, String password, Role role) {
-                this.username = username;
-                this.password = password;
+        protected User(Builder<?> builder, Role role) {
+                this.username = builder.getUsername();
+                this.email = builder.getEmail();
+                this.password = builder.getPassword();
+                this.userInformation = builder.getUserInformation();
                 this.role = role;
         }
 }

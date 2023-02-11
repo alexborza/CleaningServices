@@ -4,27 +4,27 @@ import com.cleaning.domain.users.*;
 
 public class UserTestData {
 
-    public static Client dummyClient() {
-        return new Client(
-                "clientUser",
-                "clientEmail",
-                "password",
-                dummyUserInformation()
-        );
+    public static Client dummyClient(String username, String email) {
+        return new Client.Builder()
+                .withUsername(username)
+                .withEmail(email)
+                .withPassword("password")
+                .withUserInformation(dummyUserInformation("fullName", "address", "phoneNumber", "birthDate"))
+                .build();
     }
 
-    public static Employee dummyEmployee() {
-        return new Employee(
-                "employeeUser",
-                "employeeEmail",
-                "password",
-                dummyUserInformation(),
-                dummyEmployeeInformation()
-        );
+    public static Employee dummyEmployee(String username, String email) {
+        return new Employee.Builder()
+                .withUsername(username)
+                .withEmail(email)
+                .withPassword("password")
+                .withUserInformation(dummyUserInformation("fullName", "address", "phoneNumber", "birthDate"))
+                .withEmployeeInformation(dummyEmployeeInformation())
+                .build();
     }
 
-    private static UserInformation dummyUserInformation() {
-        return new UserInformation("fullname", "address", "phoneNumber", "birthDate");
+    public static UserInformation dummyUserInformation(String fullName, String address, String phoneNumber, String birthDate) {
+        return new UserInformation(fullName, address, phoneNumber, birthDate);
     }
 
     private static EmployeeInformation dummyEmployeeInformation() {

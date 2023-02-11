@@ -2,11 +2,10 @@ package com.cleaning.exposition.representation.request;
 
 import lombok.*;
 
+@AllArgsConstructor
 @Getter
-@Setter
 public class SignupRequest {
-    private String username;
-    private String email;
-    private String role;
-    private String password;
+    private final String username;
+    private final String email;
+    private final String password;
 }

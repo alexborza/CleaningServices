@@ -9,7 +9,20 @@ import javax.persistence.*;
 @Getter
 public class Client extends User {
 
-    public Client(String username, String email, String password, UserInformation userInformation) {
-        super(username, email, password, userInformation, Role.USER);
+    public static class Builder extends User.Builder<Builder> {
+
+        @Override
+        protected Builder self() {
+            return this;
+        }
+
+        @Override
+        public Client build() {
+            return new Client(this);
+        }
+    }
+
+    private Client(Builder builder) {
+        super(builder, Role.USER);
     }
 }
