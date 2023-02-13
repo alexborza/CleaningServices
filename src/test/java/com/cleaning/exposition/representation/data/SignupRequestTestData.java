@@ -11,4 +11,12 @@ public class SignupRequestTestData {
                 "password"
         );
     }
+
+    public static SignupRequest dummySignupRequest(String username, String email) {
+        return new SignupRequest(
+                username,
+                email,
+                "password"
+        );
+    }
 }

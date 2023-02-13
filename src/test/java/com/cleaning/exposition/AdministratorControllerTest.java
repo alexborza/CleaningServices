@@ -3,11 +3,14 @@ package com.cleaning.exposition;
 import com.cleaning.application.*;
 import com.cleaning.exposition.representation.data.*;
 import com.cleaning.exposition.representation.response.appointment.*;
+import com.cleaning.exposition.representation.response.cleaning_service.description.*;
+import com.cleaning.exposition.representation.response.cleaning_service.prices.*;
 import com.cleaning.exposition.representation.response.users.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.*;
 import org.mockito.*;
 import org.mockito.junit.jupiter.*;
+import org.springframework.http.*;
 
 import java.time.*;
 import java.util.*;
@@ -26,6 +29,16 @@ public class AdministratorControllerTest {
     private AdministratorService administratorService;
 
     @Test
+    public void testCreateEmployeeContract() {
+        UserRepresentation representation = UserRepresentationTestData.dummyClientRepresentation(1L);
+
+        ResponseEntity<Void> employeeContract = controller.createEmployeeContract(representation);
+
+        assertThat(employeeContract).isNotNull();
+        assertThat(employeeContract.getStatusCodeValue()).isEqualTo(200);
+    }
+
+    @Test
     public void testGetAllEmployees() {
 
         List<UserRepresentation> employees = List.of(
@@ -41,10 +54,16 @@ public class AdministratorControllerTest {
 
         when(administratorService.getAllEmployees()).thenReturn(employees);
 
-        List<UserRepresentation> allEmployees = controller.getAllEmployees();
+        ResponseEntity<List<UserRepresentation>> allEmployees = controller.getAllEmployees();
 
-        assertThat(allEmployees).hasSize(2);
-        assertThat(allEmployees.stream().map(UserRepresentation::getId).collect(Collectors.toList()))
+        assertThat(allEmployees).isNotNull();
+        assertThat(allEmployees.getStatusCodeValue()).isEqualTo(200);
+
+        List<UserRepresentation> body = allEmployees.getBody();
+
+        assertThat(body).isNotNull();
+        assertThat(body).hasSize(2);
+        assertThat(body.stream().map(UserRepresentation::getId).collect(Collectors.toList()))
                 .containsExactly(1L, 2L);
     }
 
@@ -58,10 +77,39 @@ public class AdministratorControllerTest {
 
         when(administratorService.getAppointmentsByDate(date)).thenReturn(appointmentRepresentations);
 
-        List<AppointmentRepresentation> appointmentsByDate = controller.getAppointmentsByDate(date);
-        assertThat(appointmentsByDate).hasSize(2);
-        assertThat(appointmentsByDate.stream().map(AppointmentRepresentation::getId).collect(Collectors.toList()))
+        ResponseEntity<List<AppointmentRepresentation>> appointmentsByDate = controller.getAppointmentsByDate(date);
+
+        assertThat(appointmentsByDate).isNotNull();
+        assertThat(appointmentsByDate.getStatusCodeValue()).isEqualTo(200);
+
+        List<AppointmentRepresentation> body = appointmentsByDate.getBody();
+
+        assertThat(body).isNotNull();
+        assertThat(body).hasSize(2);
+
+        assertThat(body).hasSize(2);
+        assertThat(body.stream().map(AppointmentRepresentation::getId).collect(Collectors.toList()))
                 .containsExactly(1L, 2L);
+    }
+
+    @Test
+    public void testCreateDescriptions() {
+        CleaningDescriptionRepresentation representation = CleaningDescriptionRepresentationTestData.dummyCleaningDescriptionRepresentation();
+
+        ResponseEntity<Void> response = controller.createDescriptions(representation);
+
+        assertThat(response).isNotNull();
+        assertThat(response.getStatusCodeValue()).isEqualTo(200);
+    }
+
+    @Test
+    public void testCreateCleaningPrices() {
+        CleaningPricesRepresentation representation = CleaningPricesRepresentationTestData.dummyCleaningPricesRepresentation();
+
+        ResponseEntity<Void> response = controller.createCleaningPrices(representation);
+
+        assertThat(response).isNotNull();
+        assertThat(response.getStatusCodeValue()).isEqualTo(200);
     }
 
 }

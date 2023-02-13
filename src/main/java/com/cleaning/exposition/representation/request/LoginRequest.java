@@ -2,9 +2,9 @@ package com.cleaning.exposition.representation.request;
 
 import lombok.*;
 
+@AllArgsConstructor
 @Getter
-@Setter
 public class LoginRequest {
-    private String username;
-    private String password;
+    private final String username;
+    private final String password;
 }

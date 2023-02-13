@@ -21,27 +21,32 @@ public class AdministratorController {
     private AdministratorService administratorService;
 
     @PostMapping("/employee-contract")
-    public void createEmployeeContract(@RequestBody UserRepresentation representation){
+    public ResponseEntity<Void> createEmployeeContract(@RequestBody UserRepresentation representation){
         administratorService.createEmployeeContract(representation);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/employees")
-    public List<UserRepresentation> getAllEmployees(){
-        return administratorService.getAllEmployees();
+    public ResponseEntity<List<UserRepresentation>> getAllEmployees(){
+        List<UserRepresentation> employees = administratorService.getAllEmployees();
+        return ResponseEntity.ok(employees);
     }
 
     @GetMapping("/services-agenda/{date}")
-    public List<AppointmentRepresentation> getAppointmentsByDate(@PathVariable String date){
-        return administratorService.getAppointmentsByDate(date);
+    public ResponseEntity<List<AppointmentRepresentation>> getAppointmentsByDate(@PathVariable String date){
+        List<AppointmentRepresentation> appointments = administratorService.getAppointmentsByDate(date);
+        return ResponseEntity.ok(appointments);
     }
 
     @PostMapping("/create-descriptions")
-    public void createDescriptions(@RequestBody CleaningDescriptionRepresentation representation){
+    public ResponseEntity<Void> createDescriptions(@RequestBody CleaningDescriptionRepresentation representation){
         administratorService.createDescriptions(representation);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/create-prices")
-    public void createCleaningPrices(@RequestBody CleaningPricesRepresentation representation) {
+    public ResponseEntity<Void> createCleaningPrices(@RequestBody CleaningPricesRepresentation representation) {
         administratorService.createCleaningPrices(representation);
+        return ResponseEntity.ok().build();
     }
 }
