@@ -1,6 +1,7 @@
 package com.cleaning.infrastructure.implementation;
 
 import com.cleaning.domain.appointment.*;
+import com.cleaning.exposition.representation.response.users.*;
 import com.cleaning.infrastructure.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
@@ -24,5 +25,11 @@ public class AppointmentRepositoryImplementation implements AppointmentRepositor
     public void saveAll(Iterable<Appointment> appointments) {
 
         jpaRepository.saveAll(appointments);
+    }
+
+    @Override
+    public List<Appointment> findAllByEmployeeAndCleaningDate(Long employeeId, String date) {
+
+        return jpaRepository.findAllByEmployeeAndCleaningDate(employeeId, LocalDate.parse(date));
     }
 }

@@ -44,11 +44,11 @@ public class AdministratorControllerTest {
         List<UserRepresentation> employees = List.of(
                 UserRepresentationTestData.dummyEmployeeRepresentation(
                         1L,
-                        UserRepresentationTestData.dummyEmployeeInformationRepresentation()
+                        UserRepresentationTestData.dummyJobInformationRepresentation()
                 ),
                 UserRepresentationTestData.dummyEmployeeRepresentation(
                         2L,
-                        UserRepresentationTestData.dummyEmployeeInformationRepresentation()
+                        UserRepresentationTestData.dummyJobInformationRepresentation()
                 )
         );
 

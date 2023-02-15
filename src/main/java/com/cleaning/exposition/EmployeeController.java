@@ -1,7 +1,11 @@
 package com.cleaning.exposition;
 
 import com.cleaning.application.*;
+import com.cleaning.exposition.representation.response.appointment.*;
+import com.cleaning.exposition.representation.response.cleaning_service.*;
+import com.cleaning.exposition.representation.response.users.*;
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -10,27 +14,27 @@ import java.util.*;
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/employee")
 public class EmployeeController {
-//
-//    @Autowired
-//    private EmployeeService employeeService;
-//
-//    @PostMapping("job-info/{userId}")
-//    public void modifyJobInfo(@PathVariable Long userId, @RequestBody JobInformationDto dto){
-//        employeeService.modifyJobInfo(userId, dto);
-//    }
-//
-//    @GetMapping("/{id}")
-//    public EmployeeDto getEmployee(@PathVariable Long id){
-//        return employeeService.getEmployee(id);
-//    }
+
+    @Autowired
+    private EmployeeService employeeService;
+
+    @PostMapping("job-information/{userId}")
+    public void updateJobInformation(@PathVariable Long jobInformationId, @RequestBody JobInformationRepresentation representation){
+        employeeService.updateJobInformation(jobInformationId, representation);
+    }
+
 //
 //    @GetMapping("/employees-day-agenda")
 //    public List<EmployeesDayAgenda> getEmployeesAgendaForDate(@RequestParam String date, @RequestParam String frequency){
 //        return employeeService.getEmployeesAgendaForDate(date, frequency);
 //    }
 //
-//    @GetMapping("/employee-agenda/{id}")
-//    public List<CleaningServiceDto> getEmployeeCleaningServicesForDate(@PathVariable Long id, @RequestParam String date){
-//        return employeeService.getEmployeeCleaningServicesForDate(id, date);
-//    }
+    @GetMapping("/{id}/appointments")
+    public ResponseEntity<List<AppointmentRepresentation>> getEmployeesAppointmentsForDate(
+            @PathVariable Long id,
+            @RequestParam String date){
+
+        List<AppointmentRepresentation> appointments = employeeService.getEmployeesAppointmentsForDate(id, date);
+        return ResponseEntity.ok(appointments);
+    }
 }

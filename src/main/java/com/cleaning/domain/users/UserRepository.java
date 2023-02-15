@@ -23,4 +23,5 @@ public interface UserRepository {
     void updatePassword(Long userId, String password);
 
     void updateUserInformation(Long userId, UserInformation userInformation);
+
 }

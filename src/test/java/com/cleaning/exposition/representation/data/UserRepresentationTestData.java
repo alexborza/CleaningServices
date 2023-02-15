@@ -3,6 +3,8 @@ package com.cleaning.exposition.representation.data;
 import com.cleaning.domain.users.*;
 import com.cleaning.exposition.representation.response.users.*;
 
+import java.time.*;
+
 public class UserRepresentationTestData {
 
     public static UserRepresentation dummyClientRepresentation(Long id) {
@@ -15,14 +17,14 @@ public class UserRepresentationTestData {
         );
     }
 
-    public static UserRepresentation dummyEmployeeRepresentation(Long id, EmployeeInformationRepresentation employeeInformationRepresentation) {
+    public static UserRepresentation dummyEmployeeRepresentation(Long id, JobInformationRepresentation jobInformationRepresentation) {
         return new EmployeeRepresentation(
                 id,
                 "employeeUser",
                 "employeeEmail",
                 "employeePassword",
                 dummyUserInformationRepresentation(),
-                employeeInformationRepresentation
+                jobInformationRepresentation
         );
     }
 
@@ -35,20 +37,14 @@ public class UserRepresentationTestData {
         );
     }
 
-    public static EmployeeInformationRepresentation dummyEmployeeInformationRepresentation() {
-        return new EmployeeInformationRepresentation(
-                1L,
-                dummyJobInformationRepresentation()
-        );
-    }
-
-    private static JobInformationRepresentation dummyJobInformationRepresentation() {
+    public static JobInformationRepresentation dummyJobInformationRepresentation() {
         return new JobInformationRepresentation(
+                1L,
                 "title",
                 "supervisor",
                 "workPhone",
                 EmploymentStatus.FULL_TIME,
-                "hiringDate",
+                LocalDate.now(),
                 2000L
         );
     }

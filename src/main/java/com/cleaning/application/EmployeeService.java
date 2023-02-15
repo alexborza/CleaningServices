@@ -1,40 +1,47 @@
 package com.cleaning.application;
 
+import com.cleaning.domain.appointment.*;
 import com.cleaning.domain.users.*;
+import com.cleaning.exposition.representation.response.appointment.*;
+import com.cleaning.exposition.representation.response.cleaning_service.*;
+import com.cleaning.exposition.representation.response.users.*;
 import com.cleaning.infrastructure.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
+import org.springframework.transaction.annotation.*;
 
 import javax.persistence.*;
 import java.util.*;
+import java.util.stream.*;
 
+@Transactional
 @Service
 public class EmployeeService {
 
-//    @Autowired
-//    private EmployeeRepository employeeRepository;
-//
-//    @Autowired
-//    private CleaningServiceRepository cleaningServiceRepository;
-//
-//    public void modifyEmergencyContactInfo(Long userId, EmergencyContactInformationDto dto){
-//
-//    }
-//
-//    public void modifyJobInfo(Long userId, JobInformationDto dto){
-//    }
-//
-//    public EmployeeDto getEmployee(Long id){
-//        Employee employee = employeeRepository.findById(id)
-//                .orElseThrow(EntityNotFoundException::new);
-//        return administratorMapper.toEmployeeDto(employee);
-//    }
-//
+    @Autowired
+    private AppointmentRepository appointmentRepository;
+
+    @Autowired
+    private JobInformationRepository jobInformationRepository;
+
+    public void updateJobInformation(Long jobInformationId, JobInformationRepresentation representation){
+        if(!jobInformationRepository.existsById(jobInformationId)) {
+            throw new EntityNotFoundException("JobInformation not found for id: " + jobInformationId.toString());
+        }
+
+        jobInformationRepository.updateJobInformation(jobInformationId, representation.toDomain());
+    }
+
 //    public List<EmployeesDayAgenda> getEmployeesAgendaForDate(String date, String frequency){
 //        return null;
 //    }
-//
-//    public List<CleaningServiceDto> getEmployeeCleaningServicesForDate(Long id, String date) {
-//        return null;
-//    }
+
+    public List<AppointmentRepresentation> getEmployeesAppointmentsForDate(Long id, String date) {
+
+        List<Appointment> appointments = appointmentRepository.findAllByEmployeeAndCleaningDate(id, date);
+
+        return appointments.stream()
+                .map(AppointmentRepresentation::fromDomain)
+                .collect(Collectors.toList());
+    }
 }

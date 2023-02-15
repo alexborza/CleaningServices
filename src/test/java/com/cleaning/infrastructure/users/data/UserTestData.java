@@ -2,6 +2,8 @@ package com.cleaning.infrastructure.users.data;
 
 import com.cleaning.domain.users.*;
 
+import java.time.*;
+
 public class UserTestData {
 
     public static Client dummyClient(String username, String email) {
@@ -19,7 +21,7 @@ public class UserTestData {
                 .withEmail(email)
                 .withPassword("password")
                 .withUserInformation(dummyUserInformation("fullName", "address", "phoneNumber", "birthDate"))
-                .withEmployeeInformation(dummyEmployeeInformation())
+                .withJobInformation(dummyJobInformation("title", "supervisor", "workPhone", LocalDate.of(2023, 2, 1), 2000L, EmploymentStatus.FULL_TIME))
                 .build();
     }
 
@@ -27,11 +29,14 @@ public class UserTestData {
         return new UserInformation(fullName, address, phoneNumber, birthDate);
     }
 
-    private static EmployeeInformation dummyEmployeeInformation() {
-        return new EmployeeInformation(dummyJobInformation());
-    }
-
-    private static JobInformation dummyJobInformation() {
-        return new JobInformation("title", "supervisor", "workPhone", "hiringDate", 2000L, EmploymentStatus.FULL_TIME);
+    public static JobInformation dummyJobInformation(String title, String supervisor, String workphone, LocalDate hiringDate, Long salary, EmploymentStatus employmentStatus) {
+        return new JobInformation.JobInformationBuilder()
+                .withTitle(title)
+                .withSupervisor(supervisor)
+                .withWorkPhone(workphone)
+                .withHiringDate(hiringDate)
+                .withSalary(salary)
+                .withEmploymentStatus(employmentStatus)
+                .build();
     }
 }

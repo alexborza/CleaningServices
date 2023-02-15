@@ -9,17 +9,17 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Employee extends User {
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "employee_info_id")
-    private EmployeeInformation employeeInformation;
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "job_information_id")
+    private JobInformation jobInformation;
 
     @NoArgsConstructor
     @Getter
     public static class Builder extends User.Builder<Employee.Builder> {
-        private EmployeeInformation employeeInformation;
+        private JobInformation jobInformation;
 
-        public Builder withEmployeeInformation(EmployeeInformation employeeInformation) {
-            this.employeeInformation = employeeInformation;
+        public Builder withJobInformation(JobInformation jobInformation) {
+            this.jobInformation = jobInformation;
             return self();
         }
 
@@ -36,6 +36,6 @@ public class Employee extends User {
 
     private Employee(Employee.Builder builder) {
         super(builder, Role.EMPLOYEE);
-        this.employeeInformation = builder.getEmployeeInformation();
+        this.jobInformation = builder.jobInformation;
     }
 }

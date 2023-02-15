@@ -16,8 +16,8 @@ import org.springframework.security.crypto.password.*;
 
 import java.time.*;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class AdministratorServiceTest {
@@ -44,7 +44,7 @@ public class AdministratorServiceTest {
     public void testCreateEmployeeContract() {
         UserRepresentation employee = UserRepresentationTestData.dummyEmployeeRepresentation(
                 1L,
-                UserRepresentationTestData.dummyEmployeeInformationRepresentation()
+                UserRepresentationTestData.dummyJobInformationRepresentation()
         );
 
         administratorService.createEmployeeContract(employee);

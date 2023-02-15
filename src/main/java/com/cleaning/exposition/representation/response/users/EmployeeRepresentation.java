@@ -7,7 +7,7 @@ import lombok.*;
 @Getter
 @JsonTypeName("employee")
 public class EmployeeRepresentation extends UserRepresentation {
-    private final EmployeeInformationRepresentation employeeInformation;
+    private final JobInformationRepresentation jobInformationRepresentation;
 
     public EmployeeRepresentation(
             Long id,
@@ -15,10 +15,10 @@ public class EmployeeRepresentation extends UserRepresentation {
             String email,
             String password,
             UserInformationRepresentation userInformation,
-            EmployeeInformationRepresentation employeeInformation) {
+            JobInformationRepresentation jobInformationRepresentation) {
 
         super(id, username, email, password, userInformation);
-        this.employeeInformation = employeeInformation;
+        this.jobInformationRepresentation = jobInformationRepresentation;
     }
 
     @Override
@@ -28,7 +28,7 @@ public class EmployeeRepresentation extends UserRepresentation {
                 .withEmail(getEmail())
                 .withPassword(getPassword())
                 .withUserInformation(getUserInformation().toDomain())
-                .withEmployeeInformation(getEmployeeInformation().toDomain())
+                .withJobInformation(getJobInformationRepresentation().toDomain())
                 .build();
     }
 
@@ -39,7 +39,7 @@ public class EmployeeRepresentation extends UserRepresentation {
                 employee.getEmail(),
                 employee.getPassword(),
                 UserInformationRepresentation.fromDomain(employee.getUserInformation()),
-                EmployeeInformationRepresentation.fromDomain(employee.getEmployeeInformation())
+                JobInformationRepresentation.fromDomain(employee.getJobInformation())
         );
     }
 }

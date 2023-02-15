@@ -5,18 +5,18 @@ import com.cleaning.domain.cleaning_service.*;
 import com.cleaning.domain.users.*;
 import com.cleaning.infrastructure.appointment.data.*;
 import com.cleaning.infrastructure.implementation.*;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.boot.test.context.*;
+import org.springframework.test.annotation.*;
 import org.springframework.test.context.junit.jupiter.*;
 
 import java.time.*;
 import java.util.*;
 import java.util.stream.*;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -32,10 +32,23 @@ public class AppointmentRepositoryTest {
     private CleaningServiceRepositoryImplementation cleaningServiceRepositoryImplementation;
 
     @Test
+    @DirtiesContext
     public void find_all_by_cleaning_date() {
         addAppointments();
         LocalDate cleaningDate = LocalDate.of(2023, 2, 8);
         List<Appointment> appointments = appointmentRepositoryImplementation.findAllByCleaningDate(cleaningDate.toString());
+
+        assertThat(appointments.size()).isEqualTo(3);
+        assertThat(appointments.stream().map(Appointment::getTimeSlot).collect(Collectors.toList()))
+                .containsExactlyInAnyOrder(new TimeSlot(9, 11), new TimeSlot(11, 13), new TimeSlot(13, 15));
+    }
+
+    @Test
+    @DirtiesContext
+    public void find_all_by_employee_and_cleaning_date() {
+        addAppointments();
+        LocalDate cleaningDate = LocalDate.of(2023, 2, 8);
+        List<Appointment> appointments = appointmentRepositoryImplementation.findAllByEmployeeAndCleaningDate(10002L, cleaningDate.toString());
 
         assertThat(appointments.size()).isEqualTo(3);
         assertThat(appointments.stream().map(Appointment::getTimeSlot).collect(Collectors.toList()))

@@ -6,8 +6,8 @@ import com.cleaning.exposition.representation.response.users.*;
 import com.cleaning.infrastructure.users.data.*;
 import org.junit.jupiter.api.*;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class UserRepresentationTest {
 
@@ -56,8 +56,8 @@ public class UserRepresentationTest {
 
         assertThat(representation).isInstanceOf(EmployeeRepresentation.class);
         EmployeeRepresentation employeeRepresentation = (EmployeeRepresentation) representation;
-        JobInformationRepresentation jobInformationRepresentation = employeeRepresentation.getEmployeeInformation().getJobInformation();
-        JobInformation jobInformation = employee.getEmployeeInformation().getJobInformation();
+        JobInformationRepresentation jobInformationRepresentation = employeeRepresentation.getJobInformationRepresentation();
+        JobInformation jobInformation = employee.getJobInformation();
 
         assertEquals(representation.getEmail(), employee.getEmail());
         assertEquals(representation.getUsername(), employee.getUsername());
@@ -76,8 +76,8 @@ public class UserRepresentationTest {
 
     @Test
     public void toDomainEmployee() {
-        EmployeeInformationRepresentation employeeInformationRepresentation = UserRepresentationTestData.dummyEmployeeInformationRepresentation();
-        UserRepresentation representation = UserRepresentationTestData.dummyEmployeeRepresentation(1L, employeeInformationRepresentation);
+        JobInformationRepresentation jobInformationRepresentation = UserRepresentationTestData.dummyJobInformationRepresentation();
+        UserRepresentation representation = UserRepresentationTestData.dummyEmployeeRepresentation(1L, jobInformationRepresentation);
         UserInformationRepresentation informationRepresentation = representation.getUserInformation();
 
         User user = representation.toDomain();
@@ -85,8 +85,7 @@ public class UserRepresentationTest {
 
         assertThat(user).isInstanceOf(Employee.class);
         Employee employee = (Employee) user;
-        JobInformation jobInformation = employee.getEmployeeInformation().getJobInformation();
-        JobInformationRepresentation jobInformationRepresentation = employeeInformationRepresentation.getJobInformation();
+        JobInformation jobInformation = employee.getJobInformation();
 
         assertEquals(employee.getRole(), Role.EMPLOYEE);
         assertEquals(employee.getEmail(), representation.getEmail());
