@@ -55,6 +55,14 @@ public class UserRepositoryTest {
     }
 
     @Test
+    public void test_find_all_employee_ids() {
+        addUsers();
+        List<Long> employeeIds = userRepositoryImplementation.findAllEmployeeIds();
+
+        assertThat(employeeIds).hasSize(4);
+    }
+
+    @Test
     public void test_exists_by_id() {
         boolean exists = userRepositoryImplementation.existsById(10001L);
         assertThat(exists).isTrue();
@@ -115,7 +123,10 @@ public class UserRepositoryTest {
         Client client2 = UserTestData.dummyClient("user2", "email2");
         Client client3 = UserTestData.dummyClient("user3", "email3");
         Client client4 = UserTestData.dummyClient("user4", "email4");
+        Employee employee1 = UserTestData.dummyEmployee("e1_username", "e1_email");
+        Employee employee2 = UserTestData.dummyEmployee("e2_username", "e2_email");
+        Employee employee3 = UserTestData.dummyEmployee("e3_username", "e3_email");
 
-        userRepositoryImplementation.saveAll(List.of(client1, client2, client3, client4));
+        userRepositoryImplementation.saveAll(List.of(client1, client2, client3, client4, employee1, employee2, employee3));
     }
 }

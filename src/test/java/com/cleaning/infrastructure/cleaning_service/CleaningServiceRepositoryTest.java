@@ -50,7 +50,7 @@ public class CleaningServiceRepositoryTest {
         }
 
         CleaningService dummyCleaningService = CleaningServiceTestData.dummyCleaningService(client);
-        Appointment dummyAppointment = AppointmentTestData.dummyAppointment(dummyCleaningService, employee, new TimeSlot(9, 11), LocalDate.of(2023, 2, 19));
+        Appointment dummyAppointment = AppointmentTestData.dummyAppointment(dummyCleaningService, employee, new TimeSlot(9, 11), LocalDate.of(2023, 2, 19), AppointmentStatus.ACTIVE);
 
         CleaningService cleaningService = cleaningServiceJpaRepository.saveAndFlush(dummyCleaningService);
         Appointment appointment = appointmentJpaRepository.saveAndFlush(dummyAppointment);

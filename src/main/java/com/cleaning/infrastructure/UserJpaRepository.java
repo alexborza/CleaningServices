@@ -40,4 +40,7 @@ public interface UserJpaRepository extends JpaRepository<User, Long> {
             @Param("phoneNumber") String phoneNumber);
 
     List<User> findAllByRole(Role role);
+
+    @Query("Select u.id From User u where u.role = 'EMPLOYEE'")
+    List<Long> findAllEmployeeIds();
 }

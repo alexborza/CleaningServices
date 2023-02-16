@@ -9,7 +9,7 @@ import java.util.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class TimeSlot {
+public class TimeSlot implements Comparable<TimeSlot> {
     private Integer startingHour;
     private Integer endingHour;
 
@@ -24,5 +24,10 @@ public class TimeSlot {
     @Override
     public int hashCode() {
         return Objects.hash(startingHour, endingHour);
+    }
+
+    @Override
+    public int compareTo(TimeSlot o) {
+        return this.getStartingHour().compareTo(o.getStartingHour());
     }
 }

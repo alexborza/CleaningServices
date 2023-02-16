@@ -2,7 +2,7 @@ package com.cleaning.exposition;
 
 import com.cleaning.application.*;
 import com.cleaning.exposition.representation.response.appointment.*;
-import com.cleaning.exposition.representation.response.cleaning_service.*;
+import com.cleaning.exposition.representation.response.shared.*;
 import com.cleaning.exposition.representation.response.users.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
@@ -19,16 +19,17 @@ public class EmployeeController {
     private EmployeeService employeeService;
 
     @PostMapping("job-information/{userId}")
-    public void updateJobInformation(@PathVariable Long jobInformationId, @RequestBody JobInformationRepresentation representation){
+    public ResponseEntity<Void> updateJobInformation(@PathVariable Long jobInformationId, @RequestBody JobInformationRepresentation representation){
         employeeService.updateJobInformation(jobInformationId, representation);
+        return ResponseEntity.ok().build();
     }
 
-//
-//    @GetMapping("/employees-day-agenda")
-//    public List<EmployeesDayAgenda> getEmployeesAgendaForDate(@RequestParam String date, @RequestParam String frequency){
-//        return employeeService.getEmployeesAgendaForDate(date, frequency);
-//    }
-//
+
+    @GetMapping("/available-intervals")
+    public Set<EmployeeAvailableIntervals> getEmployeesAvailableIntervalsForDate(@RequestParam String date, @RequestParam Integer timeEstimation){
+        return employeeService.getEmployeesAvailableIntervalsForDate(date, timeEstimation);
+    }
+
     @GetMapping("/{id}/appointments")
     public ResponseEntity<List<AppointmentRepresentation>> getEmployeesAppointmentsForDate(
             @PathVariable Long id,

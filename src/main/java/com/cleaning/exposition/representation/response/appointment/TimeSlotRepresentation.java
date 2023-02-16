@@ -5,7 +5,7 @@ import lombok.*;
 
 @Getter
 @AllArgsConstructor
-public class TimeSlotRepresentation {
+public class TimeSlotRepresentation implements Comparable<TimeSlotRepresentation> {
     private final int startingHour;
     private final int finishingHour;
 
@@ -14,5 +14,10 @@ public class TimeSlotRepresentation {
                 timeSlot.getStartingHour(),
                 timeSlot.getEndingHour()
         );
+    }
+
+    @Override
+    public int compareTo(TimeSlotRepresentation o) {
+        return Integer.compare(startingHour, o.startingHour);
     }
 }

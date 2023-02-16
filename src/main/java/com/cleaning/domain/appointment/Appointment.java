@@ -3,8 +3,11 @@ package com.cleaning.domain.appointment;
 import com.cleaning.domain.cleaning_service.*;
 import com.cleaning.domain.users.*;
 import lombok.*;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.time.*;
 import java.util.*;
 
@@ -12,6 +15,7 @@ import java.util.*;
 @Table(name = "appointment")
 @NoArgsConstructor
 @Getter
+@Where(clause = "status != 'DELETED'")
 public class Appointment {
 
     @Id

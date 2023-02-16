@@ -12,6 +12,8 @@ public interface UserRepository {
 
     List<User> findAllByRole(Role role);
 
+    List<Long> findAllEmployeeIds();
+
     boolean existsById(Long id);
 
     boolean existsByUsername(String username);

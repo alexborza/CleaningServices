@@ -9,7 +9,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Employee extends User {
 
-    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH}, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "job_information_id")
     private JobInformation jobInformation;
 

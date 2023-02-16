@@ -38,9 +38,9 @@ public class AppointmentRepositoryTest {
         LocalDate cleaningDate = LocalDate.of(2023, 2, 8);
         List<Appointment> appointments = appointmentRepositoryImplementation.findAllByCleaningDate(cleaningDate.toString());
 
-        assertThat(appointments.size()).isEqualTo(3);
+        assertThat(appointments.size()).isEqualTo(2);
         assertThat(appointments.stream().map(Appointment::getTimeSlot).collect(Collectors.toList()))
-                .containsExactlyInAnyOrder(new TimeSlot(9, 11), new TimeSlot(11, 13), new TimeSlot(13, 15));
+                .containsExactlyInAnyOrder(new TimeSlot(9, 11), new TimeSlot(11, 13));
     }
 
     @Test
@@ -50,9 +50,9 @@ public class AppointmentRepositoryTest {
         LocalDate cleaningDate = LocalDate.of(2023, 2, 8);
         List<Appointment> appointments = appointmentRepositoryImplementation.findAllByEmployeeAndCleaningDate(10002L, cleaningDate.toString());
 
-        assertThat(appointments.size()).isEqualTo(3);
+        assertThat(appointments.size()).isEqualTo(2);
         assertThat(appointments.stream().map(Appointment::getTimeSlot).collect(Collectors.toList()))
-                .containsExactlyInAnyOrder(new TimeSlot(9, 11), new TimeSlot(11, 13), new TimeSlot(13, 15));
+                .containsExactlyInAnyOrder(new TimeSlot(9, 11), new TimeSlot(11, 13));
     }
 
     private void addAppointments() {
@@ -72,19 +72,19 @@ public class AppointmentRepositoryTest {
         }
 
         Appointment ap1 = AppointmentTestData.dummyAppointment(
-                cleaningService, employee, new TimeSlot(9,11), LocalDate.of(2023, 2, 8)
+                cleaningService, employee, new TimeSlot(9,11), LocalDate.of(2023, 2, 8), AppointmentStatus.COMPLETED
         );
 
         Appointment ap2 = AppointmentTestData.dummyAppointment(
-                cleaningService, employee, new TimeSlot(11,13), LocalDate.of(2023, 2, 8)
+                cleaningService, employee, new TimeSlot(11,13), LocalDate.of(2023, 2, 8), AppointmentStatus.ACTIVE
         );
 
         Appointment ap3 = AppointmentTestData.dummyAppointment(
-                cleaningService, employee, new TimeSlot(13,15), LocalDate.of(2023, 2, 8)
+                cleaningService, employee, new TimeSlot(13,15), LocalDate.of(2023, 2, 8), AppointmentStatus.DELETED
         );
 
         Appointment ap4 = AppointmentTestData.dummyAppointment(
-                cleaningService, employee, new TimeSlot(9,11), LocalDate.of(2023, 2, 9)
+                cleaningService, employee, new TimeSlot(9,11), LocalDate.of(2023, 2, 9), AppointmentStatus.ACTIVE
         );
 
         List<Appointment> appointments = List.of(ap1, ap2, ap3, ap4);
