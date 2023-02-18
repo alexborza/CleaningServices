@@ -2,9 +2,6 @@ package com.cleaning.application;
 
 import com.cleaning.domain.appointment.*;
 import com.cleaning.domain.users.*;
-import com.cleaning.exposition.representation.response.appointment.*;
-import com.cleaning.exposition.representation.response.shared.*;
-import com.cleaning.exposition.representation.response.users.*;
 import com.cleaning.utility.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
@@ -12,7 +9,6 @@ import org.springframework.transaction.annotation.*;
 
 import javax.persistence.*;
 import java.util.*;
-import java.util.stream.*;
 
 @Transactional
 @Service
@@ -27,42 +23,23 @@ public class EmployeeService {
     @Autowired
     private UserRepository userRepository;
 
-    public void updateJobInformation(Long jobInformationId, JobInformationRepresentation representation){
+    public void updateJobInformation(Long jobInformationId, JobInformation jobInformation){
         if(!jobInformationRepository.existsById(jobInformationId)) {
             throw new EntityNotFoundException("JobInformation not found for id: " + jobInformationId.toString());
         }
 
-        jobInformationRepository.updateJobInformation(jobInformationId, representation.toDomain());
+        jobInformationRepository.updateJobInformation(jobInformationId, jobInformation);
     }
 
-    public Set<EmployeeAvailableIntervals> getEmployeesAvailableIntervalsForDate(String date, Integer timeEstimation){
+    public Map<Long, Set<TimeSlot>> getEmployeesAvailableIntervalsForDate(String date, Integer timeEstimation){
         List<Appointment> appointments = appointmentRepository.findAllByCleaningDate(date);
         List<Long> employeeIds = userRepository.findAllEmployeeIds();
 
-        Map<Long, Set<TimeSlot>> employeesAvailableIntervals =
-                EmployeeUtils.calculateEmployeesAvailableIntervals(employeeIds, appointments, timeEstimation);
-
-        Set<EmployeeAvailableIntervals> availableIntervals = new TreeSet<>();
-
-        for(Map.Entry<Long, Set<TimeSlot>> entry: employeesAvailableIntervals.entrySet()){
-            Long employeeId = entry.getKey();
-            Set<TimeSlot> timeSlots = entry.getValue();
-
-            List<EmployeeAvailableIntervals> employeeAvailableIntervals = timeSlots.stream()
-                    .map(timeSlot -> new EmployeeAvailableIntervals(employeeId, TimeSlotRepresentation.fromDomain(timeSlot)))
-                    .collect(Collectors.toList());
-            availableIntervals.addAll(employeeAvailableIntervals);
-        }
-
-        return availableIntervals;
+        return EmployeeUtils.calculateEmployeesAvailableIntervals(employeeIds, appointments, timeEstimation);
     }
 
-    public List<AppointmentRepresentation> getEmployeesAppointmentsForDate(Long id, String date) {
+    public List<Appointment> getEmployeesAppointmentsForDate(Long id, String date) {
 
-        List<Appointment> appointments = appointmentRepository.findAllByEmployeeAndCleaningDate(id, date);
-
-        return appointments.stream()
-                .map(AppointmentRepresentation::fromDomain)
-                .collect(Collectors.toList());
+        return appointmentRepository.findAllByEmployeeAndCleaningDate(id, date);
     }
 }

@@ -4,16 +4,10 @@ import com.cleaning.domain.appointment.*;
 import com.cleaning.domain.cleaning_service.description.*;
 import com.cleaning.domain.cleaning_service.prices.*;
 import com.cleaning.domain.users.*;
-import com.cleaning.exposition.representation.response.appointment.*;
-import com.cleaning.exposition.representation.response.cleaning_service.description.*;
-import com.cleaning.exposition.representation.response.cleaning_service.prices.*;
-import com.cleaning.exposition.representation.response.users.*;
 import org.springframework.beans.factory.annotation.*;
-import org.springframework.security.crypto.password.*;
 import org.springframework.stereotype.*;
 
 import java.util.*;
-import java.util.stream.*;
 
 @Service
 public class AdministratorService {
@@ -30,44 +24,28 @@ public class AdministratorService {
     @Autowired
     private CleaningPriceRepository cleaningPriceRepository;
 
-    @Autowired
-    private PasswordEncoder encoder;
+    public void createEmployeeContract(User user){
 
-    public void createEmployeeContract(UserRepresentation representation){
-        String encodedPassword = encoder.encode(representation.getPassword());
-        representation.setPassword(encodedPassword);
-
-        User user = representation.toDomain();
         userRepository.save(user);
     }
 
-    public List<UserRepresentation> getAllEmployees(){
-        List<User> employees = userRepository.findAllByRole(Role.EMPLOYEE);
+    public List<User> getAllEmployees(){
 
-        return employees.stream()
-                .map(UserRepresentation::fromDomain)
-                .collect(Collectors.toList());
+        return userRepository.findAllByRole(Role.EMPLOYEE);
     }
 
-    public List<AppointmentRepresentation> getAppointmentsByDate(String date){
+    public List<Appointment> getAppointmentsByDate(String date){
 
-        List<Appointment> appointmentList = appointmentRepository.findAllByCleaningDate(date);
-
-        return appointmentList.stream()
-                .map(AppointmentRepresentation::fromDomain)
-                .collect(Collectors.toList());
-
+        return appointmentRepository.findAllByCleaningDate(date);
     }
 
-    public void createDescriptions(CleaningDescriptionRepresentation representation){
+    public void createDescriptions(CleaningDescription cleaningDescription){
 
-        CleaningDescription cleaningDescription = representation.toDomain();
         cleaningDescriptionRepository.save(cleaningDescription);
     }
 
-    public void createCleaningPrices(CleaningPricesRepresentation representation){
+    public void createCleaningPrices(CleaningPrice cleaningPrice){
 
-        CleaningPrice cleaningPrice = representation.toDomain();
         cleaningPriceRepository.save(cleaningPrice);
     }
 }

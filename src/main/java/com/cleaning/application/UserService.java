@@ -1,8 +1,6 @@
 package com.cleaning.application;
 
 import com.cleaning.domain.users.*;
-import com.cleaning.exposition.representation.request.*;
-import com.cleaning.exposition.representation.response.users.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.security.crypto.password.*;
 import org.springframework.stereotype.*;
@@ -19,29 +17,29 @@ public class UserService {
     @Autowired
     private PasswordEncoder encoder;
 
-    public void registerUser(SignupRequest signUpRequest){
-        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+    public void registerUser(String username, String email, String password){
+        if (userRepository.existsByUsername(username)) {
             throw new UserAlreadyExistsException("Username is already taken!");
         }
-        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+        if (userRepository.existsByEmail(email)) {
             throw new UserAlreadyExistsException("Email is already in use!");
         }
 
+        String encodedPassword = encoder.encode(password);
+
         User user = new Client.Builder()
-                .withUsername(signUpRequest.getUsername())
-                .withEmail(signUpRequest.getEmail())
-                .withPassword(encoder.encode(signUpRequest.getPassword()))
+                .withUsername(username)
+                .withEmail(email)
+                .withPassword(encoder.encode(encodedPassword))
                 .build();
 
         userRepository.save(user);
     }
 
-    public UserRepresentation getUser(Long userId){
+    public User getUser(Long userId){
         //probably and where role <> 'ADMIN'
-        User user = userRepository.findById(userId)
+        return userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("User not found for id: " + userId.toString()));
-
-        return UserRepresentation.fromDomain(user);
     }
 
     public void updateEmail(Long userId, String email) {
@@ -52,23 +50,23 @@ public class UserService {
         userRepository.updateEmail(userId, email);
     }
 
-    public void updatePassword(Long userId, ModifyPassword representation) {
+    public void updatePassword(Long userId, String oldPassword, String newPassword) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("User not found for id: " + userId.toString()));
 
-        if(!encoder.matches(representation.getPassword(), user.getPassword())){
+        if(!encoder.matches(oldPassword, user.getPassword())){
             throw new PasswordNotMatchingException("Introduced password is not matching the existing password");
         }
 
-        String encodedPassword = encoder.encode(representation.getNewPassword());
+        String encodedPassword = encoder.encode(newPassword);
         userRepository.updatePassword(userId, encodedPassword);
     }
 
-    public void updateUserInformation(Long id, UserInformationRepresentation representation){
+    public void updateUserInformation(Long id, UserInformation userInformation){
         if(!userRepository.existsById(id)) {
             throw new EntityNotFoundException("User not found for id: " + id.toString());
         }
 
-        userRepository.updateUserInformation(id, representation.toDomain());
+        userRepository.updateUserInformation(id, userInformation);
     }
 }

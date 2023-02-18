@@ -66,6 +66,7 @@ public abstract class User {
         }
 
         protected User(Builder<?> builder, Role role) {
+                this.id = builder.getId();
                 this.username = builder.getUsername();
                 this.email = builder.getEmail();
                 this.password = builder.getPassword();

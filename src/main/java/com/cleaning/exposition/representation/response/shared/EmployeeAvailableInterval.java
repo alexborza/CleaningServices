@@ -5,12 +5,12 @@ import lombok.*;
 
 @AllArgsConstructor
 @Getter
-public class EmployeeAvailableIntervals implements Comparable<EmployeeAvailableIntervals> {
+public class EmployeeAvailableInterval implements Comparable<EmployeeAvailableInterval> {
     private final Long employeeId;
     private final TimeSlotRepresentation availableInterval;
 
     @Override
-    public int compareTo(EmployeeAvailableIntervals o) {
+    public int compareTo(EmployeeAvailableInterval o) {
         return this.availableInterval.compareTo(o.getAvailableInterval());
     }
 }

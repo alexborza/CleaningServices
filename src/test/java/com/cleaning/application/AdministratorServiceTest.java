@@ -4,15 +4,13 @@ import com.cleaning.domain.appointment.*;
 import com.cleaning.domain.cleaning_service.description.*;
 import com.cleaning.domain.cleaning_service.prices.*;
 import com.cleaning.domain.users.*;
-import com.cleaning.exposition.representation.data.*;
-import com.cleaning.exposition.representation.response.cleaning_service.description.*;
-import com.cleaning.exposition.representation.response.cleaning_service.prices.*;
-import com.cleaning.exposition.representation.response.users.*;
+import com.cleaning.infrastructure.cleaning_service.cleaning_description.*;
+import com.cleaning.infrastructure.cleaning_service.cleaning_price.*;
+import com.cleaning.infrastructure.users.data.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.*;
 import org.mockito.*;
 import org.mockito.junit.jupiter.*;
-import org.springframework.security.crypto.password.*;
 
 import java.time.*;
 
@@ -37,19 +35,12 @@ public class AdministratorServiceTest {
     @Mock
     private CleaningPriceRepository cleaningPriceRepository;
 
-    @Mock
-    private PasswordEncoder encoder;
-
     @Test
     public void testCreateEmployeeContract() {
-        UserRepresentation employee = UserRepresentationTestData.dummyEmployeeRepresentation(
-                1L,
-                UserRepresentationTestData.dummyJobInformationRepresentation()
-        );
+        Employee employee = UserTestData.dummyEmployee("dummyEmployeeUsername", "dummyEmployeeEmail");
 
         administratorService.createEmployeeContract(employee);
 
-        verify(encoder).encode(any());
         verify(userRepository).save(any());
     }
 
@@ -70,16 +61,16 @@ public class AdministratorServiceTest {
 
     @Test
     public void testCreateCleaningServiceDescriptions() {
-        CleaningDescriptionRepresentation representation = CleaningDescriptionRepresentationTestData.dummyCleaningDescriptionRepresentation();
-        administratorService.createDescriptions(representation);
+        CleaningDescription cleaningDescription = CleaningDescriptionTestData.dummyCleaningDescription();
+        administratorService.createDescriptions(cleaningDescription);
 
         verify(cleaningDescriptionRepository).save(any());
     }
 
     @Test
     public void testCreateCleaningServicePrices() {
-        CleaningPricesRepresentation representation = CleaningPricesRepresentationTestData.dummyCleaningPricesRepresentation();
-        administratorService.createCleaningPrices(representation);
+        CleaningPrice cleaningPrice = CleaningPriceTestData.dummyCleaningPrice();
+        administratorService.createCleaningPrices(cleaningPrice);
 
         verify(cleaningPriceRepository).save(any());
     }

@@ -25,8 +25,23 @@ public class UserTestData {
                 .build();
     }
 
+    public static Employee dummyEmployeeWithId(Long id, String username, String email) {
+        return new Employee.Builder()
+                .withId(id)
+                .withUsername(username)
+                .withEmail(email)
+                .withPassword("password")
+                .withUserInformation(dummyUserInformation("fullName", "address", "phoneNumber", "birthDate"))
+                .withJobInformation(dummyJobInformation("title", "supervisor", "workPhone", LocalDate.of(2023, 2, 1), 2000L, EmploymentStatus.FULL_TIME))
+                .build();
+    }
+
     public static UserInformation dummyUserInformation(String fullName, String address, String phoneNumber, String birthDate) {
         return new UserInformation(fullName, address, phoneNumber, birthDate);
+    }
+
+    public static UserInformation dummyUserInformation() {
+        return new UserInformation("fullName", "address", "phoneNumber", "birthDate");
     }
 
     public static JobInformation dummyJobInformation(String title, String supervisor, String workphone, LocalDate hiringDate, Long salary, EmploymentStatus employmentStatus) {

@@ -1,9 +1,6 @@
 package com.cleaning.application;
 
 import com.cleaning.domain.users.*;
-import com.cleaning.exposition.representation.data.*;
-import com.cleaning.exposition.representation.request.*;
-import com.cleaning.exposition.representation.response.users.*;
 import com.cleaning.infrastructure.users.data.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.*;
@@ -31,39 +28,42 @@ public class UserServiceTest {
     @Mock
     private PasswordEncoder encoder;
 
+    private static final String USERNAME = "username";
+    private static final String EMAIL = "email";
+    private static final String PASSWORD = "password";
+    private static final String NEW_PASSWORD = "newPassword";
+
     @Test
     public void testShouldRegisterUser() {
-        SignupRequest signupRequest = SignupRequestTestData.dummySignupRequest();
 
-        when(userRepository.existsByUsername(signupRequest.getUsername())).thenReturn(false);
-        when(userRepository.existsByEmail(signupRequest.getEmail())).thenReturn(false);
+        when(userRepository.existsByUsername(USERNAME)).thenReturn(false);
+        when(userRepository.existsByEmail(EMAIL)).thenReturn(false);
+        when(encoder.encode(PASSWORD)).thenReturn("encodedPass");
 
-        userService.registerUser(signupRequest);
+        userService.registerUser(USERNAME, EMAIL, PASSWORD);
 
         verify(userRepository).save(any());
     }
 
     @Test
     public void testShouldNotRegisterUserExistingUsername() {
-        SignupRequest signupRequest = SignupRequestTestData.dummySignupRequest();
 
-        when(userRepository.existsByUsername(signupRequest.getUsername())).thenReturn(true);
+        when(userRepository.existsByUsername(USERNAME)).thenReturn(true);
 
         UserAlreadyExistsException exception = assertThrows(UserAlreadyExistsException.class,
-                () -> userService.registerUser(signupRequest));
+                () -> userService.registerUser(USERNAME, EMAIL, PASSWORD));
 
         assertEquals(exception.getMessage(), "Username is already taken!");
     }
 
     @Test
     public void testShouldNotRegisterUserExistingEmail() {
-        SignupRequest signupRequest = SignupRequestTestData.dummySignupRequest();
 
-        when(userRepository.existsByUsername(signupRequest.getUsername())).thenReturn(false);
-        when(userRepository.existsByEmail(signupRequest.getEmail())).thenReturn(true);
+        when(userRepository.existsByUsername(USERNAME)).thenReturn(false);
+        when(userRepository.existsByEmail(EMAIL)).thenReturn(true);
 
         UserAlreadyExistsException exception = assertThrows(UserAlreadyExistsException.class,
-                () -> userService.registerUser(signupRequest));
+                () -> userService.registerUser(USERNAME, EMAIL, PASSWORD));
 
         assertEquals(exception.getMessage(), "Email is already in use!");
     }
@@ -74,13 +74,13 @@ public class UserServiceTest {
 
         when(userRepository.findById(1L)).thenReturn(Optional.ofNullable(user));
 
-        UserRepresentation representation = userService.getUser(1L);
+        User user1 = userService.getUser(1L);
 
         assert user != null;
-        assertEquals(representation.getUsername(), user.getUsername());
-        assertEquals(representation.getPassword(), user.getPassword());
-        assertEquals(representation.getEmail(), user.getEmail());
-        assertThat(representation).isInstanceOf(ClientRepresentation.class);
+        assertEquals(user1.getUsername(), user.getUsername());
+        assertEquals(user1.getPassword(), user.getPassword());
+        assertEquals(user1.getEmail(), user.getEmail());
+        assertThat(user1).isInstanceOf(Client.class);
     }
 
     @Test
@@ -124,15 +124,14 @@ public class UserServiceTest {
     public void shouldUpdatePassword() {
         Long id = 1L;
         User user = UserTestData.dummyClient("username", "email");
-        ModifyPassword modifyPassword = ModifyPasswordTestData.dummyModifyPassword();
         String encodedPassword = "encodedPassword";
 
         when(userRepository.findById(1L)).thenReturn(Optional.ofNullable(user));
         assert user != null;
-        when(encoder.matches(modifyPassword.getPassword(), user.getPassword())).thenReturn(true);
-        when(encoder.encode(modifyPassword.getNewPassword())).thenReturn(encodedPassword);
+        when(encoder.matches(PASSWORD, user.getPassword())).thenReturn(true);
+        when(encoder.encode(NEW_PASSWORD)).thenReturn(encodedPassword);
 
-        userService.updatePassword(id, modifyPassword);
+        userService.updatePassword(id, PASSWORD, NEW_PASSWORD);
 
         verify(userRepository).updatePassword(id, encodedPassword);
     }
@@ -140,12 +139,11 @@ public class UserServiceTest {
     @Test
     public void shouldThrowEntityNotFoundExceptionWhenUpdatePassword() {
         Long id = 1L;
-        ModifyPassword modifyPassword = ModifyPasswordTestData.dummyModifyPassword();
 
         when(userRepository.findById(id)).thenReturn(Optional.empty());
 
         EntityNotFoundException exception = assertThrows(EntityNotFoundException.class,
-                () -> userService.updatePassword(id, modifyPassword));
+                () -> userService.updatePassword(id, PASSWORD, NEW_PASSWORD));
 
         assertEquals(exception.getMessage(), "User not found for id: " + id);
 
@@ -157,14 +155,13 @@ public class UserServiceTest {
     public void shouldThrowPasswordNotMatchingExceptionWhenUpdatePassword() {
         Long id = 1L;
         User user = UserTestData.dummyClient("username", "email");
-        ModifyPassword modifyPassword = ModifyPasswordTestData.dummyModifyPassword();
 
         when(userRepository.findById(1L)).thenReturn(Optional.ofNullable(user));
         assert user != null;
-        when(encoder.matches(modifyPassword.getPassword(), user.getPassword())).thenReturn(false);
+        when(encoder.matches(PASSWORD, user.getPassword())).thenReturn(false);
 
         PasswordNotMatchingException exception = assertThrows(PasswordNotMatchingException.class,
-                () -> userService.updatePassword(id, modifyPassword));
+                () -> userService.updatePassword(id, PASSWORD, NEW_PASSWORD));
 
         assertEquals(exception.getMessage(), "Introduced password is not matching the existing password");
 
@@ -175,11 +172,11 @@ public class UserServiceTest {
     @Test
     public void shouldUpdateUserInformation() {
         Long id = 1L;
-        UserInformationRepresentation representation = UserInformationRepresentationTestData.dummyUserInformationRepresentation();
+        UserInformation userInformation = UserTestData.dummyUserInformation();
 
         when(userRepository.existsById(id)).thenReturn(true);
 
-        userService.updateUserInformation(id, representation);
+        userService.updateUserInformation(id, userInformation);
 
         verify(userRepository).updateUserInformation(any(), any());
     }
@@ -187,12 +184,12 @@ public class UserServiceTest {
     @Test
     public void shouldThrowEntityNotFoundExceptionWhenUpdateUserInformation() {
         Long id = 1L;
-        UserInformationRepresentation representation = UserInformationRepresentationTestData.dummyUserInformationRepresentation();
+        UserInformation userInformation = UserTestData.dummyUserInformation();
 
         when(userRepository.existsById(id)).thenReturn(false);
 
         EntityNotFoundException exception = assertThrows(EntityNotFoundException.class,
-                () -> userService.updateUserInformation(id, representation));
+                () -> userService.updateUserInformation(id, userInformation));
 
         assertEquals(exception.getMessage(), "User not found for id: " + id);
 

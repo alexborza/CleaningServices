@@ -10,7 +10,9 @@ import static java.util.stream.Collectors.*;
 public final class EmployeeUtils {
 
     private static final Integer LUNCH_BREAK_STARTING_HOUR = 12;
+    private static final Integer LUNCH_BREAK_ENDING_HOUR = 12;
     private static final Integer MINIMUM_TIME_ESTIMATION = 2;
+    private static final List<Integer> lunchBreakHours = List.of(12, 13);
 
     private EmployeeUtils(){}
 
@@ -26,7 +28,7 @@ public final class EmployeeUtils {
                     .collect(Collectors.toList());
 
             if(timeSlots.isEmpty()) {
-                List<Integer> availableHours = Arrays.asList(8, 9, 10, 11, 13, 14, 15, 16, 17);
+                List<Integer> availableHours = new ArrayList<>(Arrays.asList(8, 9, 10, 11, 12, 13, 14, 15, 16, 17));
                 Set<TimeSlot> availableIntervals = calculateAvailableIntervals(availableHours, timeEstimation);
                 employeesAvailableIntervals.put(employeeId, availableIntervals);
                 continue;
@@ -41,7 +43,7 @@ public final class EmployeeUtils {
     }
 
     private static List<Integer> calculateAvailableHours(List<TimeSlot> timeSlots) {
-        List<Integer> hours = Arrays.asList(8, 9, 10, 11, 13, 14, 15, 16, 17);
+        List<Integer> hours = new ArrayList<>(Arrays.asList(8, 9, 10, 11, 12, 13, 14, 15, 16, 17));
         Integer firstHourOfWorkingHours = hours.get(0);
         Integer lastHourOfWorkingHours = hours.get(hours.size() - 1);
 
@@ -83,19 +85,24 @@ public final class EmployeeUtils {
         Integer lastHourOfInterval = availableHours.get(availableHours.size() - 1);
 
         for(int firstHour = firstHourOfInterval; firstHour < lastHourOfInterval - timeEstimation; firstHour++){
-
-            if(firstHour == LUNCH_BREAK_STARTING_HOUR){
-                continue;
-            }
+            //asa avem fara pauza de masa
+//            if(firstHour == LUNCH_BREAK_STARTING_HOUR){
+//                continue;
+//            }
 
             List<Integer> availableHoursRange = IntStream.range(firstHour, firstHour + timeEstimation + 1)
                     .boxed()
                     .collect(Collectors.toList());
 
             if(availableHours.containsAll(availableHoursRange)) {
-                TimeSlot timeSlot = new TimeSlot(firstHour, firstHour + timeEstimation);
-                availableIntervals.add(timeSlot);
-                break;
+                //asa avem fara pauza de masa
+//                if(availableHoursRange.containsAll(lunchBreakHours)){
+//                    firstHour = LUNCH_BREAK_STARTING_HOUR;
+//                } else {
+                    TimeSlot timeSlot = new TimeSlot(firstHour, firstHour + timeEstimation);
+                    availableIntervals.add(timeSlot);
+                    break;
+//                }
             }
         }
     }
@@ -109,9 +116,13 @@ public final class EmployeeUtils {
                     .collect(Collectors.toList());
 
             if(availableHours.containsAll(availableHoursRange)) {
-                TimeSlot timeSlot = new TimeSlot(lastHour - timeEstimation, lastHour);
-                availableIntervals.add(timeSlot);
-                break;
+//                if(availableHoursRange.containsAll(lunchBreakHours)) {
+//                    lastHour = LUNCH_BREAK_ENDING_HOUR;
+//                } else {
+                    TimeSlot timeSlot = new TimeSlot(lastHour - timeEstimation, lastHour);
+                    availableIntervals.add(timeSlot);
+                    break;
+//                }
             }
         }
     }

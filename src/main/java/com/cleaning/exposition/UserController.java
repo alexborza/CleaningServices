@@ -1,6 +1,7 @@
 package com.cleaning.exposition;
 
 import com.cleaning.application.*;
+import com.cleaning.domain.users.*;
 import com.cleaning.exposition.representation.request.*;
 import com.cleaning.exposition.representation.response.users.*;
 import org.springframework.beans.factory.annotation.*;
@@ -17,14 +18,14 @@ public class UserController {
 
     @PostMapping("/signup")
     public ResponseEntity<Void> registerUser(@RequestBody SignupRequest signUpRequest) {
-        userService.registerUser(signUpRequest);
+        userService.registerUser(signUpRequest.getUsername(), signUpRequest.getEmail(), signUpRequest.getPassword());
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("{userId}")
     public ResponseEntity<UserRepresentation> getUser(@PathVariable Long userId){
-        UserRepresentation user = userService.getUser(userId);
-        return ResponseEntity.ok(user);
+        User user = userService.getUser(userId);
+        return ResponseEntity.ok(UserRepresentation.fromDomain(user));
     }
 
     @PostMapping("/email/{userId}")
@@ -35,13 +36,14 @@ public class UserController {
 
     @PostMapping("/password/{userId}")
     public ResponseEntity<Void> updatePassword(@PathVariable Long userId, @RequestBody ModifyPassword representation) {
-        userService.updatePassword(userId, representation);
+        userService.updatePassword(userId, representation.getPassword(), representation.getNewPassword());
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/user-info/{userId}")
     public ResponseEntity<Void> updateUserInformation(@PathVariable Long userId, @RequestBody UserInformationRepresentation representation) {
-        userService.updateUserInformation(userId, representation);
+        UserInformation userInformation = representation.toDomain();
+        userService.updateUserInformation(userId, userInformation);
         return ResponseEntity.ok().build();
     }
 }
