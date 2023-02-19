@@ -9,9 +9,12 @@ import java.util.*;
 
 public interface AppointmentJpaRepository extends JpaRepository<Appointment, Long> {
 
-    List<Appointment> findAllByCleaningDate(LocalDate date);
+    List<Appointment> findAllByCleaningDateOrderByTimeSlotStartingHourAsc(LocalDate date);
 
-    @Query("Select ap from Appointment ap where ap.employee.id = :employeeId and ap.cleaningDate = :date")
+    @Query("Select ap from Appointment ap " +
+            "where ap.employee.id = :employeeId " +
+            "and ap.cleaningDate = :date " +
+            "order by ap.timeSlot.startingHour ASC")
     List<Appointment> findAllByEmployeeAndCleaningDate(@Param("employeeId") Long employeeId, @Param("date") LocalDate date);
 
 }

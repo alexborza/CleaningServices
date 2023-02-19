@@ -40,7 +40,7 @@ public class AppointmentRepositoryTest {
 
         assertThat(appointments.size()).isEqualTo(2);
         assertThat(appointments.stream().map(Appointment::getTimeSlot).collect(Collectors.toList()))
-                .containsExactlyInAnyOrder(new TimeSlot(9, 11), new TimeSlot(11, 13));
+                .containsExactly(new TimeSlot(9, 11), new TimeSlot(11, 13));
     }
 
     @Test
@@ -52,7 +52,7 @@ public class AppointmentRepositoryTest {
 
         assertThat(appointments.size()).isEqualTo(2);
         assertThat(appointments.stream().map(Appointment::getTimeSlot).collect(Collectors.toList()))
-                .containsExactlyInAnyOrder(new TimeSlot(9, 11), new TimeSlot(11, 13));
+                .containsExactly(new TimeSlot(9, 11), new TimeSlot(11, 13));
     }
 
     private void addAppointments() {
@@ -87,7 +87,7 @@ public class AppointmentRepositoryTest {
                 cleaningService, employee, new TimeSlot(9,11), LocalDate.of(2023, 2, 9), AppointmentStatus.ACTIVE
         );
 
-        List<Appointment> appointments = List.of(ap1, ap2, ap3, ap4);
+        List<Appointment> appointments = List.of(ap2, ap1, ap3, ap4);
         appointmentRepositoryImplementation.saveAll(appointments);
     }
 }

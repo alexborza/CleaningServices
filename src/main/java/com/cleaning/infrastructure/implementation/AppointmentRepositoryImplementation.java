@@ -18,7 +18,7 @@ public class AppointmentRepositoryImplementation implements AppointmentRepositor
     @Override
     public List<Appointment> findAllByCleaningDate(String date) {
 
-        return jpaRepository.findAllByCleaningDate(LocalDate.parse(date));
+        return jpaRepository.findAllByCleaningDateOrderByTimeSlotStartingHourAsc(LocalDate.parse(date));
     }
 
     @Override
