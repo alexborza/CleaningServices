@@ -28,34 +28,44 @@ public class EmployeeController {
         return ResponseEntity.ok().build();
     }
 
-
-    @GetMapping("/available-intervals")
-    public Set<EmployeeAvailableInterval> getEmployeesAvailableIntervalsForDate(@RequestParam String date, @RequestParam Integer timeEstimation){
-        Map<Long, Set<TimeSlot>> employeesAvailableIntervals = employeeService.getEmployeesAvailableIntervalsForDate(date, timeEstimation);
-
-        Set<EmployeeAvailableInterval> availableIntervals = new TreeSet<>();
-
-        employeesAvailableIntervals.forEach((employeeId, timeSlots) -> {
-            List<EmployeeAvailableInterval> employeeAvailableIntervals = timeSlots.stream()
-                    .map(timeSlot -> new EmployeeAvailableInterval(employeeId, TimeSlotRepresentation.fromDomain(timeSlot)))
-                    .collect(Collectors.toList());
-            availableIntervals.addAll(employeeAvailableIntervals);
-        });
-
-        return availableIntervals;
-    }
-
     @GetMapping("/{id}/appointments")
     public ResponseEntity<List<AppointmentRepresentation>> getEmployeesAppointmentsForDate(
             @PathVariable Long id,
             @RequestParam String date){
 
-        List<Appointment> appointments = employeeService.getEmployeesAppointmentsForDate(id, date);
+        List<Appointment> appointments = employeeService.getEmployeeAppointmentsForDate(id, date);
 
         return ResponseEntity.ok(
                 appointments.stream()
                         .map(AppointmentRepresentation::fromDomain)
                         .collect(Collectors.toList())
         );
+    }
+
+    @GetMapping("/available-intervals")
+    public ResponseEntity<Set<EmployeeAvailableInterval>> getEmployeesAvailableIntervalsForDate(@RequestParam String date, @RequestParam Integer timeEstimation){
+        Map<Long, Set<TimeSlot>> employeesAvailableIntervals = employeeService.getEmployeesAvailableIntervalsForDate(date, timeEstimation);
+
+        Set<EmployeeAvailableInterval> availableIntervals = new TreeSet<>();
+
+        employeesAvailableIntervals.forEach((employeeId, timeSlots) ->
+            timeSlots.stream()
+                    .map(timeSlot -> createEmployeeAvailableInterval(employeeId, timeSlot))
+                    .forEach(availableIntervals::add)
+        );
+
+        return ResponseEntity.ok(availableIntervals);
+    }
+
+    private EmployeeAvailableInterval createEmployeeAvailableInterval(Long employeeId, TimeSlot timeSlot) {
+        List<Integer> rangeInterval = IntStream.range(timeSlot.getStartingHour(), timeSlot.getEndingHour() + 1)
+                .boxed()
+                .collect(Collectors.toList());
+        boolean includedLunchBreak = rangeInterval.containsAll(List.of(12, 13));
+
+        return new EmployeeAvailableInterval(
+                employeeId,
+                TimeSlotRepresentation.fromDomain(timeSlot),
+                includedLunchBreak);
     }
 }

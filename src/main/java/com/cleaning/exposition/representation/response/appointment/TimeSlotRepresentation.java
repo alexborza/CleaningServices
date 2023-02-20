@@ -3,6 +3,8 @@ package com.cleaning.exposition.representation.response.appointment;
 import com.cleaning.domain.appointment.*;
 import lombok.*;
 
+import java.util.*;
+
 @Getter
 @AllArgsConstructor
 public class TimeSlotRepresentation implements Comparable<TimeSlotRepresentation> {
@@ -19,5 +21,18 @@ public class TimeSlotRepresentation implements Comparable<TimeSlotRepresentation
     @Override
     public int compareTo(TimeSlotRepresentation o) {
         return Integer.compare(startingHour, o.startingHour);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TimeSlotRepresentation that = (TimeSlotRepresentation) o;
+        return startingHour == that.startingHour && finishingHour == that.finishingHour;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(startingHour, finishingHour);
     }
 }

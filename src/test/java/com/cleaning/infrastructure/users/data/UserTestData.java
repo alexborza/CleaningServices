@@ -44,6 +44,17 @@ public class UserTestData {
         return new UserInformation("fullName", "address", "phoneNumber", "birthDate");
     }
 
+    public static JobInformation dummyJobInformation() {
+        return new JobInformation.JobInformationBuilder()
+                .withTitle("title")
+                .withSupervisor("supervisor")
+                .withWorkPhone("workphone")
+                .withHiringDate(LocalDate.now())
+                .withSalary(2000L)
+                .withEmploymentStatus(EmploymentStatus.FULL_TIME)
+                .build();
+    }
+
     public static JobInformation dummyJobInformation(String title, String supervisor, String workphone, LocalDate hiringDate, Long salary, EmploymentStatus employmentStatus) {
         return new JobInformation.JobInformationBuilder()
                 .withTitle(title)
