@@ -24,4 +24,17 @@ public class StandardCleaningDetailsRepresentation extends CleaningDetailsRepres
         this.bathrooms = bathrooms;
         this.kitchens = kitchens;
     }
+
+    public static StandardCleaningDetailsRepresentation fromDomain(StandardCleaningDetails cleaningDetails) {
+
+        return new StandardCleaningDetailsRepresentation(
+                cleaningDetails.getId(),
+                cleaningDetails.getSquareMeters(),
+                cleaningDetails.getParking(),
+                cleaningDetails.getHomeAccess(),
+                cleaningDetails.getBedrooms(),
+                cleaningDetails.getBathrooms(),
+                cleaningDetails.getKitchens()
+        );
+    }
 }

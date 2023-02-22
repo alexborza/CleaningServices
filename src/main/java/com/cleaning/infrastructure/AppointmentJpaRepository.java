@@ -17,4 +17,9 @@ public interface AppointmentJpaRepository extends JpaRepository<Appointment, Lon
             "order by ap.timeSlot.startingHour ASC")
     List<Appointment> findAllByEmployeeAndCleaningDate(@Param("employeeId") Long employeeId, @Param("date") LocalDate date);
 
+    @Query("Select ap  from Appointment ap " +
+            "where ap.cleaningService.id = :cleaningServiceId " +
+            "order by ap.cleaningDate, ap.timeSlot.startingHour")
+    List<Appointment> findAllByCleaningService(@Param("cleaningServiceId") Long cleaningServiceId);
+
 }

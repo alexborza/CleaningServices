@@ -55,6 +55,18 @@ public class AppointmentRepositoryTest {
                 .containsExactly(new TimeSlot(9, 11), new TimeSlot(11, 13));
     }
 
+    @Test
+    @DirtiesContext
+    public void find_all_by_cleaning_service() {
+        addAppointments();
+        List<Appointment> appointments = appointmentRepositoryImplementation.findAllByCleaningService(10001L);
+
+        //+1 from data.sql.
+        assertThat(appointments.size()).isEqualTo(4);
+        assertThat(appointments.stream().map(Appointment::getTimeSlot).collect(Collectors.toList()))
+                .containsExactly(new TimeSlot(9, 11), new TimeSlot(9, 11), new TimeSlot(11, 13), new TimeSlot(9, 11));
+    }
+
     private void addAppointments() {
 
         Optional<User> optionalEmployee = userRepositoryImplementation.findById(10002L);

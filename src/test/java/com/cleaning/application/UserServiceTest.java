@@ -8,7 +8,6 @@ import org.mockito.*;
 import org.mockito.junit.jupiter.*;
 import org.springframework.security.crypto.password.*;
 
-import javax.persistence.*;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.*;
@@ -84,14 +83,14 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testShouldThrowEntityNotFoundWhenGetUser() {
+    public void testShouldThrowUserNotFoundWhenGetUser() {
         Long id = 1L;
         when(userRepository.findById(id)).thenReturn(Optional.empty());
 
-        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class,
+        UserNotFoundException exception = assertThrows(UserNotFoundException.class,
                 () -> userService.getUser(id));
 
-        assertEquals(exception.getMessage(), "User not found for id: " + id);
+        assertEquals(exception.getMessage(), "User not found for id = " + id);
     }
 
     @Test
@@ -107,16 +106,16 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testShouldThrowEntityNotFoundExceptionWhenUpdateEmail() {
+    public void testShouldThrowUserNotFoundExceptionWhenUpdateEmail() {
         Long id = 1L;
         String email = "newEmail";
 
         when(userRepository.existsById(id)).thenReturn(false);
 
-        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class,
+        UserNotFoundException exception = assertThrows(UserNotFoundException.class,
                 () -> userService.updateEmail(id, email));
 
-        assertEquals(exception.getMessage(), "User not found for id: " + id);
+        assertEquals(exception.getMessage(), "User not found for id = " + id);
         verifyNoMoreInteractions(userRepository);
     }
 
@@ -137,15 +136,15 @@ public class UserServiceTest {
     }
 
     @Test
-    public void shouldThrowEntityNotFoundExceptionWhenUpdatePassword() {
+    public void shouldThrowUserNotFoundExceptionWhenUpdatePassword() {
         Long id = 1L;
 
         when(userRepository.findById(id)).thenReturn(Optional.empty());
 
-        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class,
+        UserNotFoundException exception = assertThrows(UserNotFoundException.class,
                 () -> userService.updatePassword(id, PASSWORD, NEW_PASSWORD));
 
-        assertEquals(exception.getMessage(), "User not found for id: " + id);
+        assertEquals(exception.getMessage(), "User not found for id = " + id);
 
         verifyNoMoreInteractions(userRepository);
         verifyNoMoreInteractions(encoder);
@@ -182,16 +181,16 @@ public class UserServiceTest {
     }
 
     @Test
-    public void shouldThrowEntityNotFoundExceptionWhenUpdateUserInformation() {
+    public void shouldThrowUserNotFoundExceptionWhenUpdateUserInformation() {
         Long id = 1L;
         UserInformation userInformation = UserTestData.dummyUserInformation();
 
         when(userRepository.existsById(id)).thenReturn(false);
 
-        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class,
+        UserNotFoundException exception = assertThrows(UserNotFoundException.class,
                 () -> userService.updateUserInformation(id, userInformation));
 
-        assertEquals(exception.getMessage(), "User not found for id: " + id);
+        assertEquals(exception.getMessage(), "User not found for id = " + id);
 
         verifyNoMoreInteractions(userRepository);
     }

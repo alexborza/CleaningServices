@@ -6,11 +6,10 @@ import org.springframework.security.crypto.password.*;
 import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.*;
 
-import javax.persistence.*;
-
 @Transactional
 @Service
 public class UserService {
+
     @Autowired
     private UserRepository userRepository;
 
@@ -39,12 +38,12 @@ public class UserService {
     public User getUser(Long userId){
         //probably and where role <> 'ADMIN'
         return userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("User not found for id: " + userId.toString()));
+                .orElseThrow(() -> new UserNotFoundException(userId));
     }
 
     public void updateEmail(Long userId, String email) {
         if(!userRepository.existsById(userId)) {
-            throw new EntityNotFoundException("User not found for id: " + userId.toString());
+            throw new UserNotFoundException(userId);
         }
 
         userRepository.updateEmail(userId, email);
@@ -52,7 +51,7 @@ public class UserService {
 
     public void updatePassword(Long userId, String oldPassword, String newPassword) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("User not found for id: " + userId.toString()));
+                .orElseThrow(() -> new UserNotFoundException(userId));
 
         if(!encoder.matches(oldPassword, user.getPassword())){
             throw new PasswordNotMatchingException("Introduced password is not matching the existing password");
@@ -64,7 +63,7 @@ public class UserService {
 
     public void updateUserInformation(Long id, UserInformation userInformation){
         if(!userRepository.existsById(id)) {
-            throw new EntityNotFoundException("User not found for id: " + id.toString());
+            throw new UserNotFoundException(id);
         }
 
         userRepository.updateUserInformation(id, userInformation);

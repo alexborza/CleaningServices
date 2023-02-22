@@ -30,4 +30,12 @@ public class TimeSlot implements Comparable<TimeSlot> {
     public int compareTo(TimeSlot o) {
         return this.getStartingHour().compareTo(o.getStartingHour());
     }
+
+    @Override
+    public String toString() {
+        return "TimeSlot{" +
+                "startingHour=" + startingHour +
+                ", endingHour=" + endingHour +
+                '}';
+    }
 }

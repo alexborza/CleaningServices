@@ -1,37 +1,38 @@
 package com.cleaning.application;
 
+import com.cleaning.domain.appointment.*;
 import com.cleaning.domain.cleaning_service.*;
-import com.cleaning.domain.cleaning_service.description.*;
-import com.cleaning.domain.users.*;
-import com.cleaning.infrastructure.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
-import javax.persistence.*;
 import java.util.*;
 import java.util.stream.*;
 
 @Service
 public class CleaningServiceService {
 
-//    @Autowired
-//    private CleaningServiceRepository repo;
-//
-//    @Autowired
-//    private ClientRepository clientRepository;
-//
-//    @Autowired
-//    private EmployeeRepository employeeRepository;
-//
-//    @Autowired
-//    private UserRepository<User> userRepository;
-//
-//    @Autowired
-//    private CleaningServiceDescriptionRepository cleaningServiceDescriptionRepository;
-//
-//    @Autowired
-//    private CleaningServicePricesRepository cleaningServicePricesRepository;
-//
+    @Autowired
+    private CleaningServiceRepository cleaningServiceRepository;
+
+    @Autowired
+    private AppointmentRepository appointmentRepository;
+
+    public List<CleaningServiceMinimalView> findClientsCleaningServices(Long userId){
+
+        return cleaningServiceRepository.findClientsCleaningServices(userId);
+    }
+
+    public CleaningService getCleaningService(Long id){
+
+        return cleaningServiceRepository.findById(id)
+                .orElseThrow(() -> new CleaningServiceNotFoundException(id));
+    }
+
+    public List<Appointment> findCleaningServiceAppointments(Long cleaningServiceId) {
+
+        return appointmentRepository.findAllByCleaningService(cleaningServiceId);
+    }
+
 //    public void createCleaningService(Long employeeId, Long userId, CleaningServiceDto cleaningServiceDto){
 //    }
 //
@@ -39,10 +40,7 @@ public class CleaningServiceService {
 //        return null;
 //    }
 //
-//    public CleaningServiceDto getCleaningService(Long id){
-//        CleaningService cleaningService = repo.findById(id).orElseThrow(EntityNotFoundException::new);
-//        return mapper.toCleaningServiceDto(cleaningService);
-//    }
+
 //
 //    public void endCleaningService(Long id){
 //

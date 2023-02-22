@@ -19,7 +19,24 @@ public class CleaningServiceRepositoryImplementation implements CleaningServiceR
     }
 
     @Override
+    public List<CleaningService> saveAll(Iterable<CleaningService> cleaningServices) {
+
+        return jpaRepository.saveAll(cleaningServices);
+    }
+
+    @Override
     public Optional<CleaningService> findById(Long id) {
         return jpaRepository.findById(id);
+    }
+
+    @Override
+    public List<CleaningServiceMinimalView> findClientsCleaningServices(Long clientId) {
+        return jpaRepository.findClientsCleaningServices(clientId);
+    }
+
+    @Override
+    public List<CleaningService> findAll() {
+
+        return jpaRepository.findAll();
     }
 }

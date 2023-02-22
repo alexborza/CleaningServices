@@ -23,4 +23,16 @@ public class PostConstructionCleaningDetailsRepresentation extends CleaningDetai
         this.property = property;
         this.rooms = rooms;
     }
+
+    public static PostConstructionCleaningDetailsRepresentation fromDomain(PostConstructionCleaningDetails cleaningDetails) {
+
+        return new PostConstructionCleaningDetailsRepresentation(
+                cleaningDetails.getId(),
+                cleaningDetails.getSquareMeters(),
+                cleaningDetails.getParking(),
+                cleaningDetails.getHomeAccess(),
+                cleaningDetails.getProperty(),
+                cleaningDetails.getRooms()
+        );
+    }
 }

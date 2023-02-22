@@ -27,7 +27,7 @@ public class CleaningService {
 
     @ManyToOne
     @JoinColumn(name = "client_id")
-    private User client;
+    private Client client;
 
     @ElementCollection
     @CollectionTable(name = "messages", joinColumns = @JoinColumn(name = "cleaning_service_id"))

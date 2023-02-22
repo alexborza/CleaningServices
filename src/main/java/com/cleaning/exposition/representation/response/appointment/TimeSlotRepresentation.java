@@ -8,8 +8,8 @@ import java.util.*;
 @Getter
 @AllArgsConstructor
 public class TimeSlotRepresentation implements Comparable<TimeSlotRepresentation> {
-    private final int startingHour;
-    private final int finishingHour;
+    private final Integer startingHour;
+    private final Integer finishingHour;
 
     public static TimeSlotRepresentation fromDomain(TimeSlot timeSlot) {
         return new TimeSlotRepresentation(
@@ -20,7 +20,7 @@ public class TimeSlotRepresentation implements Comparable<TimeSlotRepresentation
 
     @Override
     public int compareTo(TimeSlotRepresentation o) {
-        return Integer.compare(startingHour, o.startingHour);
+        return startingHour.compareTo(o.startingHour);
     }
 
     @Override
@@ -28,7 +28,7 @@ public class TimeSlotRepresentation implements Comparable<TimeSlotRepresentation
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TimeSlotRepresentation that = (TimeSlotRepresentation) o;
-        return startingHour == that.startingHour && finishingHour == that.finishingHour;
+        return Objects.equals(startingHour, that.startingHour) && Objects.equals(finishingHour, that.finishingHour);
     }
 
     @Override

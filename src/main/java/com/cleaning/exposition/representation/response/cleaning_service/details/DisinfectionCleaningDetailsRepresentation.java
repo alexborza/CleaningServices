@@ -18,4 +18,15 @@ public class DisinfectionCleaningDetailsRepresentation extends CleaningDetailsRe
         super(id, squareMeters, parking, homeAccess);
         this.property = property;
     }
+
+    public static DisinfectionCleaningDetailsRepresentation fromDomain(DisinfectionCleaningDetails cleaningDetails) {
+
+        return new DisinfectionCleaningDetailsRepresentation(
+                cleaningDetails.getId(),
+                cleaningDetails.getSquareMeters(),
+                cleaningDetails.getParking(),
+                cleaningDetails.getHomeAccess(),
+                cleaningDetails.getProperty()
+        );
+    }
 }

@@ -5,12 +5,10 @@ import com.cleaning.exposition.representation.response.shared.*;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.*;
-
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler({UserAlreadyExistsException.class, EntityNotFoundException.class})
+    @ExceptionHandler({UserAlreadyExistsException.class, UserNotFoundException.class, JobInformationNotFoundException.class})
     public final ResponseEntity<ExceptionRepresentation> handleAlreadyExistsException(
             UserAlreadyExistsException exception
     ) {

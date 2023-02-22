@@ -5,4 +5,4 @@ insert into cleaning_details (home_access, parking, square_meters, bathrooms, be
 insert into cleaning_service (id, cleaning_details_id, cleaning_type, client_id, email, first_name, last_name, phone_number, frequency, address, city, county, payment, time_estimation, total) values (10001, 10001, 'STANDARD', 10001, null, null, null, null, 'ONE_TIME', null, 'Pecica', 'Arad', 'CARD', 3, 100);
 insert into messages (cleaning_service_id, messages_order, content, message_date, sender) values (10001, 0, 'message1', '2023-02-03', 'cristi sam');
 insert into messages (cleaning_service_id, messages_order, content, message_date, sender) values (10001, 1, 'message1', '2023-02-03', 'cristi sam');
-insert into appointment (id, cleaning_date, cleaning_service_id, employee_id, status, ending_hour, starting_hour) values (10001, '2023-02-07', 10001, 10002, 'ACTIVE', 11, 9);
+insert into appointment (id, cleaning_date, cleaning_service_id, employee_id, status, ending_hour, starting_hour) values (10001, '2023-02-07', 10001, 10002, 'COMPLETED', 11, 9);

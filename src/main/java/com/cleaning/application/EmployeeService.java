@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.*;
 
-import javax.persistence.*;
 import java.util.*;
 
 @Transactional
@@ -25,7 +24,7 @@ public class EmployeeService {
 
     public void updateJobInformation(Long jobInformationId, JobInformation jobInformation){
         if(!jobInformationRepository.existsById(jobInformationId)) {
-            throw new EntityNotFoundException("JobInformation not found for id: " + jobInformationId.toString());
+            throw new JobInformationNotFoundException(jobInformationId);
         }
 
         jobInformationRepository.updateJobInformation(jobInformationId, jobInformation);

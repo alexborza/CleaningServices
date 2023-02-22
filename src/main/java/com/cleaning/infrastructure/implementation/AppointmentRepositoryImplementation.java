@@ -32,4 +32,10 @@ public class AppointmentRepositoryImplementation implements AppointmentRepositor
 
         return jpaRepository.findAllByEmployeeAndCleaningDate(employeeId, LocalDate.parse(date));
     }
+
+    @Override
+    public List<Appointment> findAllByCleaningService(Long cleaningServiceId) {
+
+        return jpaRepository.findAllByCleaningService(cleaningServiceId);
+    }
 }

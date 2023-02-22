@@ -8,7 +8,7 @@ import java.util.*;
 
 public class CleaningServiceTestData {
 
-    public static CleaningService dummyCleaningService(User client){
+    public static CleaningService dummyCleaningService(Client client){
         return new CleaningServiceBuilder()
                 .withContactInfo(dummyContactInfo())
                 .withLocation(dummyLocation())

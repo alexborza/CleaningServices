@@ -13,7 +13,7 @@ public class CleaningServiceBuilder {
     private ContactInfo contactInfo;
     private Location location;
     private CleaningDetails cleaningDetails;
-    private User client;
+    private Client client;
     private List<Message> messages;
     private Frequency frequency;
     private Payment payment;
@@ -39,7 +39,7 @@ public class CleaningServiceBuilder {
         return this;
     }
 
-    public CleaningServiceBuilder withClient(User client) {
+    public CleaningServiceBuilder withClient(Client client) {
 
         this.client = client;
         return this;

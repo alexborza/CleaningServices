@@ -10,4 +10,6 @@ public interface AppointmentRepository {
 
     List<Appointment> findAllByEmployeeAndCleaningDate(Long employeeId, String date);
 
+    List<Appointment> findAllByCleaningService(Long cleaningServiceId);
+
 }

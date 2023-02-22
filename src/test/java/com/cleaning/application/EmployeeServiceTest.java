@@ -8,7 +8,6 @@ import org.junit.jupiter.api.extension.*;
 import org.mockito.*;
 import org.mockito.junit.jupiter.*;
 
-import javax.persistence.*;
 import java.time.*;
 import java.util.*;
 
@@ -49,8 +48,9 @@ public class EmployeeServiceTest {
         JobInformation jobInformation = dummyJobInformation();
         when(jobInformationRepository.existsById(id)).thenReturn(false);
 
-        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> employeeService.updateJobInformation(id, jobInformation));
-        assertThat(exception.getMessage()).isEqualTo("JobInformation not found for id: " + id);
+        JobInformationNotFoundException exception = assertThrows(JobInformationNotFoundException.class,
+                () -> employeeService.updateJobInformation(id, jobInformation));
+        assertThat(exception.getMessage()).isEqualTo("JobInformation not found for id = " + id);
     }
 
     @Test

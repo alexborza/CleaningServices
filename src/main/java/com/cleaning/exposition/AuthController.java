@@ -4,6 +4,7 @@ import com.cleaning.application.*;
 import com.cleaning.exposition.representation.request.*;
 import com.cleaning.exposition.representation.response.*;
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -16,8 +17,8 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/signin")
-    public JwtResponse authenticateUser(@RequestBody LoginRequest loginRequest) {
-        return authService.authenticateUser(loginRequest);
-
+    public ResponseEntity<JwtResponse> authenticateUser(@RequestBody LoginRequest loginRequest) {
+        JwtResponse jwtResponse = authService.authenticateUser(loginRequest);
+        return ResponseEntity.ok(jwtResponse);
     }
 }
