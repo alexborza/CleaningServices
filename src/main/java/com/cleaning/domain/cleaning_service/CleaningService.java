@@ -54,6 +54,7 @@ public class CleaningService {
     public CleaningService(CleaningServiceBuilder builder) {
         List<Message> messages = builder.getMessages();
 
+        this.id = builder.getId();
         this.contactInfo = builder.getContactInfo();
         this.location = builder.getLocation();
         this.cleaningDetails = builder.getCleaningDetails();

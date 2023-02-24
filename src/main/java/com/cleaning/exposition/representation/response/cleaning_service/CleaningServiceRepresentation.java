@@ -3,11 +3,13 @@ package com.cleaning.exposition.representation.response.cleaning_service;
 
 import com.cleaning.domain.appointment.*;
 import com.cleaning.domain.cleaning_service.*;
+import com.cleaning.domain.users.*;
 import com.cleaning.exposition.representation.response.appointment.*;
 import com.cleaning.exposition.representation.response.cleaning_service.details.*;
 import lombok.*;
 
 import java.util.*;
+import java.util.stream.*;
 
 import static java.util.stream.Collectors.*;
 
@@ -47,6 +49,26 @@ public class CleaningServiceRepresentation {
                 cleaningService.getCleaningType(),
                 messageRepresentations,
                 appointmentRepresentations
+        );
+    }
+
+    public CleaningServiceCommand toCommand() {
+
+        List<Message> messages = this.messages.stream()
+                .map(MessageRepresentation::toDomain)
+                .collect(toList());
+
+        return new CleaningServiceCommand(
+                id,
+                contactInfo.toDomain(),
+                location.toDomain(),
+                cleaningDetails.toDomain(),
+                frequency,
+                payment,
+                total,
+                timeEstimation,
+                type,
+                messages
         );
     }
 }

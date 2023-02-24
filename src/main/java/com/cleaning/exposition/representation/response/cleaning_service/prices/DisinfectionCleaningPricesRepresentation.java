@@ -6,7 +6,19 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 public class DisinfectionCleaningPricesRepresentation {
-    private final double disinfectionServicePrice;
+    private double disinfectionServicePrice;
+
+    private DisinfectionCleaningPricesRepresentation(){}
+
+    public static DisinfectionCleaningPricesRepresentation emptyInstance() {
+
+        return new DisinfectionCleaningPricesRepresentation();
+    }
+
+    public static DisinfectionCleaningPricesRepresentation fromDomain(DisinfectionCleaningPrice disinfectionCleaningPrice) {
+
+        return new DisinfectionCleaningPricesRepresentation(disinfectionCleaningPrice.getDisinfectionServicePrice());
+    }
 
     public DisinfectionCleaningPrice toDomain() {
         return new DisinfectionCleaningPrice(disinfectionServicePrice);

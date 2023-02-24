@@ -18,6 +18,8 @@ public abstract class CleaningDetailsRepresentation {
     private final Parking parking;
     private final HomeAccess homeAccess;
 
+    public abstract CleaningDetails toDomain();
+
     public static CleaningDetailsRepresentation fromDomain(CleaningDetails cleaningDetails) {
         if(cleaningDetails instanceof StandardCleaningDetails)
             return StandardCleaningDetailsRepresentation.fromDomain((StandardCleaningDetails) cleaningDetails);

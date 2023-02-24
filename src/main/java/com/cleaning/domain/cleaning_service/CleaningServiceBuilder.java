@@ -10,11 +10,12 @@ import java.util.*;
 @Getter
 public class CleaningServiceBuilder {
 
+    private Long id;
     private ContactInfo contactInfo;
     private Location location;
     private CleaningDetails cleaningDetails;
     private Client client;
-    private List<Message> messages;
+    private List<Message> messages = new ArrayList<>();
     private Frequency frequency;
     private Payment payment;
     private CleaningType cleaningType;
@@ -47,7 +48,15 @@ public class CleaningServiceBuilder {
 
     public CleaningServiceBuilder withMessages(List<Message> messages) {
 
-        this.messages = messages;
+        if(messages != null) {
+            this.messages.addAll(messages);
+        }
+        return this;
+    }
+
+    public CleaningServiceBuilder withMessage(Message message) {
+
+        this.messages.add(message);
         return this;
     }
 
@@ -78,6 +87,21 @@ public class CleaningServiceBuilder {
     public CleaningServiceBuilder withTimeEstimation(Integer timeEstimation) {
 
         this.timeEstimation = timeEstimation;
+        return this;
+    }
+
+    public CleaningServiceBuilder withCleaningService(CleaningService cleaningService) {
+        this.id = cleaningService.getId();
+        this.contactInfo = cleaningService.getContactInfo();
+        this.location = cleaningService.getLocation();
+        this.cleaningDetails = cleaningService.getCleaningDetails();
+        this.client = cleaningService.getClient();
+        this.frequency = cleaningService.getFrequency();
+        this.payment = cleaningService.getPayment();
+        this.cleaningType = cleaningService.getCleaningType();
+        this.total = cleaningService.getTotal();
+        this.timeEstimation = cleaningService.getTimeEstimation();
+        this.messages = cleaningService.getMessages();
         return this;
     }
 

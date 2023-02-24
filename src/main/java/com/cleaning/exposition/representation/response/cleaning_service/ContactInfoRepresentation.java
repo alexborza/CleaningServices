@@ -19,4 +19,13 @@ public class ContactInfoRepresentation {
                 contactInfo.getPhoneNumber()
         );
     }
+
+    public ContactInfo toDomain() {
+        return new ContactInfo(
+                firstName,
+                lastName,
+                email,
+                phoneNumber
+        );
+    }
 }

@@ -29,4 +29,15 @@ public class DisinfectionCleaningDetailsRepresentation extends CleaningDetailsRe
                 cleaningDetails.getProperty()
         );
     }
+
+    @Override
+    public CleaningDetails toDomain() {
+
+        return new DisinfectionCleaningDetails(
+                getSquareMeters(),
+                getParking(),
+                getHomeAccess(),
+                property
+        );
+    }
 }

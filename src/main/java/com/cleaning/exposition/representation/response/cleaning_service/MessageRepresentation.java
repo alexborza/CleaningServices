@@ -18,4 +18,13 @@ public class MessageRepresentation {
                 message.getContent()
         );
     }
+
+    public Message toDomain() {
+
+        return new Message(
+                messageDate,
+                sender,
+                content
+        );
+    }
 }

@@ -12,7 +12,9 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.boot.test.context.*;
+import org.springframework.test.annotation.*;
 import org.springframework.test.context.junit.jupiter.*;
+import org.springframework.transaction.annotation.*;
 
 import java.time.*;
 import java.util.*;
@@ -34,6 +36,7 @@ public class CleaningServiceRepositoryTest {
     private AppointmentRepositoryImplementation appointmentRepositoryImplementation;
 
     @Test
+    @DirtiesContext
     public void testFindClientsCleaningServices() {
         populateData();
         List<CleaningServiceMinimalView> serviceMinimalViews = cleaningServiceRepositoryImplementation.findClientsCleaningServices(10001L);
@@ -51,6 +54,23 @@ public class CleaningServiceRepositoryTest {
                 .containsExactly(null, 10, 8);
         assertThat(minimalRepresentations.stream().map(CleaningServiceMinimalRepresentation::getTimeSlotRepresentation).map(TimeSlotRepresentation::getFinishingHour).collect(toList()))
                 .containsExactly(null, 12, 12);
+    }
+
+    @Test
+    @Transactional
+    @DirtiesContext
+    public void updateCleaningServiceMessages() {
+        CleaningService cleaningService = cleaningServiceRepositoryImplementation.findById(10001L)
+                .orElseThrow(() -> new CleaningServiceNotFoundException(10001L));
+
+        CleaningService build = new CleaningServiceBuilder()
+                .withCleaningService(cleaningService)
+                .withMessages(Collections.singletonList(new Message("newDate", "newSender", "newContent")))
+                .build();
+
+        CleaningService save = cleaningServiceRepositoryImplementation.save(build);
+        List<Message> messages = save.getMessages();
+        assertThat(messages).hasSize(3);
     }
 
 

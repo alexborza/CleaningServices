@@ -5,6 +5,8 @@ import com.cleaning.infrastructure.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
+import java.util.*;
+
 @Repository
 public class CleaningPriceRepositoryImplementation implements CleaningPriceRepository {
 
@@ -14,5 +16,10 @@ public class CleaningPriceRepositoryImplementation implements CleaningPriceRepos
     @Override
     public CleaningPrice save(CleaningPrice cleaningPrice) {
         return jpaRepository.save(cleaningPrice);
+    }
+
+    @Override
+    public Optional<CleaningPrice> findTopByOrderByIdDesc() {
+        return jpaRepository.findTopByOrderByIdDesc();
     }
 }

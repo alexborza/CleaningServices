@@ -6,10 +6,12 @@ import com.cleaning.domain.cleaning_service.prices.*;
 import com.cleaning.domain.users.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
+import org.springframework.transaction.annotation.*;
 
 import java.util.*;
 
 @Service
+@Transactional
 public class AdministratorService {
 
     @Autowired

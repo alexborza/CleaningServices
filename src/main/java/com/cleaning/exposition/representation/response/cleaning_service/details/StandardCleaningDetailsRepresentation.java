@@ -37,4 +37,17 @@ public class StandardCleaningDetailsRepresentation extends CleaningDetailsRepres
                 cleaningDetails.getKitchens()
         );
     }
+
+    @Override
+    public CleaningDetails toDomain() {
+
+        return new StandardCleaningDetails(
+                getSquareMeters(),
+                getParking(),
+                getHomeAccess(),
+                bedrooms,
+                bathrooms,
+                kitchens
+        );
+    }
 }

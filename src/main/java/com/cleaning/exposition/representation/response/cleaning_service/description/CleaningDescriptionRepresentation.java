@@ -7,11 +7,30 @@ import lombok.*;
 @Getter
 @AllArgsConstructor
 public class CleaningDescriptionRepresentation {
-    private final Long id;
-    private final String standardCleaningDescription;
-    private final String deepCleaningDescription;
-    private final String postConstructionCleaningDescription;
-    private final String disinfectionCleaningDescription;
+    private Long id;
+    private String standardCleaningDescription;
+    private String deepCleaningDescription;
+    private String postConstructionCleaningDescription;
+    private String disinfectionCleaningDescription;
+
+    private CleaningDescriptionRepresentation(){
+
+    }
+
+    public static CleaningDescriptionRepresentation emptyInstance() {
+        return new CleaningDescriptionRepresentation();
+    }
+
+    public static CleaningDescriptionRepresentation fromDomain(CleaningDescription cleaningDescription) {
+
+        return new CleaningDescriptionRepresentation(
+                cleaningDescription.getId(),
+                cleaningDescription.getStandardCleaningDescription(),
+                cleaningDescription.getDeepCleaningDescription(),
+                cleaningDescription.getPostConstructionCleaningDescription(),
+                cleaningDescription.getDisinfectionCleaningDescription()
+        );
+    }
 
     public CleaningDescription toDomain() {
         return new CleaningDescription.CleaningDescriptionBuilder()

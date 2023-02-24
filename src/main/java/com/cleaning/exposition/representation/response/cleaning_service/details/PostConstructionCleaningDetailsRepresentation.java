@@ -35,4 +35,16 @@ public class PostConstructionCleaningDetailsRepresentation extends CleaningDetai
                 cleaningDetails.getRooms()
         );
     }
+
+    @Override
+    public CleaningDetails toDomain() {
+
+        return new PostConstructionCleaningDetails(
+                getSquareMeters(),
+                getParking(),
+                getHomeAccess(),
+                property,
+                rooms
+        );
+    }
 }

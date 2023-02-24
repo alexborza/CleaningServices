@@ -6,10 +6,27 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 public class StandardCleaningPricesRepresentation {
-    private final double standardServicePrice;
-    private final double standardServiceBedroom;
-    private final double standardServiceBathroom;
-    private final double standardServiceKitchen;
+    private double standardServicePrice;
+    private double standardServiceBedroom;
+    private double standardServiceBathroom;
+    private double standardServiceKitchen;
+
+    private StandardCleaningPricesRepresentation(){}
+
+    public static StandardCleaningPricesRepresentation emptyInstance() {
+
+        return new StandardCleaningPricesRepresentation();
+    }
+
+    public static StandardCleaningPricesRepresentation fromDomain(StandardCleaningPrice standardCleaningPrice) {
+
+        return new StandardCleaningPricesRepresentation(
+                standardCleaningPrice.getStandardServicePrice(),
+                standardCleaningPrice.getStandardServiceBedroom(),
+                standardCleaningPrice.getStandardServiceBathroom(),
+                standardCleaningPrice.getStandardServiceKitchen()
+        );
+    }
 
     public StandardCleaningPrice toDomain() {
         return new StandardCleaningPrice(

@@ -2,13 +2,19 @@ package com.cleaning.application;
 
 import com.cleaning.domain.appointment.*;
 import com.cleaning.domain.cleaning_service.*;
+import com.cleaning.domain.cleaning_service.description.*;
+import com.cleaning.domain.cleaning_service.prices.*;
+import com.cleaning.domain.users.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
+import org.springframework.transaction.annotation.*;
 
 import java.util.*;
-import java.util.stream.*;
+
+import static java.util.stream.Collectors.*;
 
 @Service
+@Transactional
 public class CleaningServiceService {
 
     @Autowired
@@ -16,6 +22,15 @@ public class CleaningServiceService {
 
     @Autowired
     private AppointmentRepository appointmentRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private CleaningDescriptionRepository cleaningDescriptionRepository;
+
+    @Autowired
+    private CleaningPriceRepository cleaningPriceRepository;
 
     public List<CleaningServiceMinimalView> findClientsCleaningServices(Long userId){
 
@@ -33,55 +48,49 @@ public class CleaningServiceService {
         return appointmentRepository.findAllByCleaningService(cleaningServiceId);
     }
 
-//    public void createCleaningService(Long employeeId, Long userId, CleaningServiceDto cleaningServiceDto){
-//    }
-//
+    public void createCleaningService(Long employeeId,
+                                      Long clientId,
+                                      CleaningServiceCommand cleaningServiceCommand,
+                                      List<AppointmentCommand> appointmentCommands){
+
+        Employee employee = (Employee) userRepository.findById(employeeId).orElseThrow(() -> new UserNotFoundException(employeeId));
+        Client client = (Client) userRepository.findById(clientId).orElseThrow(() -> new UserNotFoundException(clientId));
+
+        CleaningService cleaningService = cleaningServiceCommand.toDomain(client);
+        CleaningService savedCleaningService = cleaningServiceRepository.save(cleaningService);
+
+        List<Appointment> appointments = appointmentCommands.stream()
+                .map(command -> command.toDomain(savedCleaningService, employee))
+                .collect(toList());
+
+        appointmentRepository.saveAll(appointments);
+    }
+
+
+    public void addMessageToCleaningService(Long id, Message message){
+        CleaningService cleaningService = cleaningServiceRepository.findById(id)
+                .orElseThrow(() -> new CleaningServiceNotFoundException(id));
+
+        CleaningService newCleaningService = new CleaningServiceBuilder()
+                .withCleaningService(cleaningService)
+                .withMessage(message)
+                .build();
+
+        cleaningServiceRepository.save(newCleaningService);
+    }
+
+    public Optional<CleaningDescription> getDescriptions(){
+
+        return cleaningDescriptionRepository.findTopByOrderByIdDesc();
+    }
+
+    public Optional<CleaningPrice> getCleaningServicePrices(){
+
+        return cleaningPriceRepository.findTopByOrderByIdDesc();
+    }
+
+
 //    public List<CleaningServiceDisplay> getCleaningServices(){
 //        return null;
-//    }
-//
-
-//
-//    public void endCleaningService(Long id){
-//
-//    }
-//
-//    public void finishCleaningService(Long id, String date) {
-//
-//    }
-//
-//    public List<CleaningDateDto> getDatesOfCleaningForCleaningService(Long id){
-//        return null;
-//    }
-//
-//    public void addMessageToCleaningService(Long id, MessageDto dto){
-//    }
-//
-//    public List<MessageDto> getMessagesForCleaningService(Long id){
-//        return repo.getMessagesForCleaningService(id).stream()
-//                .filter(Objects::nonNull)
-//                .map(mapper::toMessageDto)
-//                .collect(Collectors.toList());
-//    }
-//
-//    public CleaningDateDto getNextCleaningDate(Long id){
-//        return null;
-//    }
-//
-//    public CleaningServiceDescriptionDto getDescriptions(){
-//        CleaningDescription entity = cleaningServiceDescriptionRepository.findFirstBy().orElse(new CleaningDescription());
-//        return cleaningServiceDescriptionMapper.toCleaningServiceDescriptionDto(entity);
-//    }
-//
-//    public CleaningServicePricesDto getCleaningServicePrices(){
-//        return null;
-//    }
-//
-//    public List<DatesToRescheduleDto> getDatesToReschedule(Long id){
-//        return null;
-//    }
-//
-//    public void rescheduleCleaningService(Long id, RescheduleDateDto dto){
-//
 //    }
 }

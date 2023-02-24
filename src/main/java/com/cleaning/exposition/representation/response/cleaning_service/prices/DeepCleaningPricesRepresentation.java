@@ -6,12 +6,30 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 public class DeepCleaningPricesRepresentation {
-    private final double deepServicePrice;
-    private final double deepServiceBedroom;
-    private final double deepServiceBathroom;
-    private final double deepServiceKitchen;
+    private double deepServicePrice;
+    private double deepServiceBedroom;
+    private double deepServiceBathroom;
+    private double deepServiceKitchen;
+
+    private DeepCleaningPricesRepresentation(){}
+
+    public static DeepCleaningPricesRepresentation emptyInstance() {
+
+        return new DeepCleaningPricesRepresentation();
+    }
+
+    public static DeepCleaningPricesRepresentation fromDomain(DeepCleaningPrice deepCleaningPrice) {
+
+        return new DeepCleaningPricesRepresentation(
+                deepCleaningPrice.getDeepServicePrice(),
+                deepCleaningPrice.getDeepServiceBedroom(),
+                deepCleaningPrice.getDeepServiceBathroom(),
+                deepCleaningPrice.getDeepServiceKitchen()
+        );
+    }
 
     public DeepCleaningPrice toDomain() {
+
         return new DeepCleaningPrice(
                 deepServicePrice,
                 deepServiceBedroom,

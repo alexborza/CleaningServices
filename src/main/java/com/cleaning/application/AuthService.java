@@ -11,8 +11,10 @@ import org.springframework.security.core.*;
 import org.springframework.security.core.context.*;
 import org.springframework.security.crypto.password.*;
 import org.springframework.stereotype.*;
+import org.springframework.transaction.annotation.*;
 
 @Service
+@Transactional
 public class AuthService {
 
     @Autowired

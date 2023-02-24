@@ -3,7 +3,12 @@ package com.cleaning.exposition;
 import com.cleaning.application.*;
 import com.cleaning.domain.appointment.*;
 import com.cleaning.domain.cleaning_service.*;
+import com.cleaning.domain.cleaning_service.description.*;
+import com.cleaning.domain.cleaning_service.prices.*;
+import com.cleaning.exposition.representation.response.appointment.*;
 import com.cleaning.exposition.representation.response.cleaning_service.*;
+import com.cleaning.exposition.representation.response.cleaning_service.description.*;
+import com.cleaning.exposition.representation.response.cleaning_service.prices.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +28,7 @@ public class CleaningServiceController {
 
     @GetMapping("/client/{userId}")
     public ResponseEntity<List<CleaningServiceMinimalRepresentation>> findClientsCleaningServices(@PathVariable Long userId){
+
         List<CleaningServiceMinimalView> cleaningServices = cleaningServiceService.findClientsCleaningServices(userId);
 
         return ResponseEntity.ok(
@@ -34,6 +40,7 @@ public class CleaningServiceController {
 
     @GetMapping("/{id}")
     public ResponseEntity<CleaningServiceRepresentation> getCleaningService(@PathVariable Long id){
+
         CleaningService cleaningService = cleaningServiceService.getCleaningService(id);
         List<Appointment> cleaningServiceAppointments = cleaningServiceService.findCleaningServiceAppointments(id);
 
@@ -42,63 +49,50 @@ public class CleaningServiceController {
         );
     }
 
-//    @PostMapping
-//    public void createCleaningService(@RequestParam Long employeeId, @RequestParam(required = false) Long userId, @RequestBody CleaningServiceDto cleaningServiceDto){
-//        cleaningServiceService.createCleaningService(employeeId, userId, cleaningServiceDto);
-//    }
-//
+    @PostMapping
+    public ResponseEntity<Void> createCleaningService(@RequestParam Long employeeId,
+                                                      @RequestParam(required = false) Long clientId,
+                                                      @RequestBody CleaningServiceRepresentation representation){
+
+        List<AppointmentCommand> appointmentCommands = representation.getAppointments().stream()
+                .map(AppointmentRepresentation::toCommand)
+                .collect(toList());
+
+        cleaningServiceService.createCleaningService(employeeId, clientId, representation.toCommand(), appointmentCommands);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/message/{id}")
+    public ResponseEntity<Void> addMessageToCleaningService(@PathVariable Long id, @RequestBody MessageRepresentation representation){
+
+        cleaningServiceService.addMessageToCleaningService(id, representation.toDomain());
+
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/descriptions")
+    public ResponseEntity<CleaningDescriptionRepresentation> getDescriptions(){
+
+        Optional<CleaningDescription> optionalCleaningDescription = cleaningServiceService.getDescriptions();
+
+        return optionalCleaningDescription
+                .map(cleaningDescription -> ResponseEntity.ok(CleaningDescriptionRepresentation.fromDomain(cleaningDescription)))
+                .orElseGet(() -> ResponseEntity.ok(CleaningDescriptionRepresentation.emptyInstance()));
+
+    }
+
+    @GetMapping("/prices")
+    public ResponseEntity<CleaningPricesRepresentation> getCleaningServicePrices(){
+        Optional<CleaningPrice> optionalCleaningPrice = cleaningServiceService.getCleaningServicePrices();
+
+        return optionalCleaningPrice
+                .map(cleaningPrice -> ResponseEntity.ok(CleaningPricesRepresentation.fromDomain(cleaningPrice)))
+                .orElseGet(() -> ResponseEntity.ok(CleaningPricesRepresentation.emptyInstance()));
+    }
+
 //    @GetMapping
 //    public List<CleaningServiceDisplay> getCleaningServices(){
 //        return cleaningServiceService.getCleaningServices();
 //    }
 
-//    @PutMapping("/end-service/{id}")
-//    public void endCleaningService(@PathVariable Long id){
-//        cleaningServiceService.endCleaningService(id);
-//    }
-//
-//    @PutMapping("/finish-service/{id}")
-//    public void finishCleaningService(@PathVariable Long id, @RequestParam String date){
-//        cleaningServiceService.finishCleaningService(id, date);
-//    }
-//
-//    @GetMapping("/dates-of-cleaning/{id}")
-//    public List<CleaningDateDto> getDatesOfCleaningForCleaningService(@PathVariable Long id){
-//        return cleaningServiceService.getDatesOfCleaningForCleaningService(id);
-//    }
-//
-//    @PostMapping("/message/{id}")
-//    public void addMessageToCleaningService(@PathVariable Long id, @RequestBody MessageDto dto){
-//        cleaningServiceService.addMessageToCleaningService(id, dto);
-//    }
-//
-//    @GetMapping("/messages/{id}")
-//    public List<MessageDto> getMessagesForCleaningService(@PathVariable Long id){
-//        return cleaningServiceService.getMessagesForCleaningService(id);
-//    }
-//
-//    @GetMapping("/next-cleaning-date/{id}")
-//    public CleaningDateDto getNextCleaningDate(@PathVariable Long id){
-//        return cleaningServiceService.getNextCleaningDate(id);
-//    }
-//
-//    @GetMapping("/descriptions")
-//    public CleaningServiceDescriptionDto getDescriptions(){
-//        return cleaningServiceService.getDescriptions();
-//    }
-//
-//    @GetMapping("/prices")
-//    public CleaningServicePricesDto getCleaningServicePrices(){
-//        return cleaningServiceService.getCleaningServicePrices();
-//    }
-//
-//    @GetMapping("/dates-to-reschedule/{id}")
-//    public List<DatesToRescheduleDto> getDatesToReschedule(@PathVariable Long id){
-//        return cleaningServiceService.getDatesToReschedule(id);
-//    }
-//
-//    @PostMapping("/reschedule/{id}")
-//    public void rescheduleCleaningService(@PathVariable Long id, @RequestBody RescheduleDateDto dto) {
-//        cleaningServiceService.rescheduleCleaningService(id, dto);
-//    }
 }

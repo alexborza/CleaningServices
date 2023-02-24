@@ -3,8 +3,6 @@ package com.cleaning.exposition.representation.response.appointment;
 import com.cleaning.domain.appointment.*;
 import lombok.*;
 
-import java.time.*;
-
 @AllArgsConstructor
 @Getter
 public class AppointmentRepresentation {
@@ -24,6 +22,18 @@ public class AppointmentRepresentation {
                 appointment.getCleaningDate().toString(),
                 TimeSlotRepresentation.fromDomain(appointment.getTimeSlot()),
                 appointment.getStatus().toString()
+        );
+    }
+
+    public AppointmentCommand toCommand() {
+
+        return new AppointmentCommand(
+                id,
+                cleaningServiceId,
+                employeeId,
+                cleaningDate,
+                timeSlot.toDomain(),
+                status
         );
     }
 }

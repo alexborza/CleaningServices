@@ -18,6 +18,11 @@ public class TimeSlotRepresentation implements Comparable<TimeSlotRepresentation
         );
     }
 
+    public TimeSlot toDomain() {
+
+        return new TimeSlot(startingHour, finishingHour);
+    }
+
     @Override
     public int compareTo(TimeSlotRepresentation o) {
         return startingHour.compareTo(o.startingHour);
