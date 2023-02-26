@@ -40,7 +40,7 @@ public class CleaningServiceTestData {
         return List.of(dummyMessage("message1"), dummyMessage("message2"));
     }
 
-    private static Message dummyMessage(String message) {
+    public static Message dummyMessage(String message) {
         return new Message("2022-02-23", "sender", message);
     }
 }

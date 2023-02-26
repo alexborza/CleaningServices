@@ -66,4 +66,17 @@ public class CleaningService {
         this.timeEstimation = builder.getTimeEstimation();
         this.messages = messages == null ? Collections.emptyList() : messages;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CleaningService that = (CleaningService) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

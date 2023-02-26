@@ -45,6 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    //here we have defined the endpoints that users can access without authenticating in the application
     private static final String[] PUBLIC_MATCHERS = {
             "/css/**",
             "/js/**",
