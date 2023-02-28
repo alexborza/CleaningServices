@@ -15,7 +15,6 @@ import java.util.*;
 @Table(name = "appointment")
 @NoArgsConstructor
 @Getter
-@Where(clause = "status != 'DELETED'")
 public class Appointment {
 
     @Id

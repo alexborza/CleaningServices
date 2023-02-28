@@ -87,7 +87,7 @@ public class CleaningServiceRepositoryTest {
         cleaningServiceRepositoryImplementation.saveAll(List.of(cs1, cs2));
 
         Appointment ap1 = AppointmentTestData.dummyAppointment(
-                cs1, employee, new TimeSlot(8, 10), LocalDate.of(2023, 2, 21), AppointmentStatus.DELETED);
+                cs1, employee, new TimeSlot(8, 10), LocalDate.of(2023, 2, 21), AppointmentStatus.COMPLETED);
 
         Appointment ap2 = AppointmentTestData.dummyAppointment(
                 cs1, employee, new TimeSlot(10, 12), LocalDate.of(2023, 3, 1), AppointmentStatus.ACTIVE);

@@ -10,6 +10,8 @@ public interface AppointmentRepository {
 
     List<Appointment> findAllByCleaningDate(String date);
 
+    Appointment save(Appointment appointment);
+
     void saveAll(Iterable<Appointment> appointments);
 
     List<Appointment> findAllByEmployeeAndCleaningDate(Long employeeId, String date);

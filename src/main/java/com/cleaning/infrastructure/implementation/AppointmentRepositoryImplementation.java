@@ -33,6 +33,12 @@ public class AppointmentRepositoryImplementation implements AppointmentRepositor
     }
 
     @Override
+    public Appointment save(Appointment appointment) {
+
+        return jpaRepository.save(appointment);
+    }
+
+    @Override
     public void saveAll(Iterable<Appointment> appointments) {
 
         jpaRepository.saveAll(appointments);

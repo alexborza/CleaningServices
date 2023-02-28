@@ -28,12 +28,9 @@ public class AppointmentRepresentation {
     public AppointmentCommand toCommand() {
 
         return new AppointmentCommand(
-                id,
-                cleaningServiceId,
-                employeeId,
                 cleaningDate,
                 timeSlot.toDomain(),
-                status
+                AppointmentStatus.ACTIVE
         );
     }
 }

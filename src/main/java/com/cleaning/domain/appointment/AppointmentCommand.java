@@ -10,12 +10,9 @@ import java.time.*;
 @Getter
 public class AppointmentCommand {
 
-    private final Long id;
-    private final Long cleaningServiceId;
-    private final Long employeeId;
     private final String cleaningDate;
     private final TimeSlot timeSlot;
-    private final String status;
+    private final AppointmentStatus status;
 
     public Appointment toDomain(CleaningService cleaningService, Employee employee) {
 
@@ -24,7 +21,7 @@ public class AppointmentCommand {
                 .withEmployee(employee)
                 .withCleaningDate(LocalDate.parse(cleaningDate))
                 .withTimeSlot(timeSlot)
-                .withStatus(AppointmentStatus.valueOf(status))
+                .withStatus(status)
                 .build();
     }
 }

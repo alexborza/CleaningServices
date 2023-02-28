@@ -107,9 +107,9 @@ public class CleaningServiceServiceTest {
     public void testCreateCleaningService() {
         CleaningServiceCommand cleaningServiceCommand = CleaningServiceCommandTestData.dummyCleaningServiceCommand();
         List<AppointmentCommand> appointmentCommands = List.of(
-                AppointmentCommandTestData.dummyAppointmentCommand(1L),
-                AppointmentCommandTestData.dummyAppointmentCommand(2L),
-                AppointmentCommandTestData.dummyAppointmentCommand(3L)
+                AppointmentCommandTestData.dummyAppointmentCommand(),
+                AppointmentCommandTestData.dummyAppointmentCommand(),
+                AppointmentCommandTestData.dummyAppointmentCommand()
         );
 
         Employee employee = UserTestData.dummyEmployee("Euser", "Eemail");
@@ -134,9 +134,9 @@ public class CleaningServiceServiceTest {
     public void testShouldThrowUserNotFoundExceptionForEmployeeWhenCreateCleaningService() {
         CleaningServiceCommand cleaningServiceCommand = CleaningServiceCommandTestData.dummyCleaningServiceCommand();
         List<AppointmentCommand> appointmentCommands = List.of(
-                AppointmentCommandTestData.dummyAppointmentCommand(1L),
-                AppointmentCommandTestData.dummyAppointmentCommand(2L),
-                AppointmentCommandTestData.dummyAppointmentCommand(3L)
+                AppointmentCommandTestData.dummyAppointmentCommand(),
+                AppointmentCommandTestData.dummyAppointmentCommand(),
+                AppointmentCommandTestData.dummyAppointmentCommand()
         );
         Employee employee = UserTestData.dummyEmployee("Euser", "Eemail");
 
@@ -154,9 +154,9 @@ public class CleaningServiceServiceTest {
     public void testShouldThrowUserNotFoundExceptionForClientWhenCreateCleaningService() {
         CleaningServiceCommand cleaningServiceCommand = CleaningServiceCommandTestData.dummyCleaningServiceCommand();
         List<AppointmentCommand> appointmentCommands = List.of(
-                AppointmentCommandTestData.dummyAppointmentCommand(1L),
-                AppointmentCommandTestData.dummyAppointmentCommand(2L),
-                AppointmentCommandTestData.dummyAppointmentCommand(3L)
+                AppointmentCommandTestData.dummyAppointmentCommand(),
+                AppointmentCommandTestData.dummyAppointmentCommand(),
+                AppointmentCommandTestData.dummyAppointmentCommand()
         );
 
         when(userRepository.findById(1L)).thenReturn(Optional.empty());

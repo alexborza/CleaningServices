@@ -1,6 +1,7 @@
 package com.cleaning.exposition;
 
 import com.cleaning.application.*;
+import com.cleaning.domain.appointment.*;
 import com.cleaning.exposition.representation.response.appointment.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
@@ -17,16 +18,25 @@ public class AppointmentController {
     @PutMapping("/complete/{id}")
     public ResponseEntity<Void> completeAppointment(@PathVariable Long id){
         appointmentService.completeAppointment(id);
+
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/cancel/{id}")
-    public void cancelAppointment(@PathVariable Long id){
+    public ResponseEntity<Void> cancelAppointment(@PathVariable Long id){
         appointmentService.cancelAppointment(id);
+
+        return ResponseEntity.ok().build();
     }
 
-//    @PostMapping("/reschedule/{id}")
-//    public void rescheduleAppointment(@PathVariable Long id, @RequestBody AppointmentCreation appointmentCreation) {
-//        appointmentService.rescheduleAppointment(id, dto);
-//    }
+    @PostMapping("/add/{cleaningServiceId}/{employeeId}")
+    public ResponseEntity<Void> addAppointment(@PathVariable Long cleaningServiceId,
+                               @PathVariable Long employeeId,
+                               @RequestBody AppointmentCreation appointmentCreation) {
+
+        AppointmentCommand appointmentCommand = appointmentCreation.toCommand();
+        appointmentService.addAppointment(cleaningServiceId, employeeId, appointmentCommand);
+
+        return ResponseEntity.ok().build();
+    }
 }

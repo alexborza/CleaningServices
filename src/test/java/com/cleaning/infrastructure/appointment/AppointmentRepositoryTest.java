@@ -38,9 +38,9 @@ public class AppointmentRepositoryTest {
         LocalDate cleaningDate = LocalDate.of(2023, 2, 8);
         List<Appointment> appointments = appointmentRepositoryImplementation.findAllByCleaningDate(cleaningDate.toString());
 
-        assertThat(appointments.size()).isEqualTo(2);
+        assertThat(appointments.size()).isEqualTo(3);
         assertThat(appointments.stream().map(Appointment::getTimeSlot).collect(Collectors.toList()))
-                .containsExactly(new TimeSlot(9, 11), new TimeSlot(11, 13));
+                .containsExactly(new TimeSlot(8, 10), new TimeSlot(10, 12), new TimeSlot(13, 15));
     }
 
     @Test
@@ -50,9 +50,9 @@ public class AppointmentRepositoryTest {
         LocalDate cleaningDate = LocalDate.of(2023, 2, 8);
         List<Appointment> appointments = appointmentRepositoryImplementation.findAllByEmployeeAndCleaningDate(10002L, cleaningDate.toString());
 
-        assertThat(appointments.size()).isEqualTo(2);
+        assertThat(appointments.size()).isEqualTo(3);
         assertThat(appointments.stream().map(Appointment::getTimeSlot).collect(Collectors.toList()))
-                .containsExactly(new TimeSlot(9, 11), new TimeSlot(11, 13));
+                .containsExactly(new TimeSlot(8, 10), new TimeSlot(10, 12), new TimeSlot(13, 15));
     }
 
     @Test
@@ -62,9 +62,9 @@ public class AppointmentRepositoryTest {
         List<Appointment> appointments = appointmentRepositoryImplementation.findAllByCleaningService(10001L);
 
         //+1 from data.sql.
-        assertThat(appointments.size()).isEqualTo(4);
+        assertThat(appointments.size()).isEqualTo(5);
         assertThat(appointments.stream().map(Appointment::getTimeSlot).collect(Collectors.toList()))
-                .containsExactly(new TimeSlot(9, 11), new TimeSlot(9, 11), new TimeSlot(11, 13), new TimeSlot(9, 11));
+                .containsExactly(new TimeSlot(9, 11), new TimeSlot(8, 10), new TimeSlot(10, 12), new TimeSlot(13, 15), new TimeSlot(8, 12));
     }
 
     private void addAppointments() {
@@ -84,19 +84,19 @@ public class AppointmentRepositoryTest {
         }
 
         Appointment ap1 = AppointmentTestData.dummyAppointment(
-                cleaningService, employee, new TimeSlot(9,11), LocalDate.of(2023, 2, 8), AppointmentStatus.COMPLETED
+                cleaningService, employee, new TimeSlot(8,10), LocalDate.of(2023, 2, 8), AppointmentStatus.COMPLETED
         );
 
         Appointment ap2 = AppointmentTestData.dummyAppointment(
-                cleaningService, employee, new TimeSlot(11,13), LocalDate.of(2023, 2, 8), AppointmentStatus.ACTIVE
+                cleaningService, employee, new TimeSlot(10,12), LocalDate.of(2023, 2, 8), AppointmentStatus.COMPLETED
         );
 
         Appointment ap3 = AppointmentTestData.dummyAppointment(
-                cleaningService, employee, new TimeSlot(13,15), LocalDate.of(2023, 2, 8), AppointmentStatus.DELETED
+                cleaningService, employee, new TimeSlot(13,15), LocalDate.of(2023, 2, 8), AppointmentStatus.ACTIVE
         );
 
         Appointment ap4 = AppointmentTestData.dummyAppointment(
-                cleaningService, employee, new TimeSlot(9,11), LocalDate.of(2023, 2, 9), AppointmentStatus.ACTIVE
+                cleaningService, employee, new TimeSlot(8,12), LocalDate.of(2023, 2, 9), AppointmentStatus.ACTIVE
         );
 
         List<Appointment> appointments = List.of(ap2, ap1, ap3, ap4);

@@ -1,5 +1,6 @@
 package com.cleaning.exposition.representation.response.appointment;
 
+import com.cleaning.domain.appointment.*;
 import lombok.*;
 
 @AllArgsConstructor
@@ -7,5 +8,9 @@ import lombok.*;
 public class AppointmentCreation {
     private final String cleaningDate;
     private final TimeSlotRepresentation timeSlot;
-    private final String status;
+
+    public AppointmentCommand toCommand() {
+
+        return new AppointmentCommand(cleaningDate, timeSlot.toDomain(), AppointmentStatus.ACTIVE);
+    }
 }
