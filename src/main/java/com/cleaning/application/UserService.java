@@ -36,7 +36,7 @@ public class UserService {
     }
 
     public User getUser(Long userId){
-        //probably and where role <> 'ADMIN'
+        //TODO: probably and where role <> 'ADMIN'
         return userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId));
     }

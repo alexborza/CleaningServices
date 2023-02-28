@@ -6,7 +6,7 @@ import com.cleaning.domain.cleaning_service.description.*;
 import com.cleaning.domain.cleaning_service.prices.*;
 import com.cleaning.domain.users.*;
 import com.cleaning.infrastructure.appointment.data.*;
-import com.cleaning.infrastructure.cleaning_service.cleaning_description.*;
+import com.cleaning.infrastructure.cleaning_service.cleaning_description.data.*;
 import com.cleaning.infrastructure.cleaning_service.data.*;
 import com.cleaning.infrastructure.users.data.*;
 import org.junit.jupiter.api.*;

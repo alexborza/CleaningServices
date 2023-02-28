@@ -16,4 +16,15 @@ public class AppointmentRepresentationTestData {
                 "ACTIVE"
         );
     }
+
+    public static AppointmentRepresentation dummyAppointmentRepresentationWithEmployeeId(Long employeeId, TimeSlotRepresentation timeSlotRepresentation) {
+        return new AppointmentRepresentation(
+                null,
+                null,
+                employeeId,
+                LocalDate.of(2023, 2, 8).toString(),
+                timeSlotRepresentation,
+                "ACTIVE"
+        );
+    }
 }

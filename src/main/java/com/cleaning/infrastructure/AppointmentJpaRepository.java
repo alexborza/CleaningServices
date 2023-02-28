@@ -3,6 +3,7 @@ package com.cleaning.infrastructure;
 import com.cleaning.domain.appointment.*;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.*;
+import org.springframework.transaction.annotation.*;
 
 import java.time.*;
 import java.util.*;
@@ -21,5 +22,10 @@ public interface AppointmentJpaRepository extends JpaRepository<Appointment, Lon
             "where ap.cleaningService.id = :cleaningServiceId " +
             "order by ap.cleaningDate, ap.timeSlot.startingHour")
     List<Appointment> findAllByCleaningService(@Param("cleaningServiceId") Long cleaningServiceId);
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE Appointment ap SET ap.status = 'COMPLETED' WHERE ap.id = :id")
+    void updateStatusCompleted(@Param("id") Long id);
 
 }

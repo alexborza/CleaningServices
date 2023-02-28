@@ -1,7 +1,6 @@
 package com.cleaning.infrastructure.implementation;
 
 import com.cleaning.domain.appointment.*;
-import com.cleaning.exposition.representation.response.users.*;
 import com.cleaning.infrastructure.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
@@ -14,6 +13,18 @@ public class AppointmentRepositoryImplementation implements AppointmentRepositor
 
     @Autowired
     private AppointmentJpaRepository jpaRepository;
+
+    @Override
+    public Optional<Appointment> findById(Long id) {
+
+        return jpaRepository.findById(id);
+    }
+
+    @Override
+    public boolean existsById(Long id) {
+
+        return jpaRepository.existsById(id);
+    }
 
     @Override
     public List<Appointment> findAllByCleaningDate(String date) {
@@ -37,5 +48,17 @@ public class AppointmentRepositoryImplementation implements AppointmentRepositor
     public List<Appointment> findAllByCleaningService(Long cleaningServiceId) {
 
         return jpaRepository.findAllByCleaningService(cleaningServiceId);
+    }
+
+    @Override
+    public void updateStatusCompleted(Long id) {
+
+        jpaRepository.updateStatusCompleted(id);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+
+        jpaRepository.deleteById(id);
     }
 }

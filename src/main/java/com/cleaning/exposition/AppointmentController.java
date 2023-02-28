@@ -1,7 +1,9 @@
 package com.cleaning.exposition;
 
 import com.cleaning.application.*;
+import com.cleaning.exposition.representation.response.appointment.*;
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -12,19 +14,19 @@ public class AppointmentController {
     @Autowired
     private AppointmentService appointmentService;
 
+    @PutMapping("/complete/{id}")
+    public ResponseEntity<Void> completeAppointment(@PathVariable Long id){
+        appointmentService.completeAppointment(id);
+        return ResponseEntity.ok().build();
+    }
 
-//    @PutMapping("/end-service/{id}")
-//    public void endCleaningService(@PathVariable Long id){
-//        cleaningServiceService.endCleaningService(id);
-//    }
-//
-//    @PutMapping("/finish-service/{id}")
-//    public void finishCleaningService(@PathVariable Long id, @RequestParam String date){
-//        cleaningServiceService.finishCleaningService(id, date);
-//    }
-//
+    @PutMapping("/cancel/{id}")
+    public void cancelAppointment(@PathVariable Long id){
+        appointmentService.cancelAppointment(id);
+    }
+
 //    @PostMapping("/reschedule/{id}")
-//    public void rescheduleCleaningService(@PathVariable Long id, @RequestBody RescheduleDateDto dto) {
-//        cleaningServiceService.rescheduleCleaningService(id, dto);
+//    public void rescheduleAppointment(@PathVariable Long id, @RequestBody AppointmentCreation appointmentCreation) {
+//        appointmentService.rescheduleAppointment(id, dto);
 //    }
 }
