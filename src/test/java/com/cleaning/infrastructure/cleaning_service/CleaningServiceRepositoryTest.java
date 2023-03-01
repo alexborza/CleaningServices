@@ -104,8 +104,9 @@ public class CleaningServiceRepositoryTest {
 
         CleaningService cs1 = CleaningServiceTestData.dummyCleaningService(client);
         CleaningService cs2 = CleaningServiceTestData.dummyCleaningService(client);
+        CleaningService cs3 = CleaningServiceTestData.dummyCleaningService(null);
 
-        cleaningServiceRepositoryImplementation.saveAll(List.of(cs1, cs2));
+        cleaningServiceRepositoryImplementation.saveAll(List.of(cs1, cs2, cs3));
 
         Appointment ap1 = AppointmentTestData.dummyAppointment(
                 cs1, employee, new TimeSlot(8, 10), LocalDate.of(2023, 2, 21), AppointmentStatus.COMPLETED);

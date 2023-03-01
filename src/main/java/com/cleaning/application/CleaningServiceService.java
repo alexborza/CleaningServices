@@ -54,8 +54,11 @@ public class CleaningServiceService {
                                       List<AppointmentCommand> appointmentCommands){
 
         Employee employee = (Employee) userRepository.findById(employeeId).orElseThrow(() -> new UserNotFoundException(employeeId));
-        //TODO: this clientId can be null.
-        Client client = (Client) userRepository.findById(clientId).orElseThrow(() -> new UserNotFoundException(clientId));
+
+        Client client = null;
+        if(clientId != null) {
+            client = (Client) userRepository.findById(clientId).orElseThrow(() -> new UserNotFoundException(clientId));
+        }
 
         CleaningService cleaningService = cleaningServiceCommand.toDomain(client);
         CleaningService savedCleaningService = cleaningServiceRepository.save(cleaningService);
