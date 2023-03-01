@@ -2,10 +2,12 @@ package com.cleaning.exposition;
 
 import com.cleaning.application.*;
 import com.cleaning.domain.appointment.*;
+import com.cleaning.domain.cleaning_service.*;
 import com.cleaning.domain.cleaning_service.description.*;
 import com.cleaning.domain.cleaning_service.prices.*;
 import com.cleaning.domain.users.*;
 import com.cleaning.exposition.representation.response.appointment.*;
+import com.cleaning.exposition.representation.response.cleaning_service.*;
 import com.cleaning.exposition.representation.response.cleaning_service.description.*;
 import com.cleaning.exposition.representation.response.cleaning_service.prices.*;
 import com.cleaning.exposition.representation.response.users.*;
@@ -50,13 +52,13 @@ public class AdministratorController {
         );
     }
 
-    @GetMapping("/services-agenda/{date}")
-    public ResponseEntity<List<AppointmentRepresentation>> getAppointmentsByDate(@PathVariable String date){
-        List<Appointment> appointments = administratorService.getAppointmentsByDate(date);
+    @GetMapping("/employees-appointments/{date}")
+    public ResponseEntity<List<EmployeeAppointmentRepresentation>> getAllEmployeesAppointmentsByDate(@PathVariable String date){
+        Map<UserMinimalView, List<Appointment>> employeesAppointmentsByDate = administratorService.getAllEmployeesAppointmentsByDate(date);
 
         return ResponseEntity.ok(
-                appointments.stream()
-                        .map(AppointmentRepresentation::fromDomain)
+                employeesAppointmentsByDate.entrySet().stream()
+                        .map(entry -> EmployeeAppointmentRepresentation.fromDomain(entry.getKey(), entry.getValue()))
                         .collect(Collectors.toList())
         );
     }
@@ -73,5 +75,16 @@ public class AdministratorController {
         CleaningPrice cleaningPrice = representation.toDomain();
         administratorService.createCleaningPrices(cleaningPrice);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/all-cleaning-services")
+    public ResponseEntity<List<CleaningServiceMinimalRepresentation>> getAllCleaningServices(){
+        List<CleaningServiceMinimalView> cleaningServiceMinimalViews = administratorService.getAllCleaningServices();
+
+        return ResponseEntity.ok(
+                cleaningServiceMinimalViews.stream()
+                        .map(CleaningServiceMinimalRepresentation::fromDomain)
+                        .collect(Collectors.toList())
+        );
     }
 }

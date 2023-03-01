@@ -35,8 +35,8 @@ public class CleaningServiceRepositoryImplementation implements CleaningServiceR
     }
 
     @Override
-    public List<CleaningService> findAll() {
+    public List<CleaningServiceMinimalView> findAll() {
 
-        return jpaRepository.findAll();
+        return jpaRepository.findAllMinimalViews();
     }
 }

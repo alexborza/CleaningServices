@@ -57,6 +57,27 @@ public class CleaningServiceRepositoryTest {
     }
 
     @Test
+    @DirtiesContext
+    public void testFindAll() {
+        populateData();
+        List<CleaningServiceMinimalView> serviceMinimalViews = cleaningServiceRepositoryImplementation.findAll();
+
+        List<CleaningServiceMinimalRepresentation> minimalRepresentations = serviceMinimalViews.stream()
+                .map(CleaningServiceMinimalRepresentation::fromDomain)
+                .collect(toList());
+
+        assertThat(minimalRepresentations).hasSize(3);
+        assertThat(minimalRepresentations.stream().map(CleaningServiceMinimalRepresentation::getId).collect(toList()))
+                .containsExactly(10001L, 10002L, 10003L);
+        assertThat(minimalRepresentations.stream().map(CleaningServiceMinimalRepresentation::getNextCleaningDate).collect(toList()))
+                .containsExactly(null, LocalDate.of(2023, 3, 1), LocalDate.of(2023, 3, 2));
+        assertThat(minimalRepresentations.stream().map(CleaningServiceMinimalRepresentation::getTimeSlotRepresentation).map(TimeSlotRepresentation::getStartingHour).collect(toList()))
+                .containsExactly(null, 10, 8);
+        assertThat(minimalRepresentations.stream().map(CleaningServiceMinimalRepresentation::getTimeSlotRepresentation).map(TimeSlotRepresentation::getFinishingHour).collect(toList()))
+                .containsExactly(null, 12, 12);
+    }
+
+    @Test
     @Transactional
     @DirtiesContext
     public void updateCleaningServiceMessages() {

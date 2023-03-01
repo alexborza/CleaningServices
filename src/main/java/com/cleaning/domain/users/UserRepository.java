@@ -14,6 +14,8 @@ public interface UserRepository {
 
     List<Long> findAllEmployeeIds();
 
+    List<UserMinimalView> findAllEmployeeMinimalViews();
+
     boolean existsById(Long id);
 
     boolean existsByUsername(String username);

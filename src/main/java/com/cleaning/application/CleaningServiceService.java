@@ -89,9 +89,4 @@ public class CleaningServiceService {
 
         return cleaningPriceRepository.findTopByOrderByIdDesc();
     }
-
-
-//    public List<CleaningServiceDisplay> getCleaningServices(){
-//        return null;
-//    }
 }

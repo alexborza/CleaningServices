@@ -43,4 +43,7 @@ public interface UserJpaRepository extends JpaRepository<User, Long> {
 
     @Query("Select u.id From User u where u.role = 'EMPLOYEE'")
     List<Long> findAllEmployeeIds();
+
+    @Query("Select u.id as id, u.userInformation.fullName as fullName From User u where u.role = 'EMPLOYEE'")
+    List<UserMinimalView> findAllEmployeeMinimalViews();
 }

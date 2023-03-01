@@ -89,10 +89,4 @@ public class CleaningServiceController {
                 .map(cleaningPrice -> ResponseEntity.ok(CleaningPricesRepresentation.fromDomain(cleaningPrice)))
                 .orElseGet(() -> ResponseEntity.ok(CleaningPricesRepresentation.emptyInstance()));
     }
-
-//    @GetMapping
-//    public List<CleaningServiceDisplay> getCleaningServices(){
-//        return cleaningServiceService.getCleaningServices();
-//    }
-
 }

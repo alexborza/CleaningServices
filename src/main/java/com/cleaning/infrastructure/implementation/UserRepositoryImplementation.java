@@ -39,6 +39,12 @@ public class UserRepositoryImplementation implements UserRepository {
     }
 
     @Override
+    public List<UserMinimalView> findAllEmployeeMinimalViews() {
+
+        return jpaRepository.findAllEmployeeMinimalViews();
+    }
+
+    @Override
     public boolean existsById(Long id) {
         return jpaRepository.existsById(id);
     }

@@ -1,9 +1,11 @@
 package com.cleaning.application;
 
 import com.cleaning.domain.appointment.*;
+import com.cleaning.domain.cleaning_service.*;
 import com.cleaning.domain.cleaning_service.description.*;
 import com.cleaning.domain.cleaning_service.prices.*;
 import com.cleaning.domain.users.*;
+import com.cleaning.infrastructure.appointment.data.*;
 import com.cleaning.infrastructure.cleaning_service.cleaning_description.data.*;
 import com.cleaning.infrastructure.cleaning_service.cleaning_price.data.*;
 import com.cleaning.infrastructure.users.data.*;
@@ -13,7 +15,9 @@ import org.mockito.*;
 import org.mockito.junit.jupiter.*;
 
 import java.time.*;
+import java.util.*;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
@@ -35,6 +39,9 @@ public class AdministratorServiceTest {
     @Mock
     private CleaningPriceRepository cleaningPriceRepository;
 
+    @Mock
+    private CleaningServiceRepository cleaningServiceRepository;
+
     @Test
     public void testCreateEmployeeContract() {
         Employee employee = UserTestData.dummyEmployee("dummyEmployeeUsername", "dummyEmployeeEmail");
@@ -52,11 +59,31 @@ public class AdministratorServiceTest {
     }
 
     @Test
-    public void testGetAppointmentsByDate() {
+    public void testGetAllEmployeesAppointmentsByDate() {
         String date = LocalDate.of(2023, 2, 8).toString();
-        administratorService.getAppointmentsByDate(date);
 
-        verify(appointmentRepository).findAllByCleaningDate(date);
+        Employee e1 = UserTestData.dummyEmployeeWithId(1L, "alex", "alex");
+        Employee e2 = UserTestData.dummyEmployeeWithId(2L, "alex", "alex");
+
+        List<UserMinimalView> minimalViews = List.of(
+                createMinimalView(1L, "alex"),
+                createMinimalView(2L, "patrick"),
+                createMinimalView(3L, "cristi")
+        );
+
+        List<Appointment> appointments = List.of(
+                AppointmentTestData.dummyAppointment(null, e1, new TimeSlot(8, 10), LocalDate.parse(date), AppointmentStatus.ACTIVE),
+                AppointmentTestData.dummyAppointment(null, e1, new TimeSlot(10, 12), LocalDate.parse(date), AppointmentStatus.ACTIVE),
+                AppointmentTestData.dummyAppointment(null, e1, new TimeSlot(13, 17), LocalDate.parse(date), AppointmentStatus.ACTIVE),
+                AppointmentTestData.dummyAppointment(null, e2, new TimeSlot(8, 14), LocalDate.parse(date), AppointmentStatus.ACTIVE),
+                AppointmentTestData.dummyAppointment(null, e2, new TimeSlot(14, 17), LocalDate.parse(date), AppointmentStatus.ACTIVE)
+        );
+
+        when(userRepository.findAllEmployeeMinimalViews()).thenReturn(minimalViews);
+        when(appointmentRepository.findAllByCleaningDate(date)).thenReturn(appointments);
+
+        Map<UserMinimalView, List<Appointment>> allEmployeesAppointmentsByDate = administratorService.getAllEmployeesAppointmentsByDate(date);
+        assertThat(allEmployeesAppointmentsByDate.size()).isEqualTo(3);
     }
 
     @Test
@@ -73,5 +100,26 @@ public class AdministratorServiceTest {
         administratorService.createCleaningPrices(cleaningPrice);
 
         verify(cleaningPriceRepository).save(any());
+    }
+
+    @Test
+    public void testGetAllCleaningServices() {
+        administratorService.getAllCleaningServices();
+
+        verify(cleaningServiceRepository).findAll();
+    }
+
+    private UserMinimalView createMinimalView(Long id, String fullName) {
+        return new UserMinimalView() {
+            @Override
+            public Long getId() {
+                return id;
+            }
+
+            @Override
+            public String getFullName() {
+                return fullName;
+            }
+        };
     }
 }
