@@ -2,8 +2,6 @@ package com.cleaning.infrastructure.cleaning_service.data;
 
 import com.cleaning.domain.cleaning_service.*;
 
-import java.util.*;
-
 public class CleaningServiceCommandTestData {
 
     public static CleaningServiceCommand dummyCleaningServiceCommand() {
@@ -16,8 +14,7 @@ public class CleaningServiceCommandTestData {
                 Payment.CARD,
                 100.0,
                 3,
-                CleaningType.STANDARD,
-                CleaningServiceTestData.dummyMessages()
+                CleaningType.STANDARD
         );
     }
 }

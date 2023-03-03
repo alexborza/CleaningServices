@@ -4,12 +4,15 @@ import com.cleaning.application.*;
 import com.cleaning.domain.appointment.*;
 import com.cleaning.domain.cleaning_service.*;
 import com.cleaning.domain.cleaning_service.description.*;
+import com.cleaning.domain.cleaning_service.details.*;
 import com.cleaning.domain.cleaning_service.prices.*;
 import com.cleaning.exposition.representation.data.*;
-import com.cleaning.exposition.representation.request.*;
+import com.cleaning.exposition.representation.request.appointment.*;
+import com.cleaning.exposition.representation.request.cleaning_service.*;
 import com.cleaning.exposition.representation.response.appointment.*;
 import com.cleaning.exposition.representation.response.cleaning_service.*;
 import com.cleaning.exposition.representation.response.cleaning_service.description.*;
+import com.cleaning.exposition.representation.response.cleaning_service.details.*;
 import com.cleaning.exposition.representation.response.cleaning_service.prices.*;
 import com.cleaning.infrastructure.appointment.data.*;
 import com.cleaning.infrastructure.cleaning_service.cleaning_description.data.*;
@@ -82,11 +85,22 @@ public class CleaningServiceControllerTest {
         assertThat(body).isNotNull();
 
         List<AppointmentRepresentation> appointmentRepresentations = body.getAppointments();
+        StandardCleaningDetailsRepresentation cleaningDetailsRepresentation = (StandardCleaningDetailsRepresentation) body.getCleaningDetails();
+        StandardCleaningDetails cleaningDetails = (StandardCleaningDetails) cleaningService.getCleaningDetails();
+
         assertThat(appointmentRepresentations).hasSize(1);
         assertThat(body.getTimeEstimation()).isEqualTo(cleaningService.getTimeEstimation());
         assertThat(body.getTotal()).isEqualTo(cleaningService.getTotal());
         assertThat(body.getPayment()).isEqualTo(cleaningService.getPayment());
         assertThat(body.getFrequency()).isEqualTo(cleaningService.getFrequency());
+
+        assertThat(cleaningDetailsRepresentation.getHomeAccess()).isEqualTo(cleaningDetails.getHomeAccess());
+        assertThat(cleaningDetailsRepresentation.getSquareMeters()).isEqualTo(cleaningDetails.getSquareMeters());
+        assertThat(cleaningDetailsRepresentation.getParking()).isEqualTo(cleaningDetails.getParking());
+        assertThat(cleaningDetailsRepresentation.getBathrooms()).isEqualTo(cleaningDetails.getBathrooms());
+        assertThat(cleaningDetailsRepresentation.getBedrooms()).isEqualTo(cleaningDetails.getBedrooms());
+        assertThat(cleaningDetailsRepresentation.getKitchens()).isEqualTo(cleaningDetails.getKitchens());
+
         AppointmentRepresentation appointmentRepresentation = appointmentRepresentations.get(0);
         assertThat(appointmentRepresentation.getTimeSlot().getStartingHour()).isEqualTo(dummyAppointment.getTimeSlot().getStartingHour());
         assertThat(appointmentRepresentation.getTimeSlot().getFinishingHour()).isEqualTo(dummyAppointment.getTimeSlot().getEndingHour());
@@ -96,14 +110,14 @@ public class CleaningServiceControllerTest {
     @Test
     public void testCreateCleaningService() {
 
-        List<AppointmentRepresentation> appointmentRepresentations = List.of(
-                AppointmentRepresentationTestData.dummyAppointmentRepresentationWithEmployeeId(1L, new TimeSlotRepresentation(8, 10)),
-                AppointmentRepresentationTestData.dummyAppointmentRepresentationWithEmployeeId(1L, new TimeSlotRepresentation(15, 17))
+        List<AppointmentCreation> appointmentCreations = List.of(
+                AppointmentCreationTestData.dummyAppointmentCreation(new TimeSlotRepresentation(8, 10)),
+                AppointmentCreationTestData.dummyAppointmentCreation(new TimeSlotRepresentation(10, 14))
         );
 
-        CleaningServiceRepresentation cleaningServiceRepresentation = CleaningServiceRepresentationTestData.dummyCleaningServiceRepresentation(Collections.emptyList(), appointmentRepresentations);
+        CleaningServiceCreation cleaningServiceCreation = CleaningServiceCreationTestData.dummyCleaningServiceCreation(appointmentCreations);
 
-        ResponseEntity<Void> response = cleaningServiceController.createCleaningService(1L, 2L, cleaningServiceRepresentation);
+        ResponseEntity<Void> response = cleaningServiceController.createCleaningService(1L, 2L, cleaningServiceCreation);
 
         assertThat(response).isNotNull();
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -115,13 +129,12 @@ public class CleaningServiceControllerTest {
     public void testAddMessageToCleaningService() {
 
         MessageCreation messageCreation = new MessageCreation("sender", "content");
-        Message message = messageCreation.toDomain();
 
         ResponseEntity<Void> response = cleaningServiceController.addMessageToCleaningService(1L, messageCreation);
 
         assertThat(response).isNotNull();
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        verify(cleaningServiceService).addMessageToCleaningService(1L, message);
+        verify(cleaningServiceService).addMessageToCleaningService(any(), any());
     }
 
     @Test

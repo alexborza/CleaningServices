@@ -1,11 +1,9 @@
 package com.cleaning.exposition.representation.response.cleaning_service.details;
 
 import com.cleaning.domain.cleaning_service.details.*;
-import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 
 @Getter
-@JsonTypeName("standardCleaning")
 public class StandardCleaningDetailsRepresentation extends CleaningDetailsRepresentation {
     private final int bedrooms;
     private final int bathrooms;
@@ -35,19 +33,6 @@ public class StandardCleaningDetailsRepresentation extends CleaningDetailsRepres
                 cleaningDetails.getBedrooms(),
                 cleaningDetails.getBathrooms(),
                 cleaningDetails.getKitchens()
-        );
-    }
-
-    @Override
-    public CleaningDetails toDomain() {
-
-        return new StandardCleaningDetails(
-                getSquareMeters(),
-                getParking(),
-                getHomeAccess(),
-                bedrooms,
-                bathrooms,
-                kitchens
         );
     }
 }

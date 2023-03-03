@@ -1,8 +1,9 @@
 package com.cleaning.application;
 
+
 import com.cleaning.domain.users.*;
-import com.cleaning.exposition.representation.request.*;
-import com.cleaning.exposition.representation.response.*;
+import com.cleaning.exposition.representation.request.users.*;
+import com.cleaning.exposition.representation.response.users.*;
 import com.cleaning.security.implementation.*;
 import com.cleaning.security.jwt.*;
 import org.springframework.beans.factory.annotation.*;

@@ -1,13 +1,13 @@
 package com.cleaning.exposition.representation.data;
 
 import com.cleaning.domain.cleaning_service.details.*;
-import com.cleaning.exposition.representation.response.cleaning_service.details.*;
+import com.cleaning.exposition.representation.request.cleaning_service.*;
 
-public class CleaningDetailsRepresentationTestData {
+public class CleaningDetailsCreationTestData {
 
-    public static CleaningDetailsRepresentation dummyStandardCleaningDetailsRepresentation() {
+    public static CleaningDetailsCreation dummyStandardCleaningDetailsCreation() {
 
-        return new StandardCleaningDetailsRepresentation(
+        return new StandardCleaningDetailsCreation(
                 null,
                 "squareMeters",
                 Parking.FREE,

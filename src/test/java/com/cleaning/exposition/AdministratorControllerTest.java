@@ -5,7 +5,7 @@ import com.cleaning.domain.appointment.*;
 import com.cleaning.domain.cleaning_service.*;
 import com.cleaning.domain.users.*;
 import com.cleaning.exposition.representation.data.*;
-import com.cleaning.exposition.representation.request.*;
+import com.cleaning.exposition.representation.request.cleaning_service.*;
 import com.cleaning.exposition.representation.response.appointment.*;
 import com.cleaning.exposition.representation.response.cleaning_service.*;
 import com.cleaning.exposition.representation.response.cleaning_service.description.*;

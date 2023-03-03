@@ -2,7 +2,7 @@ package com.cleaning.exposition;
 
 import com.cleaning.application.*;
 import com.cleaning.domain.users.*;
-import com.cleaning.exposition.representation.request.*;
+import com.cleaning.exposition.representation.request.users.*;
 import com.cleaning.exposition.representation.response.users.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;

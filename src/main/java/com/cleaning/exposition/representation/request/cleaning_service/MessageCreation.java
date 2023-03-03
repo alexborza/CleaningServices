@@ -1,4 +1,4 @@
-package com.cleaning.exposition.representation.request;
+package com.cleaning.exposition.representation.request.cleaning_service;
 
 import com.cleaning.domain.cleaning_service.*;
 import lombok.*;

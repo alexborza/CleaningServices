@@ -6,7 +6,7 @@ import com.cleaning.domain.cleaning_service.*;
 import com.cleaning.domain.users.*;
 import com.cleaning.domain.users.job_information.*;
 import com.cleaning.exposition.representation.data.*;
-import com.cleaning.exposition.representation.request.*;
+import com.cleaning.exposition.representation.request.users.*;
 import com.cleaning.exposition.representation.response.appointment.*;
 import com.cleaning.exposition.representation.response.shared.*;
 import com.cleaning.infrastructure.cleaning_service.data.*;

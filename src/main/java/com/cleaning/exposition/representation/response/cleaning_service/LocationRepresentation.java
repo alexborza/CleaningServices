@@ -18,12 +18,4 @@ public class LocationRepresentation {
                 location.getAddress()
         );
     }
-
-    public Location toDomain() {
-        return new Location(
-                county,
-                city,
-                address
-        );
-    }
 }

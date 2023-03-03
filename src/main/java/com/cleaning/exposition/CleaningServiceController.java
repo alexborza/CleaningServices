@@ -5,8 +5,8 @@ import com.cleaning.domain.appointment.*;
 import com.cleaning.domain.cleaning_service.*;
 import com.cleaning.domain.cleaning_service.description.*;
 import com.cleaning.domain.cleaning_service.prices.*;
-import com.cleaning.exposition.representation.request.*;
-import com.cleaning.exposition.representation.response.appointment.*;
+import com.cleaning.exposition.representation.request.appointment.*;
+import com.cleaning.exposition.representation.request.cleaning_service.*;
 import com.cleaning.exposition.representation.response.cleaning_service.*;
 import com.cleaning.exposition.representation.response.cleaning_service.description.*;
 import com.cleaning.exposition.representation.response.cleaning_service.prices.*;
@@ -28,7 +28,7 @@ public class CleaningServiceController {
 
 
     @GetMapping("/client/{userId}")
-    public ResponseEntity<List<CleaningServiceMinimalRepresentation>> findClientsCleaningServices(@PathVariable Long userId){
+    public ResponseEntity<List<CleaningServiceMinimalRepresentation>> findClientsCleaningServices(@PathVariable Long userId) {
 
         List<CleaningServiceMinimalView> cleaningServices = cleaningServiceService.findClientsCleaningServices(userId);
 
@@ -40,7 +40,7 @@ public class CleaningServiceController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CleaningServiceRepresentation> getCleaningService(@PathVariable Long id){
+    public ResponseEntity<CleaningServiceRepresentation> getCleaningService(@PathVariable Long id) {
 
         CleaningService cleaningService = cleaningServiceService.getCleaningService(id);
         List<Appointment> cleaningServiceAppointments = cleaningServiceService.findCleaningServiceAppointments(id);
@@ -53,18 +53,18 @@ public class CleaningServiceController {
     @PostMapping
     public ResponseEntity<Void> createCleaningService(@RequestParam Long employeeId,
                                                       @RequestParam(required = false) Long clientId,
-                                                      @RequestBody CleaningServiceRepresentation representation){
+                                                      @RequestBody CleaningServiceCreation cleaningServiceCreation) {
 
-        List<AppointmentCommand> appointmentCommands = representation.getAppointments().stream()
-                .map(AppointmentRepresentation::toCommand)
+        List<AppointmentCommand> appointmentCommands = cleaningServiceCreation.getAppointments().stream()
+                .map(AppointmentCreation::toCommand)
                 .collect(toList());
 
-        cleaningServiceService.createCleaningService(employeeId, clientId, representation.toCommand(), appointmentCommands);
+        cleaningServiceService.createCleaningService(employeeId, clientId, cleaningServiceCreation.toCommand(), appointmentCommands);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/message/{id}")
-    public ResponseEntity<Void> addMessageToCleaningService(@PathVariable Long id, @RequestBody MessageCreation messageCreation){
+    public ResponseEntity<Void> addMessageToCleaningService(@PathVariable Long id, @RequestBody MessageCreation messageCreation) {
 
         Message message = messageCreation.toDomain();
         cleaningServiceService.addMessageToCleaningService(id, message);
@@ -73,7 +73,7 @@ public class CleaningServiceController {
     }
 
     @GetMapping("/descriptions")
-    public ResponseEntity<CleaningDescriptionRepresentation> getDescriptions(){
+    public ResponseEntity<CleaningDescriptionRepresentation> getDescriptions() {
 
         Optional<CleaningDescription> optionalCleaningDescription = cleaningServiceService.getDescriptions();
 
@@ -84,7 +84,7 @@ public class CleaningServiceController {
     }
 
     @GetMapping("/prices")
-    public ResponseEntity<CleaningPricesRepresentation> getCleaningServicePrices(){
+    public ResponseEntity<CleaningPricesRepresentation> getCleaningServicePrices() {
         Optional<CleaningPrice> optionalCleaningPrice = cleaningServiceService.getCleaningServicePrices();
 
         return optionalCleaningPrice

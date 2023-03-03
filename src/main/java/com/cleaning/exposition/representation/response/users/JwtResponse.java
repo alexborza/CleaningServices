@@ -1,4 +1,4 @@
-package com.cleaning.exposition.representation.response;
+package com.cleaning.exposition.representation.response.users;
 
 import lombok.*;
 

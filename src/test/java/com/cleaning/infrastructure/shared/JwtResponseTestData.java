@@ -1,6 +1,6 @@
 package com.cleaning.infrastructure.shared;
 
-import com.cleaning.exposition.representation.response.*;
+import com.cleaning.exposition.representation.response.users.*;
 
 public class JwtResponseTestData {
 

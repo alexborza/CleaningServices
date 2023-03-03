@@ -1,6 +1,6 @@
 package com.cleaning.exposition.representation.data;
 
-import com.cleaning.exposition.representation.request.*;
+import com.cleaning.exposition.representation.request.appointment.*;
 import com.cleaning.exposition.representation.response.appointment.*;
 
 import java.time.*;
@@ -12,6 +12,14 @@ public class AppointmentCreationTestData {
         return new AppointmentCreation(
                 LocalDate.now().toString(),
                 new TimeSlotRepresentation(8, 10)
+        );
+    }
+
+    public static AppointmentCreation dummyAppointmentCreation(TimeSlotRepresentation timeSlotRepresentation) {
+
+        return new AppointmentCreation(
+                LocalDate.now().toString(),
+                timeSlotRepresentation
         );
     }
 }

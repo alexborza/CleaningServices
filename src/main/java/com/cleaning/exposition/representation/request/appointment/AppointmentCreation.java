@@ -1,4 +1,4 @@
-package com.cleaning.exposition.representation.request;
+package com.cleaning.exposition.representation.request.appointment;
 
 import com.cleaning.domain.appointment.*;
 import com.cleaning.exposition.representation.response.appointment.*;

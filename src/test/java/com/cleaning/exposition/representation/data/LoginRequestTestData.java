@@ -1,6 +1,6 @@
 package com.cleaning.exposition.representation.data;
 
-import com.cleaning.exposition.representation.request.*;
+import com.cleaning.exposition.representation.request.users.*;
 
 public class LoginRequestTestData {
 

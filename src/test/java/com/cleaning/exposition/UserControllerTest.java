@@ -3,7 +3,7 @@ package com.cleaning.exposition;
 import com.cleaning.application.*;
 import com.cleaning.domain.users.*;
 import com.cleaning.exposition.representation.data.*;
-import com.cleaning.exposition.representation.request.*;
+import com.cleaning.exposition.representation.request.users.*;
 import com.cleaning.exposition.representation.response.users.*;
 import com.cleaning.infrastructure.users.data.*;
 import org.junit.jupiter.api.*;

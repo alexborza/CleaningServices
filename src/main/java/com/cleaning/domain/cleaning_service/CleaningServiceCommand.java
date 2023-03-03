@@ -18,7 +18,6 @@ public class CleaningServiceCommand {
     private final double total;
     private final int timeEstimation;
     private final CleaningType type;
-    private final List<Message> messages;
 
     public CleaningService toDomain(Client client) {
 
@@ -32,7 +31,6 @@ public class CleaningServiceCommand {
                 .withTotal(total)
                 .withTimeEstimation(timeEstimation)
                 .withType(type)
-                .withMessages(messages)
                 .build();
     }
 
