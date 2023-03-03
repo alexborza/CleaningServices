@@ -2,6 +2,7 @@ package com.cleaning.exposition.representation.request.cleaning_service;
 
 import com.cleaning.domain.cleaning_service.*;
 import com.cleaning.exposition.representation.request.appointment.*;
+import com.cleaning.exposition.representation.request.cleaning_service.details.*;
 import lombok.*;
 
 import java.util.*;

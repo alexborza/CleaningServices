@@ -31,13 +31,4 @@ public class CleaningDescriptionRepresentation {
                 cleaningDescription.getDisinfectionCleaningDescription()
         );
     }
-
-    public CleaningDescription toDomain() {
-        return new CleaningDescription.CleaningDescriptionBuilder()
-                .withStandardCleaningDescription(standardCleaningDescription)
-                .withDeepCleaningDescription(deepCleaningDescription)
-                .withPostConstructionCleaningDescription(postConstructionCleaningDescription)
-                .withDisinfectionCleaningDescription(disinfectionCleaningDescription)
-                .build();
-    }
 }

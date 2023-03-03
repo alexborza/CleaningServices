@@ -19,8 +19,4 @@ public class DisinfectionCleaningPricesRepresentation {
 
         return new DisinfectionCleaningPricesRepresentation(disinfectionCleaningPrice.getDisinfectionServicePrice());
     }
-
-    public DisinfectionCleaningPrice toDomain() {
-        return new DisinfectionCleaningPrice(disinfectionServicePrice);
-    }
 }

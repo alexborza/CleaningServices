@@ -6,10 +6,10 @@ import com.cleaning.domain.cleaning_service.*;
 import com.cleaning.domain.users.*;
 import com.cleaning.exposition.representation.data.*;
 import com.cleaning.exposition.representation.request.cleaning_service.*;
+import com.cleaning.exposition.representation.request.cleaning_service.description.*;
+import com.cleaning.exposition.representation.request.cleaning_service.prices.*;
 import com.cleaning.exposition.representation.response.appointment.*;
 import com.cleaning.exposition.representation.response.cleaning_service.*;
-import com.cleaning.exposition.representation.response.cleaning_service.description.*;
-import com.cleaning.exposition.representation.response.cleaning_service.prices.*;
 import com.cleaning.exposition.representation.response.users.*;
 import com.cleaning.infrastructure.appointment.data.*;
 import com.cleaning.infrastructure.cleaning_service.data.*;
@@ -81,8 +81,6 @@ public class AdministratorControllerTest {
 
         Employee e1 = UserTestData.dummyEmployeeWithId(1L, "alex", "alex");
         Employee e2 = UserTestData.dummyEmployeeWithId(2L, "alex", "alex");
-        Employee e3 = UserTestData.dummyEmployeeWithId(3L, "alex", "alex");
-
 
         UserMinimalView v1 = createUserMinimalView(1L, "alex");
         UserMinimalView v2 = createUserMinimalView(2L, "patrick");
@@ -128,9 +126,9 @@ public class AdministratorControllerTest {
 
     @Test
     public void testCreateDescriptions() {
-        CleaningDescriptionRepresentation representation = CleaningDescriptionRepresentationTestData.dummyCleaningDescriptionRepresentation();
+        CleaningDescriptionCreation cleaningDescriptionCreation = CleaningDescriptionCreationTestData.dummyCleaningCreationRepresentation();
 
-        ResponseEntity<Void> response = controller.createDescriptions(representation);
+        ResponseEntity<Void> response = controller.createDescriptions(cleaningDescriptionCreation);
 
         assertThat(response).isNotNull();
         assertThat(response.getStatusCodeValue()).isEqualTo(200);
@@ -138,9 +136,9 @@ public class AdministratorControllerTest {
 
     @Test
     public void testCreateCleaningPrices() {
-        CleaningPricesRepresentation representation = CleaningPricesRepresentationTestData.dummyCleaningPricesRepresentation();
+        CleaningPriceCreation cleaningPriceCreation = CleaningPricesCreationTestData.dummyCleaningPricesRepresentation();
 
-        ResponseEntity<Void> response = controller.createCleaningPrices(representation);
+        ResponseEntity<Void> response = controller.createCleaningPrices(cleaningPriceCreation);
 
         assertThat(response).isNotNull();
         assertThat(response.getStatusCodeValue()).isEqualTo(200);

@@ -23,11 +23,4 @@ public class PostConstructionCleaningPricesRepresentation {
                 postConstructionCleaningPrice.getRoomPrice()
         );
     }
-
-    public PostConstructionCleaningPrice toDomain() {
-        return new PostConstructionCleaningPrice(
-                postConstructionServicePrice,
-                roomPrice
-        );
-    }
 }

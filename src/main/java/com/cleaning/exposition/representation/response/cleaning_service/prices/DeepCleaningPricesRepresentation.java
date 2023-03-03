@@ -27,14 +27,4 @@ public class DeepCleaningPricesRepresentation {
                 deepCleaningPrice.getDeepServiceKitchen()
         );
     }
-
-    public DeepCleaningPrice toDomain() {
-
-        return new DeepCleaningPrice(
-                deepServicePrice,
-                deepServiceBedroom,
-                deepServiceBathroom,
-                deepServiceKitchen
-        );
-    }
 }

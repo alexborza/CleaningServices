@@ -1,4 +1,4 @@
-package com.cleaning.exposition.representation.request.cleaning_service;
+package com.cleaning.exposition.representation.request.cleaning_service.details;
 
 import com.cleaning.domain.cleaning_service.details.*;
 import com.fasterxml.jackson.annotation.*;

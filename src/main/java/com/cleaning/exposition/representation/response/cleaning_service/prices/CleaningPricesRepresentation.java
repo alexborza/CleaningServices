@@ -38,16 +38,4 @@ public class CleaningPricesRepresentation {
                 cleaningPrice.getPickUpKeysPrice()
         );
     }
-
-    public CleaningPrice toDomain() {
-
-        return new CleaningPrice.CleaningPriceBuilder()
-                .withStandardCleaningPrice(standardCleaningPrices.toDomain())
-                .withDeepCleaningPrice(deepCleaningPrices.toDomain())
-                .withPostConstructionCleaningPrice(postConstructionCleaningPrices.toDomain())
-                .withDisinfectionCleaningPrice(disinfectionCleaningPrices.toDomain())
-                .withPaidParkingSpotPrice(paidParkingSpotPrice)
-                .withPickUpKeysPrice(pickUpKeysPrice)
-                .build();
-    }
 }

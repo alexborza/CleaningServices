@@ -7,10 +7,10 @@ import com.cleaning.domain.cleaning_service.description.*;
 import com.cleaning.domain.cleaning_service.prices.*;
 import com.cleaning.domain.users.*;
 import com.cleaning.exposition.representation.request.cleaning_service.*;
+import com.cleaning.exposition.representation.request.cleaning_service.description.*;
+import com.cleaning.exposition.representation.request.cleaning_service.prices.*;
 import com.cleaning.exposition.representation.response.appointment.*;
 import com.cleaning.exposition.representation.response.cleaning_service.*;
-import com.cleaning.exposition.representation.response.cleaning_service.description.*;
-import com.cleaning.exposition.representation.response.cleaning_service.prices.*;
 import com.cleaning.exposition.representation.response.users.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
@@ -63,15 +63,15 @@ public class AdministratorController {
     }
 
     @PostMapping("/create-descriptions")
-    public ResponseEntity<Void> createDescriptions(@RequestBody CleaningDescriptionRepresentation representation){
-        CleaningDescription cleaningDescription = representation.toDomain();
+    public ResponseEntity<Void> createDescriptions(@RequestBody CleaningDescriptionCreation cleaningDescriptionCreation){
+        CleaningDescription cleaningDescription = cleaningDescriptionCreation.toDomain();
         administratorService.createDescriptions(cleaningDescription);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/create-prices")
-    public ResponseEntity<Void> createCleaningPrices(@RequestBody CleaningPricesRepresentation representation) {
-        CleaningPrice cleaningPrice = representation.toDomain();
+    public ResponseEntity<Void> createCleaningPrices(@RequestBody CleaningPriceCreation cleaningPriceCreation) {
+        CleaningPrice cleaningPrice = cleaningPriceCreation.toDomain();
         administratorService.createCleaningPrices(cleaningPrice);
         return ResponseEntity.ok().build();
     }

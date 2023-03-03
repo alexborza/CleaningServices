@@ -27,13 +27,4 @@ public class StandardCleaningPricesRepresentation {
                 standardCleaningPrice.getStandardServiceKitchen()
         );
     }
-
-    public StandardCleaningPrice toDomain() {
-        return new StandardCleaningPrice(
-                standardServicePrice,
-                standardServiceBedroom,
-                standardServiceBathroom,
-                standardServiceKitchen
-        );
-    }
 }

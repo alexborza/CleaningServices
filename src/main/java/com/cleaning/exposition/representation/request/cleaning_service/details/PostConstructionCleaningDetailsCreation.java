@@ -1,32 +1,38 @@
-package com.cleaning.exposition.representation.request.cleaning_service;
+package com.cleaning.exposition.representation.request.cleaning_service.details;
 
 import com.cleaning.domain.cleaning_service.details.*;
 import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 
 @Getter
-@JsonTypeName("disinfectionCleaning")
-public class DisinfectionCleaningDetailsCreation extends CleaningDetailsCreation {
+@JsonTypeName("postConstructionCleaning")
+public class PostConstructionCleaningDetailsCreation extends CleaningDetailsCreation {
     private final Property property;
+    private final Integer rooms;
 
-    public DisinfectionCleaningDetailsCreation(
+
+    public PostConstructionCleaningDetailsCreation(
             Long id,
             String squareMeters,
             Parking parking,
             HomeAccess homeAccess,
-            Property property) {
+            Property property,
+            Integer rooms) {
+
         super(id, squareMeters, parking, homeAccess);
         this.property = property;
+        this.rooms = rooms;
     }
 
     @Override
     public CleaningDetails toDomain() {
 
-        return new DisinfectionCleaningDetails(
+        return new PostConstructionCleaningDetails(
                 getSquareMeters(),
                 getParking(),
                 getHomeAccess(),
-                property
+                property,
+                rooms
         );
     }
 }
