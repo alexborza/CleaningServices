@@ -2,6 +2,8 @@ package com.cleaning.application;
 
 import com.cleaning.domain.appointment.*;
 import com.cleaning.domain.users.*;
+import com.cleaning.domain.users.exception.*;
+import com.cleaning.domain.users.job_information.*;
 import com.cleaning.infrastructure.appointment.data.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.*;

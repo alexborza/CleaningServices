@@ -2,7 +2,8 @@ package com.cleaning.exposition;
 
 import com.cleaning.application.*;
 import com.cleaning.domain.appointment.*;
-import com.cleaning.domain.users.*;
+import com.cleaning.domain.users.job_information.*;
+import com.cleaning.exposition.representation.request.*;
 import com.cleaning.exposition.representation.response.appointment.*;
 import com.cleaning.exposition.representation.response.shared.*;
 import com.cleaning.exposition.representation.response.users.*;
@@ -22,8 +23,10 @@ public class EmployeeController {
     private EmployeeService employeeService;
 
     @PostMapping("job-information/{userId}")
-    public ResponseEntity<Void> updateJobInformation(@PathVariable Long jobInformationId, @RequestBody JobInformationRepresentation representation){
-        JobInformation jobInformation = representation.toDomain();
+    public ResponseEntity<Void> updateJobInformation(@PathVariable Long jobInformationId,
+                                                     @RequestBody JobInformationCreation jobInformationCreation){
+
+        JobInformation jobInformation = jobInformationCreation.toDomain();
         employeeService.updateJobInformation(jobInformationId, jobInformation);
         return ResponseEntity.ok().build();
     }

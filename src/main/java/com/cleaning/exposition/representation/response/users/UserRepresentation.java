@@ -19,8 +19,6 @@ public abstract class UserRepresentation {
     private transient String password;
     private UserInformationRepresentation userInformation;
 
-    public abstract User toDomain();
-
     public static UserRepresentation fromDomain(User user) {
         if(user instanceof Employee)
             return EmployeeRepresentation.mapFromDomain((Employee) user);

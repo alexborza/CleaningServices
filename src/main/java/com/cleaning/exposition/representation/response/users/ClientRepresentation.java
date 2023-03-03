@@ -14,16 +14,6 @@ public class ClientRepresentation extends UserRepresentation {
         super(id, username, email, password, userInformation);
     }
 
-    @Override
-    public User toDomain() {
-        return new Client.Builder()
-                .withUsername(getUsername())
-                .withEmail(getEmail())
-                .withPassword(getPassword())
-                .withUserInformation(getUserInformation().toDomain())
-                .build();
-    }
-
     public static ClientRepresentation mapFromDomain(Client client) {
         return new ClientRepresentation(
                 client.getId(),

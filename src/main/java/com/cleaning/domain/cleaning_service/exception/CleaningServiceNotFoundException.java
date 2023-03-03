@@ -1,4 +1,4 @@
-package com.cleaning.domain.cleaning_service;
+package com.cleaning.domain.cleaning_service.exception;
 
 public class CleaningServiceNotFoundException extends RuntimeException {
 

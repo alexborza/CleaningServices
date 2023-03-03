@@ -1,6 +1,7 @@
 package com.cleaning.infrastructure.users.data;
 
 import com.cleaning.domain.users.*;
+import com.cleaning.domain.users.job_information.*;
 
 import java.time.*;
 
@@ -21,7 +22,7 @@ public class UserTestData {
                 .withEmail(email)
                 .withPassword("password")
                 .withUserInformation(dummyUserInformation("fullName", "address", "phoneNumber", "birthDate"))
-                .withJobInformation(dummyJobInformation("title", "supervisor", "workPhone", LocalDate.of(2023, 2, 1), 2000L, EmploymentStatus.FULL_TIME))
+                .withJobInformation(dummyJobInformation("workPhone", LocalDate.of(2023, 2, 1), 2000L))
                 .build();
     }
 
@@ -32,7 +33,7 @@ public class UserTestData {
                 .withEmail(email)
                 .withPassword("password")
                 .withUserInformation(dummyUserInformation("fullName", "address", "phoneNumber", "birthDate"))
-                .withJobInformation(dummyJobInformation("title", "supervisor", "workPhone", LocalDate.of(2023, 2, 1), 2000L, EmploymentStatus.FULL_TIME))
+                .withJobInformation(dummyJobInformation("workPhone", LocalDate.of(2023, 2, 1), 2000L))
                 .build();
     }
 
@@ -46,23 +47,17 @@ public class UserTestData {
 
     public static JobInformation dummyJobInformation() {
         return new JobInformation.JobInformationBuilder()
-                .withTitle("title")
-                .withSupervisor("supervisor")
                 .withWorkPhone("workphone")
                 .withHiringDate(LocalDate.now())
                 .withSalary(2000L)
-                .withEmploymentStatus(EmploymentStatus.FULL_TIME)
                 .build();
     }
 
-    public static JobInformation dummyJobInformation(String title, String supervisor, String workphone, LocalDate hiringDate, Long salary, EmploymentStatus employmentStatus) {
+    public static JobInformation dummyJobInformation(String workphone, LocalDate hiringDate, Long salary) {
         return new JobInformation.JobInformationBuilder()
-                .withTitle(title)
-                .withSupervisor(supervisor)
                 .withWorkPhone(workphone)
                 .withHiringDate(hiringDate)
                 .withSalary(salary)
-                .withEmploymentStatus(employmentStatus)
                 .build();
     }
 }

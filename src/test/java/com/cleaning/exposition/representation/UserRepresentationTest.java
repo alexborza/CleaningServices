@@ -1,6 +1,7 @@
 package com.cleaning.exposition.representation;
 
 import com.cleaning.domain.users.*;
+import com.cleaning.domain.users.job_information.*;
 import com.cleaning.exposition.representation.data.*;
 import com.cleaning.exposition.representation.response.users.*;
 import com.cleaning.infrastructure.users.data.*;
@@ -10,25 +11,6 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class UserRepresentationTest {
-
-    @Test
-    public void toDomainClient() {
-        UserRepresentation representation = UserRepresentationTestData.dummyClientRepresentation(1L);
-        UserInformationRepresentation informationRepresentation = representation.getUserInformation();
-
-        User client = representation.toDomain();
-        UserInformation userInformation = client.getUserInformation();
-
-        assertThat(client).isInstanceOf(Client.class);
-        assertEquals(client.getRole(), Role.USER);
-        assertEquals(client.getEmail(), representation.getEmail());
-        assertEquals(client.getPassword(), representation.getPassword());
-        assertEquals(client.getUsername(), representation.getUsername());
-        assertEquals(userInformation.getAddress(), informationRepresentation.getAddress());
-        assertEquals(userInformation.getBirthDate(), informationRepresentation.getBirthDate());
-        assertEquals(userInformation.getFullName(), informationRepresentation.getFullName());
-        assertEquals(userInformation.getPhoneNumber(), informationRepresentation.getPhoneNumber());
-    }
 
     @Test
     public void fromDomainClient() {
@@ -47,6 +29,7 @@ public class UserRepresentationTest {
         assertEquals(userInformationRepresentation.getFullName(), userInformation.getFullName());
     }
 
+    @Test
     public void fromDomainEmployee() {
         Employee employee = UserTestData.dummyEmployee("dummyEmployeeUser", "dummyEmployeeEmail");
         UserRepresentation representation = UserRepresentation.fromDomain(employee);
@@ -68,38 +51,6 @@ public class UserRepresentationTest {
         assertEquals(userInformationRepresentation.getFullName(), userInformation.getFullName());
         assertEquals(jobInformationRepresentation.getSalary(), jobInformation.getSalary());
         assertEquals(jobInformationRepresentation.getWorkPhone(), jobInformation.getWorkPhone());
-        assertEquals(jobInformationRepresentation.getSupervisor(), jobInformation.getSupervisor());
-        assertEquals(jobInformationRepresentation.getTitle(), jobInformation.getTitle());
         assertEquals(jobInformationRepresentation.getHiringDate(), jobInformation.getHiringDate());
-        assertEquals(jobInformationRepresentation.getEmploymentStatus(), jobInformation.getEmploymentStatus());
-    }
-
-    @Test
-    public void toDomainEmployee() {
-        JobInformationRepresentation jobInformationRepresentation = UserRepresentationTestData.dummyJobInformationRepresentation();
-        UserRepresentation representation = UserRepresentationTestData.dummyEmployeeRepresentation(1L, jobInformationRepresentation);
-        UserInformationRepresentation informationRepresentation = representation.getUserInformation();
-
-        User user = representation.toDomain();
-        UserInformation userInformation = user.getUserInformation();
-
-        assertThat(user).isInstanceOf(Employee.class);
-        Employee employee = (Employee) user;
-        JobInformation jobInformation = employee.getJobInformation();
-
-        assertEquals(employee.getRole(), Role.EMPLOYEE);
-        assertEquals(employee.getEmail(), representation.getEmail());
-        assertEquals(employee.getPassword(), representation.getPassword());
-        assertEquals(employee.getUsername(), representation.getUsername());
-        assertEquals(userInformation.getAddress(), informationRepresentation.getAddress());
-        assertEquals(userInformation.getBirthDate(), informationRepresentation.getBirthDate());
-        assertEquals(userInformation.getFullName(), informationRepresentation.getFullName());
-        assertEquals(userInformation.getPhoneNumber(), informationRepresentation.getPhoneNumber());
-        assertEquals(jobInformation.getEmploymentStatus(), jobInformationRepresentation.getEmploymentStatus());
-        assertEquals(jobInformation.getHiringDate(), jobInformationRepresentation.getHiringDate());
-        assertEquals(jobInformation.getSalary(), jobInformationRepresentation.getSalary());
-        assertEquals(jobInformation.getSupervisor(), jobInformationRepresentation.getSupervisor());
-        assertEquals(jobInformation.getTitle(), jobInformationRepresentation.getTitle());
-        assertEquals(jobInformation.getWorkPhone(), jobInformationRepresentation.getWorkPhone());
     }
 }

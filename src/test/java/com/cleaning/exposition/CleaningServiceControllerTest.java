@@ -6,6 +6,7 @@ import com.cleaning.domain.cleaning_service.*;
 import com.cleaning.domain.cleaning_service.description.*;
 import com.cleaning.domain.cleaning_service.prices.*;
 import com.cleaning.exposition.representation.data.*;
+import com.cleaning.exposition.representation.request.*;
 import com.cleaning.exposition.representation.response.appointment.*;
 import com.cleaning.exposition.representation.response.cleaning_service.*;
 import com.cleaning.exposition.representation.response.cleaning_service.description.*;
@@ -113,13 +114,14 @@ public class CleaningServiceControllerTest {
     @Test
     public void testAddMessageToCleaningService() {
 
-        MessageRepresentation messageRepresentation = new MessageRepresentation("date", "sender", "content");
+        MessageCreation messageCreation = new MessageCreation("sender", "content");
+        Message message = messageCreation.toDomain();
 
-        ResponseEntity<Void> response = cleaningServiceController.addMessageToCleaningService(1L, messageRepresentation);
+        ResponseEntity<Void> response = cleaningServiceController.addMessageToCleaningService(1L, messageCreation);
 
         assertThat(response).isNotNull();
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        verify(cleaningServiceService).addMessageToCleaningService(1L, messageRepresentation.toDomain());
+        verify(cleaningServiceService).addMessageToCleaningService(1L, message);
     }
 
     @Test

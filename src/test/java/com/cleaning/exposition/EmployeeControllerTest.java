@@ -4,10 +4,11 @@ import com.cleaning.application.*;
 import com.cleaning.domain.appointment.*;
 import com.cleaning.domain.cleaning_service.*;
 import com.cleaning.domain.users.*;
+import com.cleaning.domain.users.job_information.*;
 import com.cleaning.exposition.representation.data.*;
+import com.cleaning.exposition.representation.request.*;
 import com.cleaning.exposition.representation.response.appointment.*;
 import com.cleaning.exposition.representation.response.shared.*;
-import com.cleaning.exposition.representation.response.users.*;
 import com.cleaning.infrastructure.cleaning_service.data.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.*;
@@ -37,11 +38,13 @@ public class EmployeeControllerTest {
     @Test
     public void testUpdateJobInformation() {
         Long id = 1L;
-        JobInformationRepresentation jobInformationRepresentation = JobInformationRepresentationTestData.dummyJobInformationRepresentation(id);
+        JobInformationCreation jobInformationCreation = EmployeeContractCreationTestData.dummyJobInformationCreation("workPhone", LocalDate.now(), 2000L);
+        JobInformation jobInformation = jobInformationCreation.toDomain();
 
-        ResponseEntity<Void> voidResponseEntity = employeeController.updateJobInformation(id, jobInformationRepresentation);
+        ResponseEntity<Void> voidResponseEntity = employeeController.updateJobInformation(id, jobInformationCreation);
         assertThat(voidResponseEntity).isNotNull();
         assertThat(voidResponseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        verify(employeeService).updateJobInformation(id, jobInformation);
     }
 
     @Test

@@ -1,4 +1,4 @@
-package com.cleaning.domain.users;
+package com.cleaning.domain.users.exception;
 
 public class UserNotFoundException extends RuntimeException {
 

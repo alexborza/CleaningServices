@@ -1,5 +1,6 @@
-package com.cleaning.exposition.representation.response.users;
+package com.cleaning.exposition.representation.request;
 
+import com.cleaning.domain.users.*;
 import com.cleaning.domain.users.job_information.*;
 import lombok.*;
 
@@ -7,20 +8,10 @@ import java.time.*;
 
 @AllArgsConstructor
 @Getter
-public class JobInformationRepresentation {
-    private final Long id;
+public class JobInformationCreation {
     private final String workPhone;
     private final LocalDate hiringDate;
     private final Long salary;
-
-    public static JobInformationRepresentation fromDomain(JobInformation jobInformation) {
-        return new JobInformationRepresentation(
-                jobInformation.getId(),
-                jobInformation.getWorkPhone(),
-                jobInformation.getHiringDate(),
-                jobInformation.getSalary()
-        );
-    }
 
     public JobInformation toDomain() {
         return new JobInformation.JobInformationBuilder()

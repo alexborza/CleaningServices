@@ -5,6 +5,7 @@ import com.cleaning.domain.appointment.*;
 import com.cleaning.domain.cleaning_service.*;
 import com.cleaning.domain.users.*;
 import com.cleaning.exposition.representation.data.*;
+import com.cleaning.exposition.representation.request.*;
 import com.cleaning.exposition.representation.response.appointment.*;
 import com.cleaning.exposition.representation.response.cleaning_service.*;
 import com.cleaning.exposition.representation.response.cleaning_service.description.*;
@@ -41,11 +42,11 @@ public class AdministratorControllerTest {
 
     @Test
     public void testCreateEmployeeContract() {
-        UserRepresentation representation = UserRepresentationTestData.dummyClientRepresentation(1L);
+        EmployeeContractCreation employeeContractCreation = EmployeeContractCreationTestData.dummyEmployeeContractCreation("username", "email");
 
-        when(encoder.encode(representation.getPassword())).thenReturn("encodedPass");
+        when(encoder.encode(employeeContractCreation.getPassword())).thenReturn("encodedPass");
 
-        ResponseEntity<Void> employeeContract = controller.createEmployeeContract(representation);
+        ResponseEntity<Void> employeeContract = controller.createEmployeeContract(employeeContractCreation);
 
         assertThat(employeeContract).isNotNull();
         assertThat(employeeContract.getStatusCodeValue()).isEqualTo(200);

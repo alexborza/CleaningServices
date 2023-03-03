@@ -2,7 +2,7 @@ package com.cleaning.exposition;
 
 import com.cleaning.application.*;
 import com.cleaning.exposition.representation.data.*;
-import com.cleaning.exposition.representation.response.appointment.*;
+import com.cleaning.exposition.representation.request.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.*;
 import org.mockito.*;

@@ -33,9 +33,9 @@ public class AdministratorService {
     @Autowired
     private CleaningServiceRepository cleaningServiceRepository;
 
-    public void createEmployeeContract(User user){
+    public void createEmployeeContract(Employee employee){
 
-        userRepository.save(user);
+        userRepository.save(employee);
     }
 
     public List<User> getAllEmployees(){

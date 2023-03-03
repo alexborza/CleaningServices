@@ -6,6 +6,7 @@ import com.cleaning.domain.cleaning_service.*;
 import com.cleaning.domain.cleaning_service.description.*;
 import com.cleaning.domain.cleaning_service.prices.*;
 import com.cleaning.domain.users.*;
+import com.cleaning.exposition.representation.request.*;
 import com.cleaning.exposition.representation.response.appointment.*;
 import com.cleaning.exposition.representation.response.cleaning_service.*;
 import com.cleaning.exposition.representation.response.cleaning_service.description.*;
@@ -31,13 +32,11 @@ public class AdministratorController {
     private PasswordEncoder encoder;
 
     @PostMapping("/employee-contract")
-    public ResponseEntity<Void> createEmployeeContract(@RequestBody UserRepresentation representation){
-        String encodedPassword = encoder.encode(representation.getPassword());
-        representation.setPassword(encodedPassword);
+    public ResponseEntity<Void> createEmployeeContract(@RequestBody EmployeeContractCreation employeeContractCreation){
+        String encodedPassword = encoder.encode(employeeContractCreation.getPassword());
+        Employee employee = employeeContractCreation.toDomain(encodedPassword);
 
-        User user = representation.toDomain();
-
-        administratorService.createEmployeeContract(user);
+        administratorService.createEmployeeContract(employee);
         return ResponseEntity.ok().build();
     }
 

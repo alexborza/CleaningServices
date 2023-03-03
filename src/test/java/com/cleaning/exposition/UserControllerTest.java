@@ -77,8 +77,9 @@ public class UserControllerTest {
 
     @Test
     public void testUpdateUserInformation() {
-        UserInformationRepresentation representation = UserInformationRepresentationTestData.dummyUserInformationRepresentation();
-        ResponseEntity<Void> response = userController.updateUserInformation(1L, representation);
+        UserInformationCreation userInformationCreation =
+                EmployeeContractCreationTestData.dummyUserInformationCreation("fullName", "address", "phoneNumber", "birthDate");
+        ResponseEntity<Void> response = userController.updateUserInformation(1L, userInformationCreation);
 
         assertNotNull(response);
         assertEquals(response.getStatusCode(), HttpStatus.OK);

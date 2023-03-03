@@ -1,6 +1,6 @@
 package com.cleaning.infrastructure.implementation;
 
-import com.cleaning.domain.users.*;
+import com.cleaning.domain.users.job_information.*;
 import com.cleaning.infrastructure.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
@@ -18,10 +18,7 @@ public class JobInformationRepositoryImplementation implements JobInformationRep
 
         jpaRepository.updateJobInformation(
                 id,
-                representation.getTitle(),
-                representation.getSupervisor(),
                 representation.getWorkPhone(),
-                representation.getEmploymentStatus(),
                 representation.getHiringDate(),
                 representation.getSalary()
         );

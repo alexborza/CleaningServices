@@ -1,4 +1,4 @@
-package com.cleaning.domain.appointment;
+package com.cleaning.domain.appointment.exception;
 
 public class AppointmentNotFoundException extends RuntimeException {
 

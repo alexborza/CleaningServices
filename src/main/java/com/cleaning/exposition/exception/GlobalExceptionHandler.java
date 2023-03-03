@@ -1,6 +1,6 @@
 package com.cleaning.exposition.exception;
 
-import com.cleaning.domain.users.*;
+import com.cleaning.domain.users.exception.*;
 import com.cleaning.exposition.representation.response.shared.*;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;

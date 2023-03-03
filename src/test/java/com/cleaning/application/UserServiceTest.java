@@ -1,6 +1,7 @@
 package com.cleaning.application;
 
 import com.cleaning.domain.users.*;
+import com.cleaning.domain.users.exception.*;
 import com.cleaning.infrastructure.users.data.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.*;

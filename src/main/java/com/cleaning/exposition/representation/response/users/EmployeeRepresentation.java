@@ -21,17 +21,6 @@ public class EmployeeRepresentation extends UserRepresentation {
         this.jobInformationRepresentation = jobInformationRepresentation;
     }
 
-    @Override
-    public User toDomain() {
-        return new Employee.Builder()
-                .withUsername(getUsername())
-                .withEmail(getEmail())
-                .withPassword(getPassword())
-                .withUserInformation(getUserInformation().toDomain())
-                .withJobInformation(getJobInformationRepresentation().toDomain())
-                .build();
-    }
-
     public static EmployeeRepresentation mapFromDomain(Employee employee) {
         return new EmployeeRepresentation(
                 employee.getId(),

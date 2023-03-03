@@ -41,8 +41,8 @@ public class UserController {
     }
 
     @PostMapping("/user-info/{userId}")
-    public ResponseEntity<Void> updateUserInformation(@PathVariable Long userId, @RequestBody UserInformationRepresentation representation) {
-        UserInformation userInformation = representation.toDomain();
+    public ResponseEntity<Void> updateUserInformation(@PathVariable Long userId, @RequestBody UserInformationCreation userInformationCreation) {
+        UserInformation userInformation = userInformationCreation.toDomain();
         userService.updateUserInformation(userId, userInformation);
         return ResponseEntity.ok().build();
     }

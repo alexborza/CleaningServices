@@ -5,6 +5,7 @@ import com.cleaning.domain.appointment.*;
 import com.cleaning.domain.cleaning_service.*;
 import com.cleaning.domain.cleaning_service.description.*;
 import com.cleaning.domain.cleaning_service.prices.*;
+import com.cleaning.exposition.representation.request.*;
 import com.cleaning.exposition.representation.response.appointment.*;
 import com.cleaning.exposition.representation.response.cleaning_service.*;
 import com.cleaning.exposition.representation.response.cleaning_service.description.*;
@@ -63,9 +64,10 @@ public class CleaningServiceController {
     }
 
     @PostMapping("/message/{id}")
-    public ResponseEntity<Void> addMessageToCleaningService(@PathVariable Long id, @RequestBody MessageRepresentation representation){
+    public ResponseEntity<Void> addMessageToCleaningService(@PathVariable Long id, @RequestBody MessageCreation messageCreation){
 
-        cleaningServiceService.addMessageToCleaningService(id, representation.toDomain());
+        Message message = messageCreation.toDomain();
+        cleaningServiceService.addMessageToCleaningService(id, message);
 
         return ResponseEntity.ok().build();
     }

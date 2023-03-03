@@ -40,10 +40,7 @@ public class UserRepresentationTestData {
     public static JobInformationRepresentation dummyJobInformationRepresentation() {
         return new JobInformationRepresentation(
                 1L,
-                "title",
-                "supervisor",
                 "workPhone",
-                EmploymentStatus.FULL_TIME,
                 LocalDate.now(),
                 2000L
         );

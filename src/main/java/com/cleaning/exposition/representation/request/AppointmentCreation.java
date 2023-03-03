@@ -1,6 +1,7 @@
-package com.cleaning.exposition.representation.response.appointment;
+package com.cleaning.exposition.representation.request;
 
 import com.cleaning.domain.appointment.*;
+import com.cleaning.exposition.representation.response.appointment.*;
 import lombok.*;
 
 @AllArgsConstructor
