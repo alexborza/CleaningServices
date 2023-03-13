@@ -88,7 +88,7 @@ public class CleaningServiceRepositoryTest {
 
         CleaningService build = new CleaningServiceBuilder()
                 .withCleaningService(cleaningService)
-                .withMessages(Collections.singletonList(new Message("newDate", "newSender", "newContent")))
+                .withMessages(Collections.singletonList(new Message(LocalDateTime.now(), "newSender", "newContent")))
                 .build();
 
         CleaningService save = cleaningServiceRepositoryImplementation.save(build);

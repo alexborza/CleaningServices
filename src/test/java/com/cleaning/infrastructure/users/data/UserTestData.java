@@ -12,7 +12,7 @@ public class UserTestData {
                 .withUsername(username)
                 .withEmail(email)
                 .withPassword("password")
-                .withUserInformation(dummyUserInformation("fullName", "address", "phoneNumber", "birthDate"))
+                .withUserInformation(dummyUserInformation("fullName", "address", "phoneNumber", LocalDate.now()))
                 .build();
     }
 
@@ -21,7 +21,7 @@ public class UserTestData {
                 .withUsername(username)
                 .withEmail(email)
                 .withPassword("password")
-                .withUserInformation(dummyUserInformation("fullName", "address", "phoneNumber", "birthDate"))
+                .withUserInformation(dummyUserInformation("fullName", "address", "phoneNumber", LocalDate.now()))
                 .withJobInformation(dummyJobInformation("workPhone", LocalDate.of(2023, 2, 1), 2000L))
                 .build();
     }
@@ -32,17 +32,17 @@ public class UserTestData {
                 .withUsername(username)
                 .withEmail(email)
                 .withPassword("password")
-                .withUserInformation(dummyUserInformation("fullName", "address", "phoneNumber", "birthDate"))
+                .withUserInformation(dummyUserInformation("fullName", "address", "phoneNumber", LocalDate.now()))
                 .withJobInformation(dummyJobInformation("workPhone", LocalDate.of(2023, 2, 1), 2000L))
                 .build();
     }
 
-    public static UserInformation dummyUserInformation(String fullName, String address, String phoneNumber, String birthDate) {
+    public static UserInformation dummyUserInformation(String fullName, String address, String phoneNumber, LocalDate birthDate) {
         return new UserInformation(fullName, address, phoneNumber, birthDate);
     }
 
     public static UserInformation dummyUserInformation() {
-        return new UserInformation("fullName", "address", "phoneNumber", "birthDate");
+        return new UserInformation("fullName", "address", "phoneNumber", LocalDate.now());
     }
 
     public static JobInformation dummyJobInformation() {

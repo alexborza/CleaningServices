@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.*;
 import org.springframework.transaction.annotation.*;
 
+import java.time.*;
 import java.util.*;
 
 public interface UserJpaRepository extends JpaRepository<User, Long> {
@@ -36,7 +37,7 @@ public interface UserJpaRepository extends JpaRepository<User, Long> {
             @Param("userId") Long userId,
             @Param("fullName") String fullName,
             @Param("address") String address,
-            @Param("birthDate") String birthDate,
+            @Param("birthDate") LocalDate birthDate,
             @Param("phoneNumber") String phoneNumber);
 
     List<User> findAllByRole(Role role);

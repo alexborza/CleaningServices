@@ -13,12 +13,12 @@ public class EmployeeContractCreationTestData {
                 username,
                 email,
                 "password",
-                dummyUserInformationCreation("fullName", "address", "phoneNumber", "birthDate"),
+                dummyUserInformationCreation("fullName", "address", "phoneNumber", LocalDate.of(1999, 10, 19)),
                 dummyJobInformationCreation("workPhone", LocalDate.now(), 2000L)
         );
     }
 
-    public static UserInformationCreation dummyUserInformationCreation(String fullName, String address, String phoneNumber, String birthDate) {
+    public static UserInformationCreation dummyUserInformationCreation(String fullName, String address, String phoneNumber, LocalDate birthDate) {
 
         return new UserInformationCreation(
                 fullName,

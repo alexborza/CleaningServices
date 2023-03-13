@@ -13,6 +13,8 @@ import org.mockito.junit.jupiter.*;
 import org.springframework.http.*;
 import org.springframework.security.crypto.password.*;
 
+import java.time.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -78,7 +80,7 @@ public class UserControllerTest {
     @Test
     public void testUpdateUserInformation() {
         UserInformationCreation userInformationCreation =
-                EmployeeContractCreationTestData.dummyUserInformationCreation("fullName", "address", "phoneNumber", "birthDate");
+                EmployeeContractCreationTestData.dummyUserInformationCreation("fullName", "address", "phoneNumber", LocalDate.of(1999, 10, 19));
         ResponseEntity<Void> response = userController.updateUserInformation(1L, userInformationCreation);
 
         assertNotNull(response);

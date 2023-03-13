@@ -3,10 +3,12 @@ package com.cleaning.exposition.representation.response.cleaning_service;
 import com.cleaning.domain.cleaning_service.*;
 import lombok.*;
 
+import java.time.*;
+
 @Getter
 @AllArgsConstructor
 public class MessageRepresentation {
-    private final String messageDate;
+    private final LocalDateTime messageDate;
     private final String sender;
     private final String content;
 
@@ -16,15 +18,6 @@ public class MessageRepresentation {
                 message.getMessageDate(),
                 message.getSender(),
                 message.getContent()
-        );
-    }
-
-    public Message toDomain() {
-
-        return new Message(
-                messageDate,
-                sender,
-                content
         );
     }
 }

@@ -3,6 +3,7 @@ package com.cleaning.domain.cleaning_service;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.*;
 import java.util.*;
 
 @Embeddable
@@ -10,7 +11,7 @@ import java.util.*;
 @AllArgsConstructor
 @Getter
 public class Message {
-    private String messageDate;
+    private LocalDateTime messageDate;
     private String sender;
 
     @Lob

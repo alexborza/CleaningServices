@@ -33,7 +33,7 @@ public class UserRepresentationTestData {
                 "fullName",
                 "address",
                 "phoneNumber",
-                "birthDate"
+                LocalDate.now()
         );
     }
 

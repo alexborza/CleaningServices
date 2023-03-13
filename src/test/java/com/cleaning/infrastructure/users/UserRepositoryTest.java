@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.*;
 import org.springframework.test.annotation.*;
 import org.springframework.test.context.junit.jupiter.*;
 
+import java.time.*;
 import java.util.*;
 import java.util.stream.*;
 
@@ -36,7 +37,7 @@ public class UserRepositoryTest {
         assertThat(user.getUserInformation().getFullName()).isEqualTo("Clientul fericit");
         assertThat(user.getUserInformation().getPhoneNumber()).isEqualTo("0742032456");
         assertThat(user.getUserInformation().getAddress()).isEqualTo("strada 2");
-        assertThat(user.getUserInformation().getBirthDate()).isEqualTo("1993-02-03");
+        assertThat(user.getUserInformation().getBirthDate()).isEqualTo(LocalDate.parse("1993-02-03"));
     }
 
     @Test
@@ -105,7 +106,7 @@ public class UserRepositoryTest {
                 "updatedFullName",
                 "updatedAddress",
                 "updatedPhoneNumber",
-                "updatedBirthDate");
+                LocalDate.now());
 
         userRepositoryImplementation.updateUserInformation(10001L, newUserInformation);
         Optional<User> optionalUser = userRepositoryImplementation.findById(10001L);

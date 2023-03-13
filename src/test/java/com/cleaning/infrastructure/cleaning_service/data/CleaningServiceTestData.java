@@ -4,6 +4,7 @@ import com.cleaning.domain.cleaning_service.*;
 import com.cleaning.domain.cleaning_service.details.*;
 import com.cleaning.domain.users.*;
 
+import java.time.*;
 import java.util.*;
 
 public class CleaningServiceTestData {
@@ -41,6 +42,6 @@ public class CleaningServiceTestData {
     }
 
     public static Message dummyMessage(String message) {
-        return new Message("2022-02-23", "sender", message);
+        return new Message(LocalDateTime.now(), "sender", message);
     }
 }

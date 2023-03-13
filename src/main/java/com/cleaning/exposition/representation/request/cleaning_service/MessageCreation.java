@@ -14,7 +14,7 @@ public class MessageCreation {
     public Message toDomain() {
 
         return new Message(
-                LocalDateTime.now().toString(),
+                LocalDateTime.now(),
                 sender,
                 content
         );

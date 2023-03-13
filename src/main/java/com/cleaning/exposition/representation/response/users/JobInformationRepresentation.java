@@ -21,12 +21,4 @@ public class JobInformationRepresentation {
                 jobInformation.getSalary()
         );
     }
-
-    public JobInformation toDomain() {
-        return new JobInformation.JobInformationBuilder()
-                .withWorkPhone(workPhone)
-                .withHiringDate(hiringDate)
-                .withSalary(salary)
-                .build();
-    }
 }
