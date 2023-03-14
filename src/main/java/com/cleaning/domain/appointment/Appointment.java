@@ -1,5 +1,6 @@
 package com.cleaning.domain.appointment;
 
+import com.cleaning.domain.*;
 import com.cleaning.domain.cleaning_service.*;
 import com.cleaning.domain.users.*;
 import lombok.*;
@@ -8,6 +9,8 @@ import org.hibernate.annotations.*;
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.*;
+import javax.validation.constraints.*;
 import java.time.*;
 import java.util.*;
 
@@ -15,25 +18,30 @@ import java.util.*;
 @Table(name = "appointment")
 @NoArgsConstructor
 @Getter
-public class Appointment {
+public class Appointment extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     @ManyToOne(optional = false)
     @JoinColumn(name = "cleaning_service_id")
     private CleaningService cleaningService;
 
+    @NotNull
     @ManyToOne(optional = false)
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
+    @NotNull
     private LocalDate cleaningDate;
 
+    @NotNull
     @Embedded
     private TimeSlot timeSlot;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     private AppointmentStatus status;
 
@@ -89,6 +97,7 @@ public class Appointment {
         this.cleaningDate = builder.getCleaningDate();
         this.timeSlot = builder.getTimeSlot();
         this.status = builder.getStatus();
+        validate(this);
     }
 
     @Override

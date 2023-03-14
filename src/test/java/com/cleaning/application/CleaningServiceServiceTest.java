@@ -109,9 +109,9 @@ public class CleaningServiceServiceTest {
     public void testCreateCleaningService() {
         CleaningServiceCommand cleaningServiceCommand = CleaningServiceCommandTestData.dummyCleaningServiceCommand();
         List<AppointmentCommand> appointmentCommands = List.of(
-                AppointmentCommandTestData.dummyAppointmentCommand(),
-                AppointmentCommandTestData.dummyAppointmentCommand(),
-                AppointmentCommandTestData.dummyAppointmentCommand()
+                AppointmentCommandTestData.dummyAppointmentCommand(new TimeSlot(8, 10)),
+                AppointmentCommandTestData.dummyAppointmentCommand(new TimeSlot(10, 12)),
+                AppointmentCommandTestData.dummyAppointmentCommand(new TimeSlot(13, 15))
         );
 
         Employee employee = UserTestData.dummyEmployee("Euser", "Eemail");
@@ -121,9 +121,12 @@ public class CleaningServiceServiceTest {
         when(userRepository.findById(2L)).thenReturn(Optional.ofNullable(client));
 
         CleaningService cleaningService = cleaningServiceCommand.toDomain(client);
+        CleaningService savedCleaningService = CleaningServiceTestData.dummyCleaningService(client);
+
+        when(cleaningServiceRepository.save(cleaningService)).thenReturn(savedCleaningService);
 
         List<Appointment> appointments = appointmentCommands.stream()
-                .map(command -> command.toDomain(cleaningService, employee))
+                .map(command -> command.toDomain(savedCleaningService, employee))
                 .collect(Collectors.toList());
 
         cleaningServiceService.createCleaningService(1L, 2L, cleaningServiceCommand, appointmentCommands);

@@ -1,10 +1,13 @@
 package com.cleaning.application;
 
 import com.cleaning.domain.appointment.*;
+import com.cleaning.domain.cleaning_service.*;
 import com.cleaning.domain.users.*;
 import com.cleaning.domain.users.exception.*;
 import com.cleaning.domain.users.job_information.*;
 import com.cleaning.infrastructure.appointment.data.*;
+import com.cleaning.infrastructure.cleaning_service.data.*;
+import com.cleaning.infrastructure.users.data.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.*;
 import org.mockito.*;
@@ -63,15 +66,16 @@ public class EmployeeServiceTest {
         Employee e3 = dummyEmployeeWithId(3L, "e3", "e3_email");
         Employee e4 = dummyEmployeeWithId(4L, "e4", "e4_email");
         Employee e5 = dummyEmployeeWithId(5L, "e5", "e5_email");
+        CleaningService cs = CleaningServiceTestData.dummyCleaningService(UserTestData.dummyClient("user", "pass"));
 
-        Appointment ap1 = AppointmentTestData.dummyAppointment(null, e1, new TimeSlot(8, 10), LocalDate.now(), AppointmentStatus.ACTIVE);
-        Appointment ap2 = AppointmentTestData.dummyAppointment(null, e1, new TimeSlot(10, 12), LocalDate.now(), AppointmentStatus.ACTIVE);
-        Appointment ap3 = AppointmentTestData.dummyAppointment(null, e2, new TimeSlot(8, 11), LocalDate.now(), AppointmentStatus.ACTIVE);
-        Appointment ap4 = AppointmentTestData.dummyAppointment(null, e2, new TimeSlot(15, 17), LocalDate.now(), AppointmentStatus.ACTIVE);
-        Appointment ap5 = AppointmentTestData.dummyAppointment(null, e3, new TimeSlot(8, 12), LocalDate.now(), AppointmentStatus.ACTIVE);
-        Appointment ap6 = AppointmentTestData.dummyAppointment(null, e3, new TimeSlot(13, 15), LocalDate.now(), AppointmentStatus.ACTIVE);
-        Appointment ap7 = AppointmentTestData.dummyAppointment(null, e4, new TimeSlot(8, 17), LocalDate.now(), AppointmentStatus.ACTIVE);
-        Appointment ap8 = AppointmentTestData.dummyAppointment(null, e5, new TimeSlot(14, 17), LocalDate.now(), AppointmentStatus.ACTIVE);
+        Appointment ap1 = AppointmentTestData.dummyAppointment(cs, e1, new TimeSlot(8, 10), LocalDate.now(), AppointmentStatus.ACTIVE);
+        Appointment ap2 = AppointmentTestData.dummyAppointment(cs, e1, new TimeSlot(10, 12), LocalDate.now(), AppointmentStatus.ACTIVE);
+        Appointment ap3 = AppointmentTestData.dummyAppointment(cs, e2, new TimeSlot(8, 11), LocalDate.now(), AppointmentStatus.ACTIVE);
+        Appointment ap4 = AppointmentTestData.dummyAppointment(cs, e2, new TimeSlot(15, 17), LocalDate.now(), AppointmentStatus.ACTIVE);
+        Appointment ap5 = AppointmentTestData.dummyAppointment(cs, e3, new TimeSlot(8, 12), LocalDate.now(), AppointmentStatus.ACTIVE);
+        Appointment ap6 = AppointmentTestData.dummyAppointment(cs, e3, new TimeSlot(13, 15), LocalDate.now(), AppointmentStatus.ACTIVE);
+        Appointment ap7 = AppointmentTestData.dummyAppointment(cs, e4, new TimeSlot(8, 17), LocalDate.now(), AppointmentStatus.ACTIVE);
+        Appointment ap8 = AppointmentTestData.dummyAppointment(cs, e5, new TimeSlot(14, 17), LocalDate.now(), AppointmentStatus.ACTIVE);
 
         when(appointmentRepository.findAllByCleaningDate(date)).thenReturn(
                 List.of(ap1, ap2, ap3, ap4, ap5, ap6, ap7, ap8)

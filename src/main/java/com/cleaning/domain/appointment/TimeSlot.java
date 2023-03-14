@@ -1,17 +1,31 @@
 package com.cleaning.domain.appointment;
 
+import com.cleaning.domain.*;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.util.*;
 
 @Embeddable
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
-public class TimeSlot implements Comparable<TimeSlot> {
+@TimeSlotValidator.ValidConstraint
+public class TimeSlot extends BaseEntity implements Comparable<TimeSlot> {
+
+    @NotNull
+    @Min(8)
     private Integer startingHour;
+
+    @NotNull
+    @Max(17)
     private Integer endingHour;
+
+    public TimeSlot(Integer startingHour, Integer endingHour) {
+        this.startingHour = startingHour;
+        this.endingHour = endingHour;
+        validate(this);
+    }
 
     @Override
     public boolean equals(Object o) {

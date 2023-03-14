@@ -13,4 +13,12 @@ public class AppointmentCommandTestData {
                 AppointmentStatus.ACTIVE
         );
     }
+
+    public static AppointmentCommand dummyAppointmentCommand(TimeSlot timeSlot) {
+        return new AppointmentCommand(
+                LocalDate.now().toString(),
+                timeSlot,
+                AppointmentStatus.ACTIVE
+        );
+    }
 }

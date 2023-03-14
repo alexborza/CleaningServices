@@ -37,7 +37,6 @@ public class AppointmentServiceTest {
 
     @Test
     public void testCompleteAppointment() {
-        System.out.println(Objects.equals("s", null));
         when(appointmentRepository.existsById(1L)).thenReturn(true);
 
         appointmentService.completeAppointment(1L);
