@@ -178,7 +178,7 @@ public class CleaningServiceServiceTest {
         Client client = UserTestData.dummyClient("user", "email");
         when(cleaningServiceRepository.findById(1L)).thenReturn(Optional.of(CleaningServiceTestData.dummyCleaningService(client)));
 
-        cleaningServiceService.addMessageToCleaningService(1L, CleaningServiceTestData.dummyMessage("message"));
+        cleaningServiceService.addMessageToCleaningService(1L, MessageTestData.dummyMessage("message"));
 
         verify(cleaningServiceRepository).findById(1L);
         verify(cleaningServiceRepository).save(any());

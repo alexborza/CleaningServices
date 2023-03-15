@@ -7,8 +7,8 @@ public class CleaningServiceCommandTestData {
     public static CleaningServiceCommand dummyCleaningServiceCommand() {
         return new CleaningServiceCommand(
                 null,
-                CleaningServiceTestData.dummyContactInfo(),
-                CleaningServiceTestData.dummyLocation(),
+                ContactInfoTestData.dummyContactInfo(),
+                LocationTestData.dummyLocation(),
                 CleaningDetailsTestData.dummyStandardCleaningDetails(),
                 Frequency.ONE_TIME,
                 Payment.CARD,

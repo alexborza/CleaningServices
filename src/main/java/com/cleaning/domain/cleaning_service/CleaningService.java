@@ -1,26 +1,32 @@
 package com.cleaning.domain.cleaning_service;
 
+import com.cleaning.domain.*;
 import com.cleaning.domain.cleaning_service.details.*;
 import com.cleaning.domain.users.*;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.util.*;
 
 @Entity
 @Table(name = "cleaning_service")
 @Getter
-public class CleaningService {
+@NoArgsConstructor
+public class CleaningService extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     @Embedded
     private ContactInfo contactInfo;
 
+    @NotNull
     @Embedded
     private Location location;
 
+    @NotNull
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cleaning_details_id", referencedColumnName = "id")
     private CleaningDetails cleaningDetails;
@@ -34,22 +40,23 @@ public class CleaningService {
     @OrderColumn
     private List<Message> messages;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     private Frequency frequency;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     private Payment payment;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     private CleaningType cleaningType;
 
+    @NotNull
     private Double total;
 
+    @NotNull
     private Integer timeEstimation;
-
-    private CleaningService() {
-
-    }
 
     public CleaningService(CleaningServiceBuilder builder) {
         List<Message> messages = builder.getMessages();
@@ -65,6 +72,7 @@ public class CleaningService {
         this.total = builder.getTotal();
         this.timeEstimation = builder.getTimeEstimation();
         this.messages = messages == null ? Collections.emptyList() : messages;
+        validate(this);
     }
 
     @Override
