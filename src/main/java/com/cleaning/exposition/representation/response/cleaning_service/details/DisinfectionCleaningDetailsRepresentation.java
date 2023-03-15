@@ -9,7 +9,7 @@ public class DisinfectionCleaningDetailsRepresentation extends CleaningDetailsRe
 
     public DisinfectionCleaningDetailsRepresentation(
             Long id,
-            String squareMeters,
+            Double squareMeters,
             Parking parking,
             HomeAccess homeAccess,
             Property property) {

@@ -14,7 +14,7 @@ import lombok.*;
 })
 public abstract class CleaningDetailsCreation {
     private final Long id;
-    private final String squareMeters;
+    private final Double squareMeters;
     private final Parking parking;
     private final HomeAccess homeAccess;
 

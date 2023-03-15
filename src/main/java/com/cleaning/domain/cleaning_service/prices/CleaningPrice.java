@@ -1,30 +1,39 @@
 package com.cleaning.domain.cleaning_service.prices;
 
+import com.cleaning.domain.*;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 @Entity
 @NoArgsConstructor
 @Getter
-public class CleaningPrice {
+public class CleaningPrice extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Embedded
+    @NotNull
     private StandardCleaningPrice standardCleaningPrice;
 
     @Embedded
+    @NotNull
     private DeepCleaningPrice deepCleaningPrice;
 
     @Embedded
+    @NotNull
     private PostConstructionCleaningPrice postConstructionCleaningPrice;
 
     @Embedded
+    @NotNull
     private DisinfectionCleaningPrice disinfectionCleaningPrice;
 
+    @NotNull
     private Double paidParkingSpotPrice;
+
+    @NotNull
     private Double pickUpKeysPrice;
 
     @NoArgsConstructor
@@ -88,5 +97,6 @@ public class CleaningPrice {
         this.disinfectionCleaningPrice = builder.getDisinfectionCleaningPrice();
         this.paidParkingSpotPrice = builder.getPaidParkingSpotPrice();
         this.pickUpKeysPrice = builder.getPickUpKeysPrice();
+        validate(this);
     }
 }

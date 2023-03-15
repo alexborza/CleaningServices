@@ -9,7 +9,7 @@ public class CleaningServiceCommandTestData {
                 null,
                 CleaningServiceTestData.dummyContactInfo(),
                 CleaningServiceTestData.dummyLocation(),
-                CleaningServiceTestData.dummyStandardCleaningDetails(),
+                CleaningDetailsTestData.dummyStandardCleaningDetails(),
                 Frequency.ONE_TIME,
                 Payment.CARD,
                 100.0,

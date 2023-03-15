@@ -13,7 +13,7 @@ public class StandardCleaningDetailsCreation extends CleaningDetailsCreation {
 
     public StandardCleaningDetailsCreation(
             Long id,
-            String squareMeters,
+            Double squareMeters,
             Parking parking,
             HomeAccess homeAccess,
             Integer bedrooms,

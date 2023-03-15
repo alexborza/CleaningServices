@@ -9,7 +9,7 @@ public class CleaningDetailsCreationTestData {
 
         return new StandardCleaningDetailsCreation(
                 null,
-                "squareMeters",
+                200.0,
                 Parking.FREE,
                 HomeAccess.CALL,
                 10,

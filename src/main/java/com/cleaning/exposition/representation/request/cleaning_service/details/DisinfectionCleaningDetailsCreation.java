@@ -11,7 +11,7 @@ public class DisinfectionCleaningDetailsCreation extends CleaningDetailsCreation
 
     public DisinfectionCleaningDetailsCreation(
             Long id,
-            String squareMeters,
+            Double squareMeters,
             Parking parking,
             HomeAccess homeAccess,
             Property property) {

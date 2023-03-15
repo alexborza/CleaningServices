@@ -10,7 +10,7 @@ public class PostConstructionCleaningDetailsRepresentation extends CleaningDetai
 
     public PostConstructionCleaningDetailsRepresentation(
             Long id,
-            String squareMeters,
+            Double squareMeters,
             Parking parking,
             HomeAccess homeAccess,
             Property property,

@@ -13,7 +13,7 @@ public class CleaningServiceTestData {
         return new CleaningServiceBuilder()
                 .withContactInfo(dummyContactInfo())
                 .withLocation(dummyLocation())
-                .withCleaningDetails(dummyStandardCleaningDetails())
+                .withCleaningDetails(CleaningDetailsTestData.dummyStandardCleaningDetails())
                 .withClient(client)
                 .withFrequency(Frequency.ONE_TIME)
                 .withPayment(Payment.CARD)
@@ -31,10 +31,6 @@ public class CleaningServiceTestData {
 
     public static Location dummyLocation() {
         return new Location("county", "city", "address");
-    }
-
-    public static CleaningDetails dummyStandardCleaningDetails() {
-        return new StandardCleaningDetails("200", Parking.FREE, HomeAccess.CALL, 5, 3, 2);
     }
 
     public static List<Message> dummyMessages() {

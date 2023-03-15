@@ -1,32 +1,43 @@
 package com.cleaning.domain.cleaning_service.description;
 
+import com.cleaning.domain.*;
 import lombok.*;
 import org.hibernate.annotations.*;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.*;
 import java.time.*;
 
 @Entity
 @Table(name = "cleaning_description")
 @NoArgsConstructor
 @Getter
-public class CleaningDescription {
+public class CleaningDescription extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Lob
+    @NotBlank
+    @NotNull
     private String standardCleaningDescription;
 
+
     @Lob
+    @NotBlank
+    @NotNull
     private String deepCleaningDescription;
 
     @Lob
+    @NotBlank
+    @NotNull
     private String postConstructionCleaningDescription;
 
     @Lob
+    @NotBlank
+    @NotNull
     private String disinfectionCleaningDescription;
 
     @CreationTimestamp
@@ -76,5 +87,6 @@ public class CleaningDescription {
         this.deepCleaningDescription = builder.getDeepCleaningDescription();
         this.postConstructionCleaningDescription = builder.getPostConstructionCleaningDescription();
         this.disinfectionCleaningDescription = builder.getDisinfectionCleaningDescription();
+        validate(this);
     }
 }
