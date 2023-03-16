@@ -2,7 +2,7 @@ package com.cleaning.infrastructure.users;
 
 import com.cleaning.domain.users.*;
 import com.cleaning.infrastructure.implementation.*;
-import com.cleaning.infrastructure.users.data.*;
+import com.cleaning.domain.users.data.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.*;
 import org.springframework.beans.factory.annotation.*;
@@ -32,7 +32,7 @@ public class UserRepositoryTest {
 
         assertThat(user.getEmail()).isEqualTo("clientEmail");
         assertThat(user.getPassword()).isEqualTo("clientPass");
-        assertThat(user.getRole()).isEqualTo(Role.USER);
+        assertThat(user.getRole()).isEqualTo(Role.CLIENT);
         assertThat(user.getUsername()).isEqualTo("clientUsername");
         assertThat(user.getUserInformation().getFullName()).isEqualTo("Clientul fericit");
         assertThat(user.getUserInformation().getPhoneNumber()).isEqualTo("0742032456");
@@ -45,7 +45,7 @@ public class UserRepositoryTest {
         addUsers();
 
         //keep in mind that I have one more dummy Client added in data.sql file
-        List<User> clients = userRepositoryImplementation.findAllByRole(Role.USER);
+        List<User> clients = userRepositoryImplementation.findAllByRole(Role.CLIENT);
 
         assertThat(clients).hasSize(5);
         assertThat(clients.stream().map(User::getUsername).collect(Collectors.toList())).containsExactlyInAnyOrder(

@@ -5,9 +5,9 @@ import com.cleaning.domain.cleaning_service.*;
 import com.cleaning.domain.users.*;
 import com.cleaning.domain.users.exception.*;
 import com.cleaning.domain.users.job_information.*;
-import com.cleaning.infrastructure.appointment.data.*;
-import com.cleaning.infrastructure.cleaning_service.data.*;
-import com.cleaning.infrastructure.users.data.*;
+import com.cleaning.domain.appointment.data.*;
+import com.cleaning.domain.cleaning_service.data.*;
+import com.cleaning.domain.users.data.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.*;
 import org.mockito.*;
@@ -16,7 +16,7 @@ import org.mockito.junit.jupiter.*;
 import java.time.*;
 import java.util.*;
 
-import static com.cleaning.infrastructure.users.data.UserTestData.*;
+import static com.cleaning.domain.users.data.UserTestData.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -39,7 +39,7 @@ public class EmployeeServiceTest {
     @Test
     public void shouldUpdateJobInformation() {
         Long id = 1L;
-        JobInformation jobInformation = dummyJobInformation();
+        JobInformation jobInformation = JobInformationTestData.dummyJobInformation();
         when(jobInformationRepository.existsById(id)).thenReturn(true);
 
         employeeService.updateJobInformation(id, jobInformation);
@@ -50,7 +50,7 @@ public class EmployeeServiceTest {
     @Test
     public void shouldThrowExceptionWhenUpdateJobInformation() {
         Long id = 1L;
-        JobInformation jobInformation = dummyJobInformation();
+        JobInformation jobInformation = JobInformationTestData.dummyJobInformation();
         when(jobInformationRepository.existsById(id)).thenReturn(false);
 
         JobInformationNotFoundException exception = assertThrows(JobInformationNotFoundException.class,

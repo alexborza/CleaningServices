@@ -1,9 +1,9 @@
 package com.cleaning.domain.appointment;
 
 import com.cleaning.domain.*;
-import com.cleaning.infrastructure.appointment.data.*;
-import com.cleaning.infrastructure.cleaning_service.data.*;
-import com.cleaning.infrastructure.users.data.*;
+import com.cleaning.domain.appointment.data.*;
+import com.cleaning.domain.cleaning_service.data.*;
+import com.cleaning.domain.users.data.*;
 import org.junit.jupiter.api.*;
 
 import java.time.*;

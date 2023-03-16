@@ -9,7 +9,7 @@ import com.cleaning.exposition.representation.data.*;
 import com.cleaning.exposition.representation.request.users.*;
 import com.cleaning.exposition.representation.response.appointment.*;
 import com.cleaning.exposition.representation.response.shared.*;
-import com.cleaning.infrastructure.cleaning_service.data.*;
+import com.cleaning.domain.cleaning_service.data.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.*;
 import org.mockito.*;
@@ -21,8 +21,8 @@ import java.util.AbstractMap.*;
 import java.util.*;
 import java.util.stream.*;
 
-import static com.cleaning.infrastructure.appointment.data.AppointmentTestData.*;
-import static com.cleaning.infrastructure.users.data.UserTestData.*;
+import static com.cleaning.domain.appointment.data.AppointmentTestData.*;
+import static com.cleaning.domain.users.data.UserTestData.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 

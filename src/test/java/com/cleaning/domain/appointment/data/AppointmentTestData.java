@@ -1,10 +1,10 @@
-package com.cleaning.infrastructure.appointment.data;
+package com.cleaning.domain.appointment.data;
 
 import com.cleaning.domain.appointment.*;
 import com.cleaning.domain.cleaning_service.*;
 import com.cleaning.domain.users.*;
-import com.cleaning.infrastructure.cleaning_service.data.*;
-import com.cleaning.infrastructure.users.data.*;
+import com.cleaning.domain.cleaning_service.data.*;
+import com.cleaning.domain.users.data.*;
 
 import java.time.*;
 

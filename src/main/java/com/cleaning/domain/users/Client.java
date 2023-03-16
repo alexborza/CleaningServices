@@ -23,6 +23,7 @@ public class Client extends User {
     }
 
     private Client(Builder builder) {
-        super(builder, Role.USER);
+        super(builder, Role.CLIENT);
+        validate(this);
     }
 }

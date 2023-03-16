@@ -24,5 +24,6 @@ public class Admin extends User {
 
     private Admin(Admin.Builder builder) {
         super(builder, Role.ADMIN);
+        validate(this);
     }
 }

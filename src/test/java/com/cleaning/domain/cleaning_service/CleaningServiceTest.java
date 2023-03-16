@@ -1,7 +1,7 @@
 package com.cleaning.domain.cleaning_service;
 
 import com.cleaning.domain.*;
-import com.cleaning.infrastructure.cleaning_service.data.*;
+import com.cleaning.domain.cleaning_service.data.*;
 import org.junit.jupiter.api.*;
 
 import static org.assertj.core.api.Assertions.*;

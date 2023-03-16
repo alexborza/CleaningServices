@@ -1,8 +1,10 @@
 package com.cleaning.domain.users.job_information;
 
+import com.cleaning.domain.*;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.time.*;
 import java.util.*;
 
@@ -10,19 +12,26 @@ import java.util.*;
 @Table(name = "job_information")
 @NoArgsConstructor
 @Getter
-public class JobInformation {
+public class JobInformation extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotBlank
     private String workPhone;
+
+    @NotNull
     private LocalDate hiringDate;
+
+    @NotNull
     private Long salary;
 
     private JobInformation(JobInformationBuilder builder) {
         this.workPhone = builder.getWorkPhone();
         this.hiringDate = builder.getHiringDate();
         this.salary = builder.getSalary();
+        validate(this);
     }
 
     @NoArgsConstructor

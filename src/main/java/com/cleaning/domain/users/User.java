@@ -1,8 +1,10 @@
 package com.cleaning.domain.users;
 
+import com.cleaning.domain.*;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -11,18 +13,25 @@ import javax.persistence.*;
         @UniqueConstraint(columnNames = "email")})
 @NoArgsConstructor
 @Getter
-public abstract class User {
+public abstract class User extends BaseEntity {
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
+
+        @NotBlank
         private String username;
+
+        @NotBlank
         private String email;
+
+        @NotBlank
         private String password;
 
         @Embedded
         private UserInformation userInformation;
 
+        @NotNull
         @Enumerated(EnumType.STRING)
         private Role role;
 

@@ -4,12 +4,8 @@ import com.cleaning.domain.*;
 import com.cleaning.domain.cleaning_service.*;
 import com.cleaning.domain.users.*;
 import lombok.*;
-import org.hibernate.annotations.*;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.validation.*;
 import javax.validation.constraints.*;
 import java.time.*;
 import java.util.*;

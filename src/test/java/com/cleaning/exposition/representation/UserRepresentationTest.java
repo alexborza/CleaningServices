@@ -2,9 +2,8 @@ package com.cleaning.exposition.representation;
 
 import com.cleaning.domain.users.*;
 import com.cleaning.domain.users.job_information.*;
-import com.cleaning.exposition.representation.data.*;
 import com.cleaning.exposition.representation.response.users.*;
-import com.cleaning.infrastructure.users.data.*;
+import com.cleaning.domain.users.data.*;
 import org.junit.jupiter.api.*;
 
 import static org.assertj.core.api.Assertions.*;

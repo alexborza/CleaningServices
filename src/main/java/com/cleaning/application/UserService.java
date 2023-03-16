@@ -30,7 +30,7 @@ public class UserService {
         User user = new Client.Builder()
                 .withUsername(username)
                 .withEmail(email)
-                .withPassword(encoder.encode(encodedPassword))
+                .withPassword(encodedPassword)
                 .build();
 
         userRepository.save(user);

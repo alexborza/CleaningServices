@@ -3,7 +3,7 @@ package com.cleaning.infrastructure.appointment;
 import com.cleaning.domain.appointment.*;
 import com.cleaning.domain.cleaning_service.*;
 import com.cleaning.domain.users.*;
-import com.cleaning.infrastructure.appointment.data.*;
+import com.cleaning.domain.appointment.data.*;
 import com.cleaning.infrastructure.implementation.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.*;

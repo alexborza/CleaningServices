@@ -1,4 +1,4 @@
-package com.cleaning.infrastructure.cleaning_service.data;
+package com.cleaning.domain.cleaning_service.data;
 
 import com.cleaning.domain.cleaning_service.*;
 import com.cleaning.domain.cleaning_service.details.*;
@@ -30,7 +30,7 @@ public class CleaningServiceTestData {
                 .withLocation(LocationTestData.dummyLocation())
                 .withCleaningDetails(CleaningDetailsTestData.dummyStandardCleaningDetails())
                 .withClient(null)
-                .withFrequency(Frequency.ONE_TIME)
+                .withFrequency(Frequency.TWO_TIME)
                 .withPayment(Payment.CARD)
                 .withMessages(MessageTestData.dummyMessages())
                 .withType(CleaningType.STANDARD)
@@ -47,7 +47,7 @@ public class CleaningServiceTestData {
                 .withLocation(location)
                 .withCleaningDetails(CleaningDetailsTestData.dummyStandardCleaningDetails())
                 .withClient(null)
-                .withFrequency(Frequency.ONE_TIME)
+                .withFrequency(Frequency.FOUR_TIME)
                 .withPayment(Payment.CARD)
                 .withMessages(MessageTestData.dummyMessages())
                 .withType(CleaningType.STANDARD)
@@ -64,7 +64,7 @@ public class CleaningServiceTestData {
                 .withLocation(LocationTestData.dummyLocation())
                 .withCleaningDetails(cleaningDetails)
                 .withClient(null)
-                .withFrequency(Frequency.ONE_TIME)
+                .withFrequency(Frequency.SIX_TIME)
                 .withPayment(Payment.CARD)
                 .withMessages(MessageTestData.dummyMessages())
                 .withType(CleaningType.STANDARD)

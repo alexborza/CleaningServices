@@ -1,4 +1,4 @@
-package com.cleaning.infrastructure.users.data;
+package com.cleaning.domain.users.data;
 
 import com.cleaning.domain.users.*;
 import com.cleaning.domain.users.job_information.*;
@@ -7,23 +7,41 @@ import java.time.*;
 
 public class UserTestData {
 
-    public static Client dummyClient(String username, String email) {
+    public static Admin dummyAdmin(String username, String email, String password) {
+        return new Admin.Builder()
+                .withUsername(username)
+                .withEmail(email)
+                .withPassword(password)
+                .withUserInformation(null)
+                .build();
+    }
+
+    public static Client dummyClient(String username, String email, String password) {
         return new Client.Builder()
                 .withUsername(username)
                 .withEmail(email)
-                .withPassword("password")
+                .withPassword(password)
                 .withUserInformation(dummyUserInformation("fullName", "address", "phoneNumber", LocalDate.now()))
                 .build();
     }
 
-    public static Employee dummyEmployee(String username, String email) {
+    public static Client dummyClient(String username, String email) {
+        return dummyClient(username, email, "password");
+    }
+
+    public static Employee dummyEmployee(String username, String email, JobInformation jobInformation) {
         return new Employee.Builder()
                 .withUsername(username)
                 .withEmail(email)
                 .withPassword("password")
                 .withUserInformation(dummyUserInformation("fullName", "address", "phoneNumber", LocalDate.now()))
-                .withJobInformation(dummyJobInformation("workPhone", LocalDate.of(2023, 2, 1), 2000L))
+                .withJobInformation(jobInformation)
                 .build();
+    }
+
+    public static Employee dummyEmployee(String username, String email) {
+
+        return dummyEmployee(username, email, JobInformationTestData.dummyJobInformation("workPhone", LocalDate.of(2023, 2, 1), 2000L));
     }
 
     public static Employee dummyEmployeeWithId(Long id, String username, String email) {
@@ -33,7 +51,7 @@ public class UserTestData {
                 .withEmail(email)
                 .withPassword("password")
                 .withUserInformation(dummyUserInformation("fullName", "address", "phoneNumber", LocalDate.now()))
-                .withJobInformation(dummyJobInformation("workPhone", LocalDate.of(2023, 2, 1), 2000L))
+                .withJobInformation(JobInformationTestData.dummyJobInformation("workPhone", LocalDate.of(2023, 2, 1), 2000L))
                 .build();
     }
 
@@ -43,21 +61,5 @@ public class UserTestData {
 
     public static UserInformation dummyUserInformation() {
         return new UserInformation("fullName", "address", "phoneNumber", LocalDate.now());
-    }
-
-    public static JobInformation dummyJobInformation() {
-        return new JobInformation.JobInformationBuilder()
-                .withWorkPhone("workphone")
-                .withHiringDate(LocalDate.now())
-                .withSalary(2000L)
-                .build();
-    }
-
-    public static JobInformation dummyJobInformation(String workphone, LocalDate hiringDate, Long salary) {
-        return new JobInformation.JobInformationBuilder()
-                .withWorkPhone(workphone)
-                .withHiringDate(hiringDate)
-                .withSalary(salary)
-                .build();
     }
 }

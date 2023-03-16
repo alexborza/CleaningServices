@@ -1,4 +1,4 @@
-package com.cleaning.infrastructure.appointment.data;
+package com.cleaning.domain.appointment.data;
 
 import com.cleaning.domain.appointment.*;
 

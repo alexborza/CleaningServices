@@ -36,6 +36,7 @@ public class CleaningServicesApplication implements CommandLineRunner {
 		} else {
 			User admin = new Admin.Builder()
 					.withUsername("admin")
+					.withEmail("email")
 					.withPassword(encoder.encode("admin"))
 					.build();
 			userJpaRepository.save(admin);
