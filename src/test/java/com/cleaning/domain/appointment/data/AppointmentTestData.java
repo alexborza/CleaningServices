@@ -29,4 +29,15 @@ public class AppointmentTestData {
                 .withStatus(status)
                 .build();
     }
+
+    public static Appointment dummyAppointmentWithId(Long id) {
+        return new Appointment.AppointmentBuilder()
+                .withId(id)
+                .withCleaningService(CleaningServiceTestData.dummyCleaningService(UserTestData.dummyClient("u1", "u1_email")))
+                .withEmployee(UserTestData.dummyEmployee("e1", "e1_email"))
+                .withCleaningDate(LocalDate.now())
+                .withTimeSlot(new TimeSlot(8, 10))
+                .withStatus(AppointmentStatus.ACTIVE)
+                .build();
+    }
 }

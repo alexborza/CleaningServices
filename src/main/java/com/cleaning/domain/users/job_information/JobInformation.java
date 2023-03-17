@@ -28,18 +28,24 @@ public class JobInformation extends BaseEntity {
     private Long salary;
 
     private JobInformation(JobInformationBuilder builder) {
-        this.workPhone = builder.getWorkPhone();
-        this.hiringDate = builder.getHiringDate();
-        this.salary = builder.getSalary();
+        this.id = builder.id;
+        this.workPhone = builder.workPhone;
+        this.hiringDate = builder.hiringDate;
+        this.salary = builder.salary;
         validate(this);
     }
 
     @NoArgsConstructor
-    @Getter
     public static class JobInformationBuilder {
+        private Long id;
         private String workPhone;
         private LocalDate hiringDate;
         private Long salary;
+
+        public JobInformationBuilder withId(Long id) {
+            this.id = id;
+            return this;
+        }
 
         public JobInformationBuilder withWorkPhone(String workPhone) {
             this.workPhone = workPhone;

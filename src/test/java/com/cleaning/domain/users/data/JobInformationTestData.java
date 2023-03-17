@@ -6,6 +6,15 @@ import java.time.*;
 
 public class JobInformationTestData {
 
+    public static JobInformation dummyJobInformationWithId(Long id) {
+        return new JobInformation.JobInformationBuilder()
+                .withId(id)
+                .withWorkPhone("workPhone")
+                .withHiringDate(LocalDate.now())
+                .withSalary(2000L)
+                .build();
+    }
+
     public static JobInformation dummyJobInformation(String workPhone, LocalDate hiringDate, Long salary) {
         return new JobInformation.JobInformationBuilder()
                 .withWorkPhone(workPhone)

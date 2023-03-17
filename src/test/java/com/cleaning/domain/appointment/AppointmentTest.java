@@ -14,6 +14,14 @@ import static org.junit.jupiter.api.Assertions.*;
 public class AppointmentTest {
 
     @Test
+    void should_appointments_be_equal() {
+        Appointment ap1 = AppointmentTestData.dummyAppointmentWithId(1L);
+        Appointment ap2 = AppointmentTestData.dummyAppointmentWithId(1L);
+
+        assertThat(ap1.equals(ap2)).isTrue();
+    }
+
+    @Test
     void should_create_appointment() {
         Appointment appointment = AppointmentTestData.dummyAppointment(
                 new TimeSlot(8, 10),

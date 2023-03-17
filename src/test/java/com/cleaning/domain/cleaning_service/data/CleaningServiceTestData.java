@@ -22,6 +22,24 @@ public class CleaningServiceTestData {
 
     }
 
+    public static CleaningService dummyCleaningServiceWithId(
+            Long id){
+
+        return new CleaningServiceBuilder()
+                .withId(id)
+                .withContactInfo(ContactInfoTestData.dummyContactInfo())
+                .withLocation(LocationTestData.dummyLocation())
+                .withCleaningDetails(CleaningDetailsTestData.dummyStandardCleaningDetails())
+                .withClient(null)
+                .withFrequency(Frequency.TWO_TIME)
+                .withPayment(Payment.CARD)
+                .withMessages(MessageTestData.dummyMessages())
+                .withType(CleaningType.STANDARD)
+                .withTotal(100.0)
+                .withTimeEstimation(3)
+                .build();
+    }
+
     public static CleaningService dummyCleaningServiceWithContactInfo(
             ContactInfo contactInfo){
 

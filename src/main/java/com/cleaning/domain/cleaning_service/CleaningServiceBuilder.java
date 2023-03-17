@@ -22,6 +22,12 @@ public class CleaningServiceBuilder {
     private Double total;
     private Integer timeEstimation;
 
+    public CleaningServiceBuilder withId(Long id) {
+
+        this.id = id;
+        return this;
+    }
+
     public CleaningServiceBuilder withContactInfo(ContactInfo contactInfo) {
 
         this.contactInfo = contactInfo;

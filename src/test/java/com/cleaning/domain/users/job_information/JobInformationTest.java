@@ -6,10 +6,19 @@ import org.junit.jupiter.api.*;
 
 import java.time.*;
 
+import static com.cleaning.domain.users.data.JobInformationTestData.dummyJobInformationWithId;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class JobInformationTest {
+
+    @Test
+    void should_be_equal() {
+        JobInformation jobInformation1 = dummyJobInformationWithId(1L);
+        JobInformation jobInformation2 = dummyJobInformationWithId(1L);
+
+        assertThat(jobInformation1.equals(jobInformation2)).isTrue();
+    }
 
     @Test
     void should_create() {

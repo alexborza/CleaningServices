@@ -45,11 +45,18 @@ public class Appointment extends BaseEntity {
     @Getter
     public static class AppointmentBuilder {
 
+        private Long id;
         private CleaningService cleaningService;
         private Employee employee;
         private LocalDate cleaningDate;
         private TimeSlot timeSlot;
         private AppointmentStatus status;
+
+        public AppointmentBuilder withId(Long id) {
+
+            this.cleaningService = cleaningService;
+            return this;
+        }
 
         public AppointmentBuilder withCleaningService(CleaningService cleaningService) {
 
@@ -87,7 +94,8 @@ public class Appointment extends BaseEntity {
         }
     }
 
-    public Appointment(AppointmentBuilder builder) {
+    private Appointment(AppointmentBuilder builder) {
+        this.id = builder.getId();
         this.cleaningService = builder.getCleaningService();
         this.employee = builder.getEmployee();
         this.cleaningDate = builder.getCleaningDate();

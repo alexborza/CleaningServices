@@ -4,10 +4,20 @@ import com.cleaning.domain.*;
 import com.cleaning.domain.cleaning_service.data.*;
 import org.junit.jupiter.api.*;
 
+import static com.cleaning.domain.cleaning_service.data.CleaningServiceTestData.dummyCleaningServiceWithId;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CleaningServiceTest {
+
+    @Test
+    void should_be_equal() {
+        CleaningService cs1 = dummyCleaningServiceWithId(1L);
+        CleaningService cs2 = dummyCleaningServiceWithId(1L);
+
+        assertThat(cs1.equals(cs2)).isTrue();
+    }
+
 
     @Test
     void should_create() {
