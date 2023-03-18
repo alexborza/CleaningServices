@@ -9,7 +9,6 @@ import java.util.*;
 @AllArgsConstructor
 @Getter
 public class CleaningServiceCommand {
-    private final Long id;
     private final ContactInfo contactInfo;
     private final Location location;
     private final CleaningDetails cleaningDetails;

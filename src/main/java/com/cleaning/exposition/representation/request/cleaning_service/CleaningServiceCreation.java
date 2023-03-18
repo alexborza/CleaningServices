@@ -10,7 +10,6 @@ import java.util.*;
 @AllArgsConstructor
 @Getter
 public class CleaningServiceCreation {
-    private final Long id;
     private final ContactInfoCreation contactInfo;
     private final LocationCreation location;
     private final CleaningDetailsCreation cleaningDetails;
@@ -24,7 +23,6 @@ public class CleaningServiceCreation {
     public CleaningServiceCommand toCommand() {
 
         return new CleaningServiceCommand(
-                id,
                 contactInfo.toDomain(),
                 location.toDomain(),
                 cleaningDetails.toDomain(),

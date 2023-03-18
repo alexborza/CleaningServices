@@ -12,14 +12,13 @@ public class PostConstructionCleaningDetailsCreation extends CleaningDetailsCrea
 
 
     public PostConstructionCleaningDetailsCreation(
-            Long id,
             Double squareMeters,
             Parking parking,
             HomeAccess homeAccess,
             Property property,
             Integer rooms) {
 
-        super(id, squareMeters, parking, homeAccess);
+        super(squareMeters, parking, homeAccess);
         this.property = property;
         this.rooms = rooms;
     }

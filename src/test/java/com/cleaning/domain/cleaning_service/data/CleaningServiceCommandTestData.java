@@ -6,7 +6,6 @@ public class CleaningServiceCommandTestData {
 
     public static CleaningServiceCommand dummyCleaningServiceCommand() {
         return new CleaningServiceCommand(
-                null,
                 ContactInfoTestData.dummyContactInfo(),
                 LocationTestData.dummyLocation(),
                 CleaningDetailsTestData.dummyStandardCleaningDetails(),

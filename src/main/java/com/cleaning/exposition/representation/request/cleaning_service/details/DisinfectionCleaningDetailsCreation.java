@@ -10,12 +10,11 @@ public class DisinfectionCleaningDetailsCreation extends CleaningDetailsCreation
     private final Property property;
 
     public DisinfectionCleaningDetailsCreation(
-            Long id,
             Double squareMeters,
             Parking parking,
             HomeAccess homeAccess,
             Property property) {
-        super(id, squareMeters, parking, homeAccess);
+        super(squareMeters, parking, homeAccess);
         this.property = property;
     }
 

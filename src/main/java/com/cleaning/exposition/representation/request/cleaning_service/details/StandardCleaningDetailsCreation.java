@@ -12,14 +12,13 @@ public class StandardCleaningDetailsCreation extends CleaningDetailsCreation {
     private final int kitchens;
 
     public StandardCleaningDetailsCreation(
-            Long id,
             Double squareMeters,
             Parking parking,
             HomeAccess homeAccess,
             Integer bedrooms,
             Integer bathrooms,
             Integer kitchens) {
-        super(id, squareMeters, parking, homeAccess);
+        super(squareMeters, parking, homeAccess);
         this.bedrooms = bedrooms;
         this.bathrooms = bathrooms;
         this.kitchens = kitchens;

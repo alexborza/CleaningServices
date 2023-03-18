@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 
 @Getter
-@JsonTypeName("employee")
 public class EmployeeRepresentation extends UserRepresentation {
     private final JobInformationRepresentation jobInformationRepresentation;
 
@@ -21,7 +20,7 @@ public class EmployeeRepresentation extends UserRepresentation {
         this.jobInformationRepresentation = jobInformationRepresentation;
     }
 
-    public static EmployeeRepresentation mapFromDomain(Employee employee) {
+    public static EmployeeRepresentation fromDomain(Employee employee) {
         return new EmployeeRepresentation(
                 employee.getId(),
                 employee.getUsername(),

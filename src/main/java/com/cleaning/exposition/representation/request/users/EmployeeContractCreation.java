@@ -1,4 +1,4 @@
-package com.cleaning.exposition.representation.request.cleaning_service;
+package com.cleaning.exposition.representation.request.users;
 
 import com.cleaning.domain.users.*;
 import com.cleaning.exposition.representation.request.users.*;

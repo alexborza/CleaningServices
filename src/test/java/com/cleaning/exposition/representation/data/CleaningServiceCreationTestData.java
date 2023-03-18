@@ -13,7 +13,6 @@ public class CleaningServiceCreationTestData {
     ) {
 
         return new CleaningServiceCreation(
-                null,
                 ContactInfoCreationTestData.dummyContactInfoCreation(),
                 LocationCreationTestData.dummyLocationCreation(),
                 CleaningDetailsCreationTestData.dummyStandardCleaningDetailsCreation(),

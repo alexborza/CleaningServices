@@ -7,14 +7,13 @@ import lombok.*;
 import static com.cleaning.domain.users.Role.*;
 
 @Getter
-@JsonTypeName("client")
 public class ClientRepresentation extends UserRepresentation {
 
     public ClientRepresentation(Long id, String username, String email, String password, UserInformationRepresentation userInformation) {
         super(id, username, email, password, userInformation);
     }
 
-    public static ClientRepresentation mapFromDomain(Client client) {
+    public static ClientRepresentation fromDomain(Client client) {
         return new ClientRepresentation(
                 client.getId(),
                 client.getUsername(),

@@ -13,7 +13,6 @@ import lombok.*;
         @JsonSubTypes.Type(value = PostConstructionCleaningDetailsCreation.class, name = "postConstructionCleaning")
 })
 public abstract class CleaningDetailsCreation {
-    private final Long id;
     private final Double squareMeters;
     private final Parking parking;
     private final HomeAccess homeAccess;

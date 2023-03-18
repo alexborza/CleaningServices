@@ -14,7 +14,7 @@ public class AppointmentRepresentation {
     private final Long employeeId;
     private final LocalDate cleaningDate;
     private final TimeSlotRepresentation timeSlot;
-    private final String status;
+    private final AppointmentStatus status;
 
     public static AppointmentRepresentation fromDomain(Appointment appointment) {
         return new AppointmentRepresentation(
@@ -23,7 +23,7 @@ public class AppointmentRepresentation {
                 appointment.getEmployee().getId(),
                 appointment.getCleaningDate(),
                 TimeSlotRepresentation.fromDomain(appointment.getTimeSlot()),
-                appointment.getStatus().toString()
+                appointment.getStatus()
         );
     }
 }
