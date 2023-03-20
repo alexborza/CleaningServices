@@ -39,8 +39,8 @@ public class EmployeeService {
         return EmployeeUtils.calculateEmployeesAvailableIntervals(employeeIds, appointments, timeEstimation);
     }
 
-    public List<Appointment> getEmployeeAppointmentsForDate(Long id, String date) {
+    public List<Appointment> getEmployeeAppointmentsForDate(Long employeeId, String date) {
 
-        return appointmentRepository.findAllByEmployeeAndCleaningDate(id, date);
+        return appointmentRepository.findAllByEmployeeAndCleaningDate(employeeId, date);
     }
 }

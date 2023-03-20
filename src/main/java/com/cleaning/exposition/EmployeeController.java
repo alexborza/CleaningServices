@@ -21,7 +21,7 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
-    @PostMapping("job-information/{userId}")
+    @PostMapping("/job-information/{jobInformationId}")
     public ResponseEntity<Void> updateJobInformation(@PathVariable Long jobInformationId,
                                                      @RequestBody JobInformationCreation jobInformationCreation){
 
@@ -30,12 +30,12 @@ public class EmployeeController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/{id}/appointments")
+    @GetMapping("/{employeeId}/appointments")
     public ResponseEntity<List<AppointmentRepresentation>> getEmployeesAppointmentsForDate(
-            @PathVariable Long id,
+            @PathVariable Long employeeId,
             @RequestParam String date){
 
-        List<Appointment> appointments = employeeService.getEmployeeAppointmentsForDate(id, date);
+        List<Appointment> appointments = employeeService.getEmployeeAppointmentsForDate(employeeId, date);
 
         return ResponseEntity.ok(
                 appointments.stream()

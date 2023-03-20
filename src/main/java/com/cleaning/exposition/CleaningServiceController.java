@@ -72,7 +72,7 @@ public class CleaningServiceController {
     }
 
     @GetMapping("/descriptions")
-    public ResponseEntity<CleaningDescriptionRepresentation> getDescriptions() {
+    public ResponseEntity<CleaningDescriptionRepresentation> getCleaningDescriptions() {
 
         Optional<CleaningDescription> optionalCleaningDescription = cleaningServiceService.getDescriptions();
 
@@ -83,7 +83,7 @@ public class CleaningServiceController {
     }
 
     @GetMapping("/prices")
-    public ResponseEntity<CleaningPricesRepresentation> getCleaningServicePrices() {
+    public ResponseEntity<CleaningPricesRepresentation> getCleaningPrices() {
         Optional<CleaningPrice> optionalCleaningPrice = cleaningServiceService.getCleaningServicePrices();
 
         return optionalCleaningPrice

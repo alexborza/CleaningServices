@@ -143,7 +143,7 @@ public class CleaningServiceControllerTest {
 
         when(cleaningServiceService.getDescriptions()).thenReturn(Optional.ofNullable(cleaningDescription));
 
-        ResponseEntity<CleaningDescriptionRepresentation> response = cleaningServiceController.getDescriptions();
+        ResponseEntity<CleaningDescriptionRepresentation> response = cleaningServiceController.getCleaningDescriptions();
         assertThat(response).isNotNull();
 
         CleaningDescriptionRepresentation body = response.getBody();
@@ -162,7 +162,7 @@ public class CleaningServiceControllerTest {
 
         when(cleaningServiceService.getDescriptions()).thenReturn(Optional.empty());
 
-        ResponseEntity<CleaningDescriptionRepresentation> response = cleaningServiceController.getDescriptions();
+        ResponseEntity<CleaningDescriptionRepresentation> response = cleaningServiceController.getCleaningDescriptions();
         assertThat(response).isNotNull();
 
         CleaningDescriptionRepresentation body = response.getBody();
@@ -179,7 +179,7 @@ public class CleaningServiceControllerTest {
 
         when(cleaningServiceService.getCleaningServicePrices()).thenReturn(Optional.ofNullable(cleaningPrice));
 
-        ResponseEntity<CleaningPricesRepresentation> response = cleaningServiceController.getCleaningServicePrices();
+        ResponseEntity<CleaningPricesRepresentation> response = cleaningServiceController.getCleaningPrices();
         assertThat(response).isNotNull();
 
         CleaningPricesRepresentation body = response.getBody();
@@ -216,7 +216,7 @@ public class CleaningServiceControllerTest {
 
         when(cleaningServiceService.getCleaningServicePrices()).thenReturn(Optional.empty());
 
-        ResponseEntity<CleaningPricesRepresentation> response = cleaningServiceController.getCleaningServicePrices();
+        ResponseEntity<CleaningPricesRepresentation> response = cleaningServiceController.getCleaningPrices();
         assertThat(response).isNotNull();
 
         CleaningPricesRepresentation body = response.getBody();
