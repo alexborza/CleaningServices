@@ -117,12 +117,12 @@ public class CleaningServiceControllerTest {
 
         CleaningServiceCreation cleaningServiceCreation = CleaningServiceCreationTestData.dummyCleaningServiceCreation(appointmentCreations);
 
-        ResponseEntity<Void> response = cleaningServiceController.createCleaningService(1L, 2L, cleaningServiceCreation);
+        ResponseEntity<Void> response = cleaningServiceController.createCleaningService(2L, cleaningServiceCreation);
 
         assertThat(response).isNotNull();
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         verify(cleaningServiceService)
-                .createCleaningService(any(), any(), any(), any());
+                .createCleaningService(any(), any(), any());
     }
 
     @Test

@@ -1,8 +1,8 @@
 package com.cleaning.application;
 
 import com.cleaning.domain.users.*;
-import com.cleaning.domain.users.exception.*;
 import com.cleaning.domain.users.data.*;
+import com.cleaning.domain.users.exception.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.*;
 import org.mockito.*;
@@ -28,45 +28,8 @@ public class UserServiceTest {
     @Mock
     private PasswordEncoder encoder;
 
-    private static final String USERNAME = "username";
-    private static final String EMAIL = "email";
     private static final String PASSWORD = "password";
     private static final String NEW_PASSWORD = "newPassword";
-
-    @Test
-    public void testShouldRegisterUser() {
-
-        when(userRepository.existsByUsername(USERNAME)).thenReturn(false);
-        when(userRepository.existsByEmail(EMAIL)).thenReturn(false);
-        when(encoder.encode(PASSWORD)).thenReturn("encodedPass");
-
-        userService.registerUser(USERNAME, EMAIL, PASSWORD);
-
-        verify(userRepository).save(any());
-    }
-
-    @Test
-    public void testShouldNotRegisterUserExistingUsername() {
-
-        when(userRepository.existsByUsername(USERNAME)).thenReturn(true);
-
-        UserAlreadyExistsException exception = assertThrows(UserAlreadyExistsException.class,
-                () -> userService.registerUser(USERNAME, EMAIL, PASSWORD));
-
-        assertEquals(exception.getMessage(), "Username is already taken!");
-    }
-
-    @Test
-    public void testShouldNotRegisterUserExistingEmail() {
-
-        when(userRepository.existsByUsername(USERNAME)).thenReturn(false);
-        when(userRepository.existsByEmail(EMAIL)).thenReturn(true);
-
-        UserAlreadyExistsException exception = assertThrows(UserAlreadyExistsException.class,
-                () -> userService.registerUser(USERNAME, EMAIL, PASSWORD));
-
-        assertEquals(exception.getMessage(), "Email is already in use!");
-    }
 
     @Test
     public void testShouldGetUser() {

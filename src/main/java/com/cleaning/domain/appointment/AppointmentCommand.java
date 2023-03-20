@@ -10,6 +10,7 @@ import java.time.*;
 @Getter
 public class AppointmentCommand {
 
+    private final Long employeeId;
     private final String cleaningDate;
     private final TimeSlot timeSlot;
     private final AppointmentStatus status;

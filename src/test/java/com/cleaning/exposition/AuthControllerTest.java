@@ -12,6 +12,8 @@ import org.mockito.junit.jupiter.*;
 import org.springframework.http.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -22,6 +24,16 @@ public class AuthControllerTest {
 
     @Mock
     private AuthService authService;
+
+    @Test
+    public void testRegisterUser() {
+        SignupRequest signupRequest = SignupRequestTestData.dummySignupRequest();
+
+        ResponseEntity<Void> voidResponseEntity = authController.registerUser(signupRequest);
+
+        assertNotNull(voidResponseEntity);
+        assertEquals(voidResponseEntity.getStatusCode(), HttpStatus.OK);
+    }
 
     @Test
     public void testAuthenticateUser() {

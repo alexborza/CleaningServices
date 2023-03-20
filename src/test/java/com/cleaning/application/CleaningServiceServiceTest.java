@@ -1,16 +1,16 @@
 package com.cleaning.application;
 
 import com.cleaning.domain.appointment.*;
+import com.cleaning.domain.appointment.data.*;
 import com.cleaning.domain.cleaning_service.*;
+import com.cleaning.domain.cleaning_service.data.*;
 import com.cleaning.domain.cleaning_service.description.*;
 import com.cleaning.domain.cleaning_service.exception.*;
 import com.cleaning.domain.cleaning_service.prices.*;
 import com.cleaning.domain.users.*;
-import com.cleaning.domain.users.exception.*;
-import com.cleaning.domain.appointment.data.*;
-import com.cleaning.infrastructure.cleaning_service.cleaning_description.data.*;
-import com.cleaning.domain.cleaning_service.data.*;
 import com.cleaning.domain.users.data.*;
+import com.cleaning.domain.users.exception.*;
+import com.cleaning.infrastructure.cleaning_service.cleaning_description.data.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.*;
 import org.mockito.*;
@@ -129,7 +129,7 @@ public class CleaningServiceServiceTest {
                 .map(command -> command.toDomain(savedCleaningService, employee))
                 .collect(Collectors.toList());
 
-        cleaningServiceService.createCleaningService(1L, 2L, cleaningServiceCommand, appointmentCommands);
+        cleaningServiceService.createCleaningService(2L, cleaningServiceCommand, appointmentCommands);
 
         verify(cleaningServiceRepository).save(cleaningService);
         verify(appointmentRepository).saveAll(appointments);
@@ -139,20 +139,19 @@ public class CleaningServiceServiceTest {
     public void testShouldThrowUserNotFoundExceptionForEmployeeWhenCreateCleaningService() {
         CleaningServiceCommand cleaningServiceCommand = CleaningServiceCommandTestData.dummyCleaningServiceCommand();
         List<AppointmentCommand> appointmentCommands = List.of(
-                AppointmentCommandTestData.dummyAppointmentCommand(),
+                AppointmentCommandTestData.dummyAppointmentCommand(100L),
                 AppointmentCommandTestData.dummyAppointmentCommand(),
                 AppointmentCommandTestData.dummyAppointmentCommand()
         );
-        Employee employee = UserTestData.dummyEmployee("Euser", "Eemail");
+        Client client = UserTestData.dummyClient("Cuser", "Cemail");
 
-        when(userRepository.findById(1L)).thenReturn(Optional.ofNullable(employee));
-        when(userRepository.findById(2L)).thenReturn(Optional.empty());
-
+        when(userRepository.findById(1L)).thenReturn(Optional.ofNullable(client));
+        when(userRepository.findById(100L)).thenReturn(Optional.empty());
 
         UserNotFoundException exception = assertThrows(UserNotFoundException.class,
-                () -> cleaningServiceService.createCleaningService(1L, 2L, cleaningServiceCommand, appointmentCommands));
+                () -> cleaningServiceService.createCleaningService(1L, cleaningServiceCommand, appointmentCommands));
 
-        assertThat(exception.getMessage()).isEqualTo("User not found for id = " + 2L);
+        assertThat(exception.getMessage()).isEqualTo("User not found for id = " + 100L);
     }
 
     @Test
@@ -167,7 +166,7 @@ public class CleaningServiceServiceTest {
         when(userRepository.findById(1L)).thenReturn(Optional.empty());
 
         UserNotFoundException exception = assertThrows(UserNotFoundException.class,
-                () -> cleaningServiceService.createCleaningService(1L, 2L, cleaningServiceCommand, appointmentCommands));
+                () -> cleaningServiceService.createCleaningService(1L, cleaningServiceCommand, appointmentCommands));
 
         assertThat(exception.getMessage()).isEqualTo("User not found for id = " + 1L);
     }

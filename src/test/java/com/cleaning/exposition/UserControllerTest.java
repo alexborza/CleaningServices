@@ -2,10 +2,10 @@ package com.cleaning.exposition;
 
 import com.cleaning.application.*;
 import com.cleaning.domain.users.*;
+import com.cleaning.domain.users.data.*;
 import com.cleaning.exposition.representation.data.*;
 import com.cleaning.exposition.representation.request.users.*;
 import com.cleaning.exposition.representation.response.users.*;
-import com.cleaning.domain.users.data.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.*;
 import org.mockito.*;
@@ -29,16 +29,6 @@ public class UserControllerTest {
 
     @Mock
     private PasswordEncoder encoder;
-
-    @Test
-    public void testRegisterUser() {
-        SignupRequest signupRequest = SignupRequestTestData.dummySignupRequest();
-
-        ResponseEntity<Void> voidResponseEntity = userController.registerUser(signupRequest);
-
-        assertNotNull(voidResponseEntity);
-        assertEquals(voidResponseEntity.getStatusCode(), HttpStatus.OK);
-    }
 
     @Test
     public void testGetUser() {

@@ -51,15 +51,14 @@ public class CleaningServiceController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> createCleaningService(@RequestParam Long employeeId,
-                                                      @RequestParam(required = false) Long clientId,
+    public ResponseEntity<Void> createCleaningService(@RequestParam(required = false) Long clientId,
                                                       @RequestBody CleaningServiceCreation cleaningServiceCreation) {
 
         List<AppointmentCommand> appointmentCommands = cleaningServiceCreation.getAppointments().stream()
                 .map(AppointmentCreation::toCommand)
                 .collect(toList());
 
-        cleaningServiceService.createCleaningService(employeeId, clientId, cleaningServiceCreation.toCommand(), appointmentCommands);
+        cleaningServiceService.createCleaningService(clientId, cleaningServiceCreation.toCommand(), appointmentCommands);
         return ResponseEntity.ok().build();
     }
 

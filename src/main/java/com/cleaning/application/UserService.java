@@ -17,25 +17,6 @@ public class UserService {
     @Autowired
     private PasswordEncoder encoder;
 
-    public void registerUser(String username, String email, String password){
-        if (userRepository.existsByUsername(username)) {
-            throw new UserAlreadyExistsException("Username is already taken!");
-        }
-        if (userRepository.existsByEmail(email)) {
-            throw new UserAlreadyExistsException("Email is already in use!");
-        }
-
-        String encodedPassword = encoder.encode(password);
-
-        User user = new Client.Builder()
-                .withUsername(username)
-                .withEmail(email)
-                .withPassword(encodedPassword)
-                .build();
-
-        userRepository.save(user);
-    }
-
     public User getUser(Long userId){
         //TODO: probably and where role <> 'ADMIN'
         return userRepository.findById(userId)

@@ -21,4 +21,10 @@ public class AuthController {
         JwtResponse jwtResponse = authService.authenticateUser(loginRequest);
         return ResponseEntity.ok(jwtResponse);
     }
+
+    @PostMapping("/signup")
+    public ResponseEntity<Void> registerUser(@RequestBody SignupRequest signUpRequest) {
+        authService.registerUser(signUpRequest.getUsername(), signUpRequest.getEmail(), signUpRequest.getPassword());
+        return ResponseEntity.ok().build();
+    }
 }

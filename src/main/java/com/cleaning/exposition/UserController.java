@@ -16,12 +16,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/signup")
-    public ResponseEntity<Void> registerUser(@RequestBody SignupRequest signUpRequest) {
-        userService.registerUser(signUpRequest.getUsername(), signUpRequest.getEmail(), signUpRequest.getPassword());
-        return ResponseEntity.ok().build();
-    }
-
     @GetMapping("{userId}")
     public ResponseEntity<UserRepresentation> getUser(@PathVariable Long userId){
         User user = userService.getUser(userId);

@@ -13,8 +13,6 @@ import org.springframework.transaction.annotation.*;
 
 import java.util.*;
 
-import static java.util.stream.Collectors.*;
-
 @Service
 @Transactional
 public class CleaningServiceService {
@@ -50,12 +48,9 @@ public class CleaningServiceService {
         return appointmentRepository.findAllByCleaningService(cleaningServiceId);
     }
 
-    public void createCleaningService(Long employeeId,
-                                      Long clientId,
+    public void createCleaningService(Long clientId,
                                       CleaningServiceCommand cleaningServiceCommand,
                                       List<AppointmentCommand> appointmentCommands){
-
-        Employee employee = (Employee) userRepository.findById(employeeId).orElseThrow(() -> new UserNotFoundException(employeeId));
 
         Client client = null;
         if(clientId != null) {
@@ -65,9 +60,15 @@ public class CleaningServiceService {
         CleaningService cleaningService = cleaningServiceCommand.toDomain(client);
         CleaningService savedCleaningService = cleaningServiceRepository.save(cleaningService);
 
-        List<Appointment> appointments = appointmentCommands.stream()
-                .map(command -> command.toDomain(savedCleaningService, employee))
-                .collect(toList());
+        List<Appointment> appointments = new ArrayList<>();
+
+        for(AppointmentCommand appointmentCommand: appointmentCommands) {
+            Long employeeId = appointmentCommand.getEmployeeId();
+            Employee employee = (Employee) userRepository.findById(employeeId).orElseThrow(() -> new UserNotFoundException(employeeId));
+
+            Appointment appointment = appointmentCommand.toDomain(savedCleaningService, employee);
+            appointments.add(appointment);
+        }
 
         appointmentRepository.saveAll(appointments);
     }

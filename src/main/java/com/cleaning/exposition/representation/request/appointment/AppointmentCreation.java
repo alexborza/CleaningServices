@@ -7,11 +7,12 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 public class AppointmentCreation {
+    private final Long employeeId;
     private final String cleaningDate;
     private final TimeSlotRepresentation timeSlot;
 
     public AppointmentCommand toCommand() {
 
-        return new AppointmentCommand(cleaningDate, timeSlot.toDomain(), AppointmentStatus.ACTIVE);
+        return new AppointmentCommand(employeeId, cleaningDate, timeSlot.toDomain(), AppointmentStatus.ACTIVE);
     }
 }
