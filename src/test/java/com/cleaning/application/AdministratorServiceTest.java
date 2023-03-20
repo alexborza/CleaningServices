@@ -56,7 +56,7 @@ public class AdministratorServiceTest {
     public void testGetAllEmployees() {
         administratorService.getAllEmployees();
 
-        verify(userRepository).findAllByRole(Role.EMPLOYEE);
+        verify(userRepository).findAllEmployeeMinimalViews();
     }
 
     @Test

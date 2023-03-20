@@ -41,12 +41,12 @@ public class AdministratorController {
     }
 
     @GetMapping("/employees")
-    public ResponseEntity<List<UserRepresentation>> getAllEmployees(){
-        List<User> employees = administratorService.getAllEmployees();
+    public ResponseEntity<List<UserMinimalRepresentation>> getAllEmployees(){
+        List<UserMinimalView> employees = administratorService.getAllEmployees();
 
         return ResponseEntity.ok(
                 employees.stream()
-                        .map(UserRepresentation::fromDomain)
+                        .map(UserMinimalRepresentation::fromDomain)
                         .collect(Collectors.toList())
         );
     }

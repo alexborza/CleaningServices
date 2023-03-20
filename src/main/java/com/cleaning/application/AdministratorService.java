@@ -38,9 +38,9 @@ public class AdministratorService {
         userRepository.save(employee);
     }
 
-    public List<User> getAllEmployees(){
+    public List<UserMinimalView> getAllEmployees(){
 
-        return userRepository.findAllByRole(Role.EMPLOYEE);
+        return userRepository.findAllEmployeeMinimalViews();
     }
 
     public Map<UserMinimalView, List<Appointment>> getAllEmployeesAppointmentsByDate(String date){

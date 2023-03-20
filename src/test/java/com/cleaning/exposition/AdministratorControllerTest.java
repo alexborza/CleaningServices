@@ -55,24 +55,24 @@ public class AdministratorControllerTest {
     @Test
     public void testGetAllEmployees() {
 
-        Employee e1 = UserTestData.dummyEmployee("e1_user", "e1_email");
-        Employee e2 = UserTestData.dummyEmployee("e2_user", "e2_email");
+        UserMinimalView e1 = createUserMinimalView(1L, "e1");
+        UserMinimalView e2 = createUserMinimalView(1L, "e2");
 
-        List<User> employees = List.of(e1, e2);
+        List<UserMinimalView> employees = List.of(e1, e2);
 
         when(administratorService.getAllEmployees()).thenReturn(employees);
 
-        ResponseEntity<List<UserRepresentation>> allEmployees = controller.getAllEmployees();
+        ResponseEntity<List<UserMinimalRepresentation>> allEmployees = controller.getAllEmployees();
 
         assertThat(allEmployees).isNotNull();
         assertThat(allEmployees.getStatusCodeValue()).isEqualTo(200);
 
-        List<UserRepresentation> body = allEmployees.getBody();
+        List<UserMinimalRepresentation> body = allEmployees.getBody();
 
         assertThat(body).isNotNull();
         assertThat(body).hasSize(2);
-        assertThat(body.stream().map(UserRepresentation::getUsername).collect(toList()))
-                .containsExactly("e1_user", "e2_user");
+        assertThat(body.stream().map(UserMinimalRepresentation::getFullName).collect(toList()))
+                .containsExactly("e1", "e2");
     }
 
     @Test
