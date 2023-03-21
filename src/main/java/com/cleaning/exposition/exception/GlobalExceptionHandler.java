@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler({UserAlreadyExistsException.class, UserNotFoundException.class, JobInformationNotFoundException.class})
+    @ExceptionHandler({UserAlreadyExistsException.class, UserNotFoundException.class, JobInformationNotFoundException.class, PasswordNotMatchingException.class})
     public final ResponseEntity<ExceptionRepresentation> handleAlreadyExistsException(
             UserAlreadyExistsException exception
     ) {

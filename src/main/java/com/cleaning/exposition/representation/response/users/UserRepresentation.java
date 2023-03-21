@@ -9,7 +9,6 @@ public abstract class UserRepresentation {
     private Long id;
     private String username;
     private String email;
-    private transient String password;
     private UserInformationRepresentation userInformation;
 
     public static UserRepresentation fromDomain(User user) {

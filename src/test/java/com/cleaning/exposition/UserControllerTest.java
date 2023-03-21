@@ -45,7 +45,6 @@ public class UserControllerTest {
         assertNotNull(body);
         assertEquals(response.getStatusCode(), HttpStatus.OK);
         assertEquals(body.getUsername(), user.getUsername());
-        assertEquals(body.getPassword(), user.getPassword());
         assertEquals(body.getEmail(), user.getEmail());
     }
 

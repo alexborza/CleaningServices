@@ -1,7 +1,6 @@
 package com.cleaning.exposition.representation.response.users;
 
 import com.cleaning.domain.users.*;
-import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 
 @Getter
@@ -12,11 +11,10 @@ public class EmployeeRepresentation extends UserRepresentation {
             Long id,
             String username,
             String email,
-            String password,
             UserInformationRepresentation userInformation,
             JobInformationRepresentation jobInformationRepresentation) {
 
-        super(id, username, email, password, userInformation);
+        super(id, username, email, userInformation);
         this.jobInformationRepresentation = jobInformationRepresentation;
     }
 
@@ -25,7 +23,6 @@ public class EmployeeRepresentation extends UserRepresentation {
                 employee.getId(),
                 employee.getUsername(),
                 employee.getEmail(),
-                employee.getPassword(),
                 UserInformationRepresentation.fromDomain(employee.getUserInformation()),
                 JobInformationRepresentation.fromDomain(employee.getJobInformation())
         );

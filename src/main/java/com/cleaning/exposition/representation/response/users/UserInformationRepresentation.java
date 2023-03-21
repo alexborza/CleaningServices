@@ -14,6 +14,9 @@ public class UserInformationRepresentation {
     private final LocalDate birthDate;
 
     public static UserInformationRepresentation fromDomain(UserInformation userInformation) {
+        if(userInformation == null)
+            return null;
+
         return new UserInformationRepresentation(
                 userInformation.getFullName(),
                 userInformation.getAddress(),

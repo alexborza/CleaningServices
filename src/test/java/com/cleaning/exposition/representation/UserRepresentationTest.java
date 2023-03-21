@@ -21,7 +21,6 @@ public class UserRepresentationTest {
         assertThat(representation).isInstanceOf(ClientRepresentation.class);
         assertEquals(representation.getEmail(), client.getEmail());
         assertEquals(representation.getUsername(), client.getUsername());
-        assertEquals(representation.getPassword(), client.getPassword());
         assertEquals(userInformationRepresentation.getAddress(), userInformation.getAddress());
         assertEquals(userInformationRepresentation.getBirthDate(), userInformation.getBirthDate());
         assertEquals(userInformationRepresentation.getPhoneNumber(), userInformation.getPhoneNumber());
@@ -43,7 +42,6 @@ public class UserRepresentationTest {
 
         assertEquals(representation.getEmail(), employee.getEmail());
         assertEquals(representation.getUsername(), employee.getUsername());
-        assertEquals(representation.getPassword(), employee.getPassword());
         assertEquals(userInformationRepresentation.getAddress(), userInformation.getAddress());
         assertEquals(userInformationRepresentation.getBirthDate(), userInformation.getBirthDate());
         assertEquals(userInformationRepresentation.getPhoneNumber(), userInformation.getPhoneNumber());
