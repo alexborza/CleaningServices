@@ -68,6 +68,7 @@ public class EmployeeController {
         return new EmployeeAvailableInterval(
                 employeeId,
                 TimeSlotRepresentation.fromDomain(timeSlot),
-                includedLunchBreak);
+                includedLunchBreak,
+                timeSlot.getInterval());
     }
 }

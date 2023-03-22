@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.time.*;
 import java.util.*;
 
 @Embeddable
@@ -25,6 +26,10 @@ public class TimeSlot extends BaseEntity implements Comparable<TimeSlot> {
         this.startingHour = startingHour;
         this.endingHour = endingHour;
         validate(this);
+    }
+
+    public String getInterval() {
+        return LocalTime.of(startingHour, 0).toString() + " - " + LocalTime.of(endingHour, 0).toString();
     }
 
     @Override

@@ -45,4 +45,10 @@ public class TimeSlotTest {
         assertThrows(DomainConstraintViolationException.class,
                 () -> new TimeSlot(13, 18));
     }
+
+    @Test
+    void should_return_correct_interval() {
+        TimeSlot timeSlot = new TimeSlot(8, 11);
+        assertThat(timeSlot.getInterval()).isEqualTo("08:00 - 11:00");
+    }
 }
