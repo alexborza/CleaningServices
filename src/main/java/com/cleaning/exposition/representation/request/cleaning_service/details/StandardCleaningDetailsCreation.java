@@ -12,7 +12,7 @@ public class StandardCleaningDetailsCreation extends CleaningDetailsCreation {
     private final int kitchens;
 
     public StandardCleaningDetailsCreation(
-            Double squareMeters,
+            String squareMeters,
             Parking parking,
             HomeAccess homeAccess,
             Integer bedrooms,

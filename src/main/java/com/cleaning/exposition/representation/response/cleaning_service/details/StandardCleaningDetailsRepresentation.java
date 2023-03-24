@@ -11,7 +11,7 @@ public class StandardCleaningDetailsRepresentation extends CleaningDetailsRepres
 
     public StandardCleaningDetailsRepresentation(
             Long id,
-            Double squareMeters,
+            String squareMeters,
             Parking parking,
             HomeAccess homeAccess,
             Integer bedrooms,

@@ -8,7 +8,7 @@ public class CleaningDetailsCreationTestData {
     public static CleaningDetailsCreation dummyStandardCleaningDetailsCreation() {
 
         return new StandardCleaningDetailsCreation(
-                200.0,
+                "200.0",
                 Parking.FREE,
                 HomeAccess.CALL,
                 10,

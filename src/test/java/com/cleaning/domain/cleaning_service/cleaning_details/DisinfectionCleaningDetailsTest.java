@@ -14,7 +14,7 @@ public class DisinfectionCleaningDetailsTest {
     void should_create() {
         DisinfectionCleaningDetails disinfectionCleaningDetails = CleaningDetailsTestData.dummyDisinfectionCleaningDetails();
 
-        assertThat(disinfectionCleaningDetails.getSquareMeters()).isEqualTo(200.0);
+        assertThat(disinfectionCleaningDetails.getSquareMeters()).isEqualTo("200.0");
         assertThat(disinfectionCleaningDetails.getHomeAccess()).isEqualTo(HomeAccess.CALL);
         assertThat(disinfectionCleaningDetails.getParking()).isEqualTo(Parking.FREE);
         assertThat(disinfectionCleaningDetails.getProperty()).isEqualTo(Property.HOUSE);
@@ -36,12 +36,12 @@ public class DisinfectionCleaningDetailsTest {
     @Test
     void should_not_create_when_parking_null() {
         assertThrows(DomainConstraintViolationException.class,
-                () -> CleaningDetailsTestData.dummyDisinfectionCleaningDetails(200.0, null, HomeAccess.CALL));
+                () -> CleaningDetailsTestData.dummyDisinfectionCleaningDetails("200.0", null, HomeAccess.CALL));
     }
 
     @Test
     void should_not_create_when_home_access_null() {
         assertThrows(DomainConstraintViolationException.class,
-                () -> CleaningDetailsTestData.dummyDisinfectionCleaningDetails(200.0, Parking.FREE, null));
+                () -> CleaningDetailsTestData.dummyDisinfectionCleaningDetails("200.0", Parking.FREE, null));
     }
 }

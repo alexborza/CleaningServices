@@ -12,7 +12,7 @@ public class PostConstructionCleaningDetailsCreation extends CleaningDetailsCrea
 
 
     public PostConstructionCleaningDetailsCreation(
-            Double squareMeters,
+            String squareMeters,
             Parking parking,
             HomeAccess homeAccess,
             Property property,

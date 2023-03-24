@@ -14,7 +14,7 @@ public class PostConstructionCleaningDetailsTest {
     void should_create() {
         PostConstructionCleaningDetails postConstructionCleaningDetails = CleaningDetailsTestData.dummyPostConstructionCleaningDetails();
 
-        assertThat(postConstructionCleaningDetails.getSquareMeters()).isEqualTo(200.0);
+        assertThat(postConstructionCleaningDetails.getSquareMeters()).isEqualTo("200.0");
         assertThat(postConstructionCleaningDetails.getHomeAccess()).isEqualTo(HomeAccess.CALL);
         assertThat(postConstructionCleaningDetails.getParking()).isEqualTo(Parking.FREE);
         assertThat(postConstructionCleaningDetails.getRooms()).isEqualTo(3);

@@ -18,7 +18,7 @@ public class PostConstructionCleaningDetails extends CleaningDetails {
     @Min(1)
     private Integer rooms;
 
-    public PostConstructionCleaningDetails(Double squareMeters, Parking parking, HomeAccess homeAccess, Property property, Integer rooms) {
+    public PostConstructionCleaningDetails(String squareMeters, Parking parking, HomeAccess homeAccess, Property property, Integer rooms) {
         super(squareMeters, parking, homeAccess);
         this.property = property;
         this.rooms = rooms;

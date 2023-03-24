@@ -19,7 +19,7 @@ public abstract class CleaningDetails extends BaseEntity {
     private Long id;
 
     @NotNull
-    private Double squareMeters;
+    private String squareMeters;
 
     @Enumerated(EnumType.STRING)
     @NotNull
@@ -29,7 +29,7 @@ public abstract class CleaningDetails extends BaseEntity {
     @NotNull
     private HomeAccess homeAccess;
 
-    public CleaningDetails(Double squareMeters, Parking parking, HomeAccess homeAccess) {
+    public CleaningDetails(String squareMeters, Parking parking, HomeAccess homeAccess) {
         this.squareMeters = squareMeters;
         this.parking = parking;
         this.homeAccess = homeAccess;

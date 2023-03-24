@@ -22,7 +22,7 @@ public class StandardCleaningDetails extends CleaningDetails {
     @Min(1)
     private Integer kitchens;
 
-    public StandardCleaningDetails(Double squareMeters, Parking parking, HomeAccess homeAccess, Integer bedrooms, Integer bathrooms, Integer kitchens) {
+    public StandardCleaningDetails(String squareMeters, Parking parking, HomeAccess homeAccess, Integer bedrooms, Integer bathrooms, Integer kitchens) {
         super(squareMeters, parking, homeAccess);
         this.bedrooms = bedrooms;
         this.bathrooms = bathrooms;

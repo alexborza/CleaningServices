@@ -7,7 +7,7 @@ import lombok.*;
 @Getter
 public abstract class CleaningDetailsRepresentation {
     private final Long id;
-    private final Double squareMeters;
+    private final String squareMeters;
     private final Parking parking;
     private final HomeAccess homeAccess;
 

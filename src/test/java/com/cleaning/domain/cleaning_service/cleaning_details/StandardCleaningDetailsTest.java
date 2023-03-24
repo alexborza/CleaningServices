@@ -14,7 +14,7 @@ public class StandardCleaningDetailsTest {
     void should_create() {
         StandardCleaningDetails standardCleaningDetails = CleaningDetailsTestData.dummyStandardCleaningDetails();
 
-        assertThat(standardCleaningDetails.getSquareMeters()).isEqualTo(200.0);
+        assertThat(standardCleaningDetails.getSquareMeters()).isEqualTo("200.0");
         assertThat(standardCleaningDetails.getHomeAccess()).isEqualTo(HomeAccess.CALL);
         assertThat(standardCleaningDetails.getParking()).isEqualTo(Parking.FREE);
         assertThat(standardCleaningDetails.getBedrooms()).isEqualTo(5);

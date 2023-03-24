@@ -10,7 +10,7 @@ public class DisinfectionCleaningDetailsCreation extends CleaningDetailsCreation
     private final Property property;
 
     public DisinfectionCleaningDetailsCreation(
-            Double squareMeters,
+            String squareMeters,
             Parking parking,
             HomeAccess homeAccess,
             Property property) {
