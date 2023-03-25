@@ -18,7 +18,6 @@ public class Message extends BaseEntity {
     @NotBlank
     private String sender;
 
-    @Lob
     @NotBlank
     private String content;
 

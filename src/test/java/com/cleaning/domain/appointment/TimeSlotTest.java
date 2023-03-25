@@ -1,6 +1,7 @@
 package com.cleaning.domain.appointment;
 
 import com.cleaning.domain.*;
+import com.cleaning.utility.*;
 import org.junit.jupiter.api.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -48,7 +49,6 @@ public class TimeSlotTest {
 
     @Test
     void should_return_correct_interval() {
-        TimeSlot timeSlot = new TimeSlot(8, 11);
-        assertThat(timeSlot.getInterval()).isEqualTo("08:00 - 11:00");
+        assertThat(TimeSlotUtility.getTimeSlotInterval(8, 11)).isEqualTo("08:00 - 11:00");
     }
 }

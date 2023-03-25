@@ -28,10 +28,6 @@ public class TimeSlot extends BaseEntity implements Comparable<TimeSlot> {
         validate(this);
     }
 
-    public String getInterval() {
-        return LocalTime.of(startingHour, 0).toString() + " - " + LocalTime.of(endingHour, 0).toString();
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

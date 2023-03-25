@@ -6,6 +6,7 @@ import com.cleaning.domain.users.job_information.*;
 import com.cleaning.exposition.representation.request.users.*;
 import com.cleaning.exposition.representation.response.appointment.*;
 import com.cleaning.exposition.representation.response.shared.*;
+import com.cleaning.utility.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
@@ -69,6 +70,6 @@ public class EmployeeController {
                 employeeId,
                 TimeSlotRepresentation.fromDomain(timeSlot),
                 includedLunchBreak,
-                timeSlot.getInterval());
+                TimeSlotUtility.getTimeSlotInterval(timeSlot.getStartingHour(), timeSlot.getEndingHour()));
     }
 }

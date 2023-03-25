@@ -2,6 +2,7 @@ package com.cleaning.exposition.representation.response.cleaning_service;
 
 import com.cleaning.domain.cleaning_service.*;
 import com.cleaning.exposition.representation.response.appointment.*;
+import com.cleaning.utility.*;
 import lombok.*;
 
 import java.time.*;
@@ -16,6 +17,7 @@ public class CleaningServiceMinimalRepresentation {
     private final Integer timeEstimation;
     private final LocalDate nextCleaningDate;
     private final TimeSlotRepresentation timeSlotRepresentation;
+    private final String hourInterval;
 
     public static CleaningServiceMinimalRepresentation fromDomain(CleaningServiceMinimalView view) {
 
@@ -25,7 +27,8 @@ public class CleaningServiceMinimalRepresentation {
                 view.getTotal(),
                 view.getTimeEstimation(),
                 view.getNextCleaningDate(),
-                new TimeSlotRepresentation(view.getStartingHour(), view.getEndingHour())
+                new TimeSlotRepresentation(view.getStartingHour(), view.getEndingHour()),
+                TimeSlotUtility.getTimeSlotInterval(view.getStartingHour(), view.getEndingHour())
         );
     }
 

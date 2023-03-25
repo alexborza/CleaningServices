@@ -1,6 +1,7 @@
 package com.cleaning.exposition.representation.response.appointment;
 
 import com.cleaning.domain.appointment.*;
+import com.cleaning.utility.*;
 import lombok.*;
 
 import java.time.*;
@@ -14,6 +15,7 @@ public class AppointmentRepresentation {
     private final Long employeeId;
     private final LocalDate cleaningDate;
     private final TimeSlotRepresentation timeSlot;
+    private final String hourInterval;
     private final AppointmentStatus status;
 
     public static AppointmentRepresentation fromDomain(Appointment appointment) {
@@ -23,6 +25,7 @@ public class AppointmentRepresentation {
                 appointment.getEmployee().getId(),
                 appointment.getCleaningDate(),
                 TimeSlotRepresentation.fromDomain(appointment.getTimeSlot()),
+                TimeSlotUtility.getTimeSlotInterval(appointment.getTimeSlot().getStartingHour(), appointment.getTimeSlot().getEndingHour()),
                 appointment.getStatus()
         );
     }

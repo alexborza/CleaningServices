@@ -19,6 +19,7 @@ import com.cleaning.infrastructure.cleaning_service.cleaning_description.data.*;
 import com.cleaning.infrastructure.cleaning_service.cleaning_price.data.*;
 import com.cleaning.domain.cleaning_service.data.*;
 import com.cleaning.domain.users.data.*;
+import com.cleaning.utility.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.*;
 import org.mockito.*;
@@ -104,6 +105,7 @@ public class CleaningServiceControllerTest {
         AppointmentRepresentation appointmentRepresentation = appointmentRepresentations.get(0);
         assertThat(appointmentRepresentation.getTimeSlot().getStartingHour()).isEqualTo(dummyAppointment.getTimeSlot().getStartingHour());
         assertThat(appointmentRepresentation.getTimeSlot().getFinishingHour()).isEqualTo(dummyAppointment.getTimeSlot().getEndingHour());
+        assertThat(appointmentRepresentation.getHourInterval()).isEqualTo(TimeSlotUtility.getTimeSlotInterval(dummyAppointment.getTimeSlot().getStartingHour(), dummyAppointment.getTimeSlot().getEndingHour()));
         assertThat(appointmentRepresentation.getCleaningDate()).isEqualTo(LocalDate.of(2023, 2, 27).toString());
     }
 
