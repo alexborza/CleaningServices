@@ -90,4 +90,15 @@ public class CleaningServiceController {
                 .map(cleaningPrice -> ResponseEntity.ok(CleaningPricesRepresentation.fromDomain(cleaningPrice)))
                 .orElseGet(() -> ResponseEntity.ok(CleaningPricesRepresentation.emptyInstance()));
     }
+
+    @GetMapping("/messages/{cleaningServiceId}")
+    public ResponseEntity<List<MessageRepresentation>> getCleaningServicesMessages(@PathVariable Long cleaningServiceId) {
+        List<Message> messages = cleaningServiceService.getCleaningServicesMessages(cleaningServiceId);
+
+        return ResponseEntity.ok(
+          messages.stream()
+                  .map(MessageRepresentation::fromDomain)
+                  .collect(toList())
+        );
+    }
 }

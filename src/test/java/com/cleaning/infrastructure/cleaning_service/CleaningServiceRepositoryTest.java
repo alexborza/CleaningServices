@@ -96,6 +96,14 @@ public class CleaningServiceRepositoryTest {
         assertThat(messages).hasSize(3);
     }
 
+    @Test
+    public void testGetCleaningServiceMessages() {
+        List<Message> messages = cleaningServiceRepositoryImplementation.getCleaningServicesMessages(10001L);
+
+        assertThat(messages).hasSize(2);
+        assertThat(messages.stream().map(Message::getContent).collect(toList())).containsExactly("message1", "message2");
+    }
+
 
     private void populateData() {
         Client client = (Client) userRepositoryImplementation.findById(10001L)

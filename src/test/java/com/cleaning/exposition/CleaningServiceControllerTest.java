@@ -248,6 +248,23 @@ public class CleaningServiceControllerTest {
         assertThat(postConstructionCleaningPricesRepresentation.getRoomPrice()).isEqualTo(postConstructionCleaningPrice.getRoomPrice());
     }
 
+    @Test
+    public void testGetCleaningServiceMessages() {
+
+        List<Message> messages = List.of(MessageTestData.dummyMessage("content1"), MessageTestData.dummyMessage("content2"));
+
+        when(cleaningServiceService.getCleaningServicesMessages(1L)).thenReturn(messages);
+
+        ResponseEntity<List<MessageRepresentation>> response = cleaningServiceController.getCleaningServicesMessages(1L);
+        assertThat(response).isNotNull();
+
+        List<MessageRepresentation> body = response.getBody();
+        assertThat(body).isNotNull();
+        assertThat(body).hasSize(2);
+        assertThat(body.stream().map(MessageRepresentation::getSender).collect(toList())).containsExactly("sender", "sender");
+        assertThat(body.stream().map(MessageRepresentation::getContent).collect(toList())).containsExactly("content1", "content2");
+    }
+
     private CleaningServiceMinimalView toView(TimeSlotRepresentation timeSlotRepresentation) {
         return new CleaningServiceMinimalView() {
             @Override

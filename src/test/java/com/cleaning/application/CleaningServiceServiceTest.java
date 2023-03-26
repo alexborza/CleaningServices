@@ -206,4 +206,11 @@ public class CleaningServiceServiceTest {
 
         verify(cleaningPriceRepository).findTopByOrderByIdDesc();
     }
+
+    @Test
+    public void testGetCleaningServiceMessages() {
+        cleaningServiceService.getCleaningServicesMessages(1L);
+
+        verify(cleaningServiceRepository).getCleaningServicesMessages(1L);
+    }
 }
