@@ -22,20 +22,11 @@ public class AppointmentController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/cancel/{id}")
-    public ResponseEntity<Void> cancelAppointment(@PathVariable Long id){
-        appointmentService.cancelAppointment(id);
-
-        return ResponseEntity.ok().build();
-    }
-
-    @PostMapping("/add/{cleaningServiceId}/{employeeId}")
-    public ResponseEntity<Void> addAppointment(@PathVariable Long cleaningServiceId,
-                               @PathVariable Long employeeId,
-                               @RequestBody AppointmentCreation appointmentCreation) {
-
-        AppointmentCommand appointmentCommand = appointmentCreation.toCommand();
-        appointmentService.addAppointment(cleaningServiceId, employeeId, appointmentCommand);
+    @PutMapping("/reschedule/{id}")
+    public ResponseEntity<Void> rescheduleAppointment(@PathVariable Long id,
+                                                      @PathVariable Long cleaningServiceId,
+                                                      @RequestBody AppointmentCreation appointmentCreation) {
+        appointmentService.rescheduleAppointment(id, cleaningServiceId, appointmentCreation.toCommand());
 
         return ResponseEntity.ok().build();
     }

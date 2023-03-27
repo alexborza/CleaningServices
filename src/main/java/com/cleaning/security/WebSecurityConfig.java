@@ -45,14 +45,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    //TODO: here we have defined the endpoints that users can access without authenticating in the application
     private static final String[] PUBLIC_MATCHERS = {
             "/css/**",
             "/js/**",
             "/images/**",
-            "/api/booking/cleaning-service/**",
+            "/api/cleaning-service/descriptions",
+            "/api/cleaning-service/prices",
+            "/api/cleaning-service",
             "/api/auth/**",
-            "/api/employee/employees-day-agenda"
+            "/api/employee/available-intervals"
     };
 
     @Override
@@ -63,6 +64,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .antMatchers(PUBLIC_MATCHERS).permitAll()
+                .antMatchers("/api/administrator/**").hasRole("ADMIN")
+                .antMatchers("/api/employee/**").hasRole("EMPLOYEE")
+                .antMatchers("/api/appointment/complete").hasRole("EMPLOYEE")
+                .antMatchers("/api/appointment/reschedule").hasAnyRole("ADMIN","CLIENT")
+                .antMatchers("/api/cleaning-service/client").hasRole("CLIENT")
                 .anyRequest().authenticated();
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }

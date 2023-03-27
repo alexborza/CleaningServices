@@ -31,18 +31,17 @@ public class AppointmentService {
         appointmentRepository.updateStatusCompleted(id);
     }
 
-    public void cancelAppointment(Long id) {
+    public void rescheduleAppointment(Long id, Long cleaningServiceId, AppointmentCommand appointmentCommand) {
+        //Delete the existing appointment
         if(!appointmentRepository.existsById(id)) {
             throw new AppointmentNotFoundException(id);
         }
 
         appointmentRepository.deleteById(id);
-    }
 
-    public void addAppointment(Long cleaningServiceId, Long employeeId, AppointmentCommand appointmentCommand) {
-
-        Employee employee = (Employee) userRepository.findById(employeeId)
-                .orElseThrow(() -> new UserNotFoundException(employeeId));
+        //Create another appointment for CleaningService
+        Employee employee = (Employee) userRepository.findById(appointmentCommand.getEmployeeId())
+                .orElseThrow(() -> new UserNotFoundException(appointmentCommand.getEmployeeId()));
 
         CleaningService cleaningService = cleaningServiceRepository.findById(cleaningServiceId)
                 .orElseThrow(() -> new CleaningServiceNotFoundException(cleaningServiceId));

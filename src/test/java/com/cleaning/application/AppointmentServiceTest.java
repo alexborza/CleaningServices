@@ -9,6 +9,8 @@ import com.cleaning.domain.users.exception.*;
 import com.cleaning.domain.appointment.data.*;
 import com.cleaning.domain.cleaning_service.data.*;
 import com.cleaning.domain.users.data.*;
+import com.cleaning.exposition.representation.data.*;
+import com.cleaning.exposition.representation.request.appointment.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.*;
 import org.mockito.*;
@@ -55,26 +57,7 @@ public class AppointmentServiceTest {
     }
 
     @Test
-    public void testCancelAppointment() {
-        when(appointmentRepository.existsById(1L)).thenReturn(true);
-
-        appointmentService.cancelAppointment(1L);
-
-        verify(appointmentRepository).deleteById(1L);
-    }
-
-    @Test
-    public void testCancelAppointmentShouldThrowAppointmentNotFoundException() {
-        when(appointmentRepository.existsById(1L)).thenReturn(false);
-
-        AppointmentNotFoundException appointmentNotFoundException = assertThrows(AppointmentNotFoundException.class,
-                () -> appointmentService.cancelAppointment(1L));
-
-        assertThat(appointmentNotFoundException.getMessage()).isEqualTo("Appointment not found for id = " + 1L);
-    }
-
-    @Test
-    public void testAddAppointment() {
+    public void testRescheduleAppointment() {
         Employee employee = UserTestData.dummyEmployee("user", "email");
         Client client = UserTestData.dummyClient("clientuser", "clientemail");
         CleaningService cleaningService = CleaningServiceTestData.dummyCleaningService(client);
@@ -83,38 +66,54 @@ public class AppointmentServiceTest {
 
         Appointment appointment = appointmentCommand.toDomain(cleaningService, employee);
 
+        when(appointmentRepository.existsById(1L)).thenReturn(true);
         when(userRepository.findById(1L)).thenReturn(Optional.of(employee));
-        when(cleaningServiceRepository.findById(1L)).thenReturn(Optional.of(cleaningService));
+        when(cleaningServiceRepository.findById(5L)).thenReturn(Optional.of(cleaningService));
 
-        appointmentService.addAppointment(1L, 1L, appointmentCommand);
+        appointmentService.rescheduleAppointment(1L, 5L, appointmentCommand);
 
+        verify(appointmentRepository).deleteById(1L);
         verify(appointmentRepository).save(appointment);
     }
 
     @Test
-    public void testAddAppointmentShouldThrowUserNotFoundException() {
+    public void testRescheduleAppointmentShouldThrowAppointmentNotFoundException() {
+        AppointmentCreation appointmentCreation = AppointmentCreationTestData.dummyAppointmentCreation();
+
+        when(appointmentRepository.existsById(1L)).thenReturn(false);
+
+        AppointmentNotFoundException appointmentNotFoundException = assertThrows(AppointmentNotFoundException.class,
+                () -> appointmentService.rescheduleAppointment(1L, 5L, appointmentCreation.toCommand()));
+
+        assertThat(appointmentNotFoundException.getMessage()).isEqualTo("Appointment not found for id = " + 1L);
+    }
+
+    @Test
+    public void testRescheduleAppointmentShouldThrowUserNotFoundException() {
 
         AppointmentCommand appointmentCommand = AppointmentCommandTestData.dummyAppointmentCommand();
 
+        when(appointmentRepository.existsById(1L)).thenReturn(true);
         when(userRepository.findById(1L)).thenReturn(Optional.empty());
 
         UserNotFoundException appointmentNotFoundException = assertThrows(UserNotFoundException.class,
-                () -> appointmentService.addAppointment(1L, 1L, appointmentCommand));
+                () -> appointmentService.rescheduleAppointment(1L, 5L, appointmentCommand));
 
         assertThat(appointmentNotFoundException.getMessage()).isEqualTo("User not found for id = " + 1L);
     }
 
     @Test
-    public void testAddAppointmentShouldThrowCleaningServiceNotFoundException() {
+    public void testRescheduleAppointmentShouldThrowCleaningServiceNotFoundException() {
 
         AppointmentCommand appointmentCommand = AppointmentCommandTestData.dummyAppointmentCommand();
 
+        when(appointmentRepository.existsById(1L)).thenReturn(true);
         when(userRepository.findById(1L)).thenReturn(Optional.of(UserTestData.dummyEmployee("e", "e")));
-        when(cleaningServiceRepository.findById(1L)).thenReturn(Optional.empty());
+        when(cleaningServiceRepository.findById(5L)).thenReturn(Optional.empty());
 
         CleaningServiceNotFoundException appointmentNotFoundException = assertThrows(CleaningServiceNotFoundException.class,
-                () -> appointmentService.addAppointment(1L, 1L, appointmentCommand));
+                () -> appointmentService.rescheduleAppointment(1L, 5L, appointmentCommand));
 
-        assertThat(appointmentNotFoundException.getMessage()).isEqualTo("CleaningService not found for id = " + 1L);
+        assertThat(appointmentNotFoundException.getMessage()).isEqualTo("CleaningService not found for id = " + 5L);
     }
 }

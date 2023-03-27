@@ -5,6 +5,7 @@ import com.cleaning.domain.users.*;
 import lombok.*;
 
 import java.time.*;
+import java.util.*;
 
 @AllArgsConstructor
 @Getter
@@ -24,5 +25,18 @@ public class AppointmentCommand {
                 .withTimeSlot(timeSlot)
                 .withStatus(status)
                 .build();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AppointmentCommand that = (AppointmentCommand) o;
+        return Objects.equals(employeeId, that.employeeId) && Objects.equals(cleaningDate, that.cleaningDate) && Objects.equals(timeSlot, that.timeSlot) && status == that.status;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(employeeId, cleaningDate, timeSlot, status);
     }
 }
