@@ -13,6 +13,4 @@ public interface CleaningServiceRepository {
     List<CleaningServiceMinimalView> findClientsCleaningServices(Long clientId);
 
     List<CleaningServiceMinimalView> findAll();
-
-    List<Message> getCleaningServicesMessages(Long cleaningServiceId);
 }

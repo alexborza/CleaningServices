@@ -39,10 +39,4 @@ public class CleaningServiceRepositoryImplementation implements CleaningServiceR
 
         return jpaRepository.findAllMinimalViews();
     }
-
-    @Override
-    public List<Message> getCleaningServicesMessages(Long cleaningServiceId) {
-
-        return jpaRepository.getCleaningServicesMessages(cleaningServiceId);
-    }
 }

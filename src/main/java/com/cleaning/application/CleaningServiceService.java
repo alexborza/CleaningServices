@@ -95,9 +95,4 @@ public class CleaningServiceService {
 
         return cleaningPriceRepository.findTopByOrderByIdDesc();
     }
-
-    public List<Message> getCleaningServicesMessages(Long cleaningServiceId) {
-
-        return cleaningServiceRepository.getCleaningServicesMessages(cleaningServiceId);
-    }
 }

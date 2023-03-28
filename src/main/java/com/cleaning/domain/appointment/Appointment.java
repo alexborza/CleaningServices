@@ -54,7 +54,7 @@ public class Appointment extends BaseEntity {
 
         public AppointmentBuilder withId(Long id) {
 
-            this.cleaningService = cleaningService;
+            this.id = id;
             return this;
         }
 

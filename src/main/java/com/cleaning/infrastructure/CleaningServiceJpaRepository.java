@@ -29,7 +29,4 @@ public interface CleaningServiceJpaRepository extends JpaRepository<CleaningServ
             "group by id, cleaningType, total, timeEstimation " +
             "order by nextCleaningDate")
     List<CleaningServiceMinimalView> findAllMinimalViews();
-
-    @Query("Select m from CleaningService c inner join c.messages m where c.id = ?1")
-    List<Message> getCleaningServicesMessages(Long cleaningServiceId);
 }
