@@ -22,7 +22,7 @@ public class AppointmentController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/reschedule/{id}")
+    @PutMapping("/reschedule/{id}/{cleaningServiceId}")
     public ResponseEntity<Void> rescheduleAppointment(@PathVariable Long id,
                                                       @PathVariable Long cleaningServiceId,
                                                       @RequestBody AppointmentCreation appointmentCreation) {

@@ -52,7 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/api/cleaning-service/descriptions",
             "/api/cleaning-service/prices",
             "/api/cleaning-service",
-            "/api/auth/**",
+            "/api/auth/*",
             "/api/employee/available-intervals"
     };
 
@@ -64,11 +64,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .antMatchers(PUBLIC_MATCHERS).permitAll()
-                .antMatchers("/api/administrator/**").hasRole("ADMIN")
-                .antMatchers("/api/employee/**").hasRole("EMPLOYEE")
-                .antMatchers("/api/appointment/complete").hasRole("EMPLOYEE")
-                .antMatchers("/api/appointment/reschedule").hasAnyRole("ADMIN","CLIENT")
-                .antMatchers("/api/cleaning-service/client").hasRole("CLIENT")
+                .antMatchers("/api/administrator/*").hasAuthority("ADMIN")
+                .antMatchers("/api/employee/*").hasAuthority("EMPLOYEE")
+                .antMatchers("/api/appointment/complete").hasAuthority("EMPLOYEE")
+                .antMatchers("/api/appointment/reschedule").hasAnyAuthority("ADMIN","CLIENT")
+                .antMatchers("/api/cleaning-service/client").hasAuthority("CLIENT")
                 .anyRequest().authenticated();
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
