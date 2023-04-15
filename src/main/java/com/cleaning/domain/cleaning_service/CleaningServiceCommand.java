@@ -4,8 +4,6 @@ import com.cleaning.domain.cleaning_service.details.*;
 import com.cleaning.domain.users.*;
 import lombok.*;
 
-import java.util.*;
-
 @AllArgsConstructor
 @Getter
 public class CleaningServiceCommand {

@@ -1,7 +1,6 @@
 package com.cleaning.exposition;
 
 import com.cleaning.application.*;
-import com.cleaning.domain.appointment.*;
 import com.cleaning.exposition.representation.request.appointment.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;

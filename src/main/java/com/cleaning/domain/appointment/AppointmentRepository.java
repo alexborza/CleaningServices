@@ -1,5 +1,6 @@
 package com.cleaning.domain.appointment;
 
+import java.time.*;
 import java.util.*;
 
 public interface AppointmentRepository {
@@ -21,5 +22,7 @@ public interface AppointmentRepository {
     void updateStatusCompleted(Long id);
 
     void deleteById(Long id);
+
+    void updateNotCompletedDueAppointments(LocalDate currentDate);
 
 }

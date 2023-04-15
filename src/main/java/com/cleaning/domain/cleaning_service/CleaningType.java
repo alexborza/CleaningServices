@@ -4,5 +4,5 @@ public enum CleaningType {
     STANDARD,
     DEEP,
     DISINFECTION,
-    POST_CONSTRUCTION;
+    POST_CONSTRUCTION
 }

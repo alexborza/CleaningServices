@@ -1,7 +1,6 @@
 package com.cleaning.exposition.representation.request.users;
 
 import com.cleaning.domain.users.*;
-import com.cleaning.exposition.representation.request.users.*;
 import lombok.*;
 
 @AllArgsConstructor

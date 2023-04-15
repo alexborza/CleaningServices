@@ -67,4 +67,10 @@ public class AppointmentRepositoryImplementation implements AppointmentRepositor
 
         jpaRepository.deleteById(id);
     }
+
+    @Override
+    public void updateNotCompletedDueAppointments(LocalDate currentDate) {
+
+        jpaRepository.updateNotCompletedDueAppointments(currentDate);
+    }
 }

@@ -1,6 +1,7 @@
 package com.cleaning.security.jwt;
 
 import com.cleaning.security.implementation.*;
+import org.slf4j.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.context.*;
@@ -8,8 +9,6 @@ import org.springframework.security.core.userdetails.*;
 import org.springframework.security.web.authentication.*;
 import org.springframework.util.*;
 import org.springframework.web.filter.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -42,7 +41,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     private String parseJwt(HttpServletRequest request) {
         String headerAuth = request.getHeader("Authorization");
         if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
-            return headerAuth.substring(7, headerAuth.length());
+            return headerAuth.substring(7);
         }
         return null;
     }

@@ -6,7 +6,7 @@ import lombok.*;
 
 @AllArgsConstructor
 @Getter
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = StandardCleaningDetailsCreation.class, name = "standardCleaning"),
         @JsonSubTypes.Type(value = DisinfectionCleaningDetailsCreation.class, name = "disinfectionCleaning"),

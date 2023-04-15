@@ -28,4 +28,8 @@ public interface AppointmentJpaRepository extends JpaRepository<Appointment, Lon
     @Query("UPDATE Appointment ap SET ap.status = 'COMPLETED' WHERE ap.id = :id")
     void updateStatusCompleted(@Param("id") Long id);
 
+    @Transactional
+    @Modifying
+    @Query("UPDATE Appointment a SET a.status = 'COMPLETED' WHERE a.cleaningDate < :currentDate AND a.status <> 'COMPLETED'")
+    void updateNotCompletedDueAppointments(@Param("currentDate") LocalDate currentDate);
 }

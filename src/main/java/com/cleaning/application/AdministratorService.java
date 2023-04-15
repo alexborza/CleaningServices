@@ -10,9 +10,8 @@ import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.*;
 
 import java.util.*;
-import java.util.stream.*;
 
-import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.*;
 
 @Service
 @Transactional

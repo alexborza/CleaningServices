@@ -2,10 +2,6 @@ package com.cleaning.domain.users.exception;
 
 public class UserAlreadyExistsException extends RuntimeException {
 
-    public UserAlreadyExistsException() {
-        super();
-    }
-
     public UserAlreadyExistsException(String message) {
         super(message);
     }

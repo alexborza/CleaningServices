@@ -1,9 +1,9 @@
 package com.cleaning.infrastructure.appointment;
 
 import com.cleaning.domain.appointment.*;
+import com.cleaning.domain.appointment.data.*;
 import com.cleaning.domain.cleaning_service.*;
 import com.cleaning.domain.users.*;
-import com.cleaning.domain.appointment.data.*;
 import com.cleaning.infrastructure.implementation.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.*;
@@ -62,9 +62,50 @@ public class AppointmentRepositoryTest {
         List<Appointment> appointments = appointmentRepositoryImplementation.findAllByCleaningService(10001L);
 
         //+1 from data.sql.
-        assertThat(appointments.size()).isEqualTo(5);
+        assertThat(appointments.size()).isEqualTo(6);
         assertThat(appointments.stream().map(Appointment::getTimeSlot).collect(Collectors.toList()))
-                .containsExactly(new TimeSlot(9, 11), new TimeSlot(8, 10), new TimeSlot(10, 12), new TimeSlot(13, 15), new TimeSlot(8, 12));
+                .containsExactly(new TimeSlot(9, 11), new TimeSlot(8, 10), new TimeSlot(10, 12), new TimeSlot(13, 15), new TimeSlot(8, 12), new TimeSlot(8, 12));
+    }
+
+    @Test
+    @DirtiesContext
+    public void testUpdateStatusCompleted() {
+        addAppointments();
+
+        appointmentRepositoryImplementation.updateStatusCompleted(10006L);
+        Optional<Appointment> optionalAppointment = appointmentRepositoryImplementation.findById(10006L);
+
+        assertThat(optionalAppointment).isNotEmpty();
+        Appointment appointment = optionalAppointment.get();
+        assertThat(appointment.getStatus()).isEqualTo(AppointmentStatus.COMPLETED);
+    }
+
+    @Test
+    @DirtiesContext
+    public void testDeleteById() {
+        appointmentRepositoryImplementation.deleteById(10001L);
+        boolean exists = appointmentRepositoryImplementation.existsById(10001L);
+
+        assertThat(exists).isFalse();
+    }
+
+    @Test
+    @DirtiesContext
+    public void testUpdateNotCompletedDueAppointments() {
+        addAppointments();
+
+        appointmentRepositoryImplementation.updateNotCompletedDueAppointments(LocalDate.now());
+        List<Appointment> appointments = appointmentRepositoryImplementation.findAllByCleaningService(10001L);
+
+        assertThat(appointments.stream().
+                filter(ap -> ap.getCleaningDate().equals(LocalDate.of(2023, 2, 8)))
+                .allMatch(ap -> ap.getStatus() == AppointmentStatus.COMPLETED)).isTrue();
+        assertThat(appointments.stream().
+                filter(ap -> ap.getCleaningDate().equals(LocalDate.of(2023, 2, 9)))
+                .allMatch(ap -> ap.getStatus() == AppointmentStatus.COMPLETED)).isTrue();
+        assertThat(appointments.stream().
+                filter(ap -> ap.getCleaningDate().equals(LocalDate.now()))
+                .allMatch(ap -> ap.getStatus() == AppointmentStatus.COMPLETED)).isFalse();
     }
 
     private void addAppointments() {
@@ -99,7 +140,11 @@ public class AppointmentRepositoryTest {
                 cleaningService, employee, new TimeSlot(8,12), LocalDate.of(2023, 2, 9), AppointmentStatus.ACTIVE
         );
 
-        List<Appointment> appointments = List.of(ap2, ap1, ap3, ap4);
+        Appointment ap5 = AppointmentTestData.dummyAppointment(
+                cleaningService, employee, new TimeSlot(8,12), LocalDate.now(), AppointmentStatus.ACTIVE
+        );
+
+        List<Appointment> appointments = List.of(ap2, ap1, ap3, ap4, ap5);
         appointmentRepositoryImplementation.saveAll(appointments);
     }
 }

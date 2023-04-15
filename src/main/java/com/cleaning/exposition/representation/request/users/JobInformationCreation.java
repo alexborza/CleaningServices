@@ -1,6 +1,5 @@
 package com.cleaning.exposition.representation.request.users;
 
-import com.cleaning.domain.users.*;
 import com.cleaning.domain.users.job_information.*;
 import lombok.*;
 

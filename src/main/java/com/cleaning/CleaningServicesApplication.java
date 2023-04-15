@@ -6,10 +6,12 @@ import org.slf4j.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.boot.*;
 import org.springframework.boot.autoconfigure.*;
+import org.springframework.scheduling.annotation.*;
 import org.springframework.security.crypto.password.*;
 
 import java.util.*;
 
+@EnableScheduling
 @SpringBootApplication
 public class CleaningServicesApplication implements CommandLineRunner {
 
