@@ -1,21 +1,19 @@
-package com.cleaning.infrastructure.cleaning_service;
+package com.cleaning.infrastructure.implementation;
 
 import com.cleaning.domain.appointment.*;
+import com.cleaning.domain.appointment.data.*;
 import com.cleaning.domain.cleaning_service.*;
+import com.cleaning.domain.cleaning_service.data.*;
 import com.cleaning.domain.cleaning_service.exception.*;
 import com.cleaning.domain.users.*;
-import com.cleaning.domain.users.exception.*;
 import com.cleaning.exposition.representation.response.appointment.*;
 import com.cleaning.exposition.representation.response.cleaning_service.*;
-import com.cleaning.domain.appointment.data.*;
-import com.cleaning.domain.cleaning_service.data.*;
-import com.cleaning.infrastructure.implementation.*;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.*;
 import org.springframework.beans.factory.annotation.*;
-import org.springframework.boot.test.context.*;
+import org.springframework.boot.test.autoconfigure.orm.jpa.*;
+import org.springframework.context.annotation.*;
+import org.springframework.security.crypto.bcrypt.*;
 import org.springframework.test.annotation.*;
-import org.springframework.test.context.junit.jupiter.*;
 import org.springframework.transaction.annotation.*;
 
 import java.time.*;
@@ -24,18 +22,15 @@ import java.util.*;
 import static java.util.stream.Collectors.*;
 import static org.assertj.core.api.Assertions.*;
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest
+@Import({BCryptPasswordEncoder.class, CleaningServiceRepositoryImplementation.class})
+@DataJpaTest
 public class CleaningServiceRepositoryTest {
-
-    @Autowired
-    private UserRepositoryImplementation userRepositoryImplementation;
 
     @Autowired
     private CleaningServiceRepositoryImplementation cleaningServiceRepositoryImplementation;
 
     @Autowired
-    private AppointmentRepositoryImplementation appointmentRepositoryImplementation;
+    private TestEntityManager entityManager;
 
     @Test
     @DirtiesContext
@@ -97,17 +92,18 @@ public class CleaningServiceRepositoryTest {
     }
 
     private void populateData() {
-        Client client = (Client) userRepositoryImplementation.findById(10001L)
-                .orElseThrow(() -> new UserNotFoundException(10001L));
 
-        Employee employee = (Employee) userRepositoryImplementation.findById(10002L)
-                .orElseThrow(() -> new UserNotFoundException(10001L));
+        Client client = entityManager.find(Client.class, 10001L);
+        Employee employee = entityManager.find(Employee.class, 10002L);
 
         CleaningService cs1 = CleaningServiceTestData.dummyCleaningService(client);
         CleaningService cs2 = CleaningServiceTestData.dummyCleaningService(client);
         CleaningService cs3 = CleaningServiceTestData.dummyCleaningService(null);
 
-        cleaningServiceRepositoryImplementation.saveAll(List.of(cs1, cs2, cs3));
+        entityManager.persist(cs1);
+        entityManager.persist(cs2);
+        entityManager.persist(cs3);
+        entityManager.flush();
 
         Appointment ap1 = AppointmentTestData.dummyAppointment(
                 cs1, employee, new TimeSlot(8, 10), LocalDate.of(2023, 2, 21), AppointmentStatus.COMPLETED);
@@ -127,8 +123,12 @@ public class CleaningServiceRepositoryTest {
         Appointment ap6 = AppointmentTestData.dummyAppointment(
                 cs2, employee, new TimeSlot(15, 17), LocalDate.of(2023, 3, 9), AppointmentStatus.ACTIVE);
 
-        appointmentRepositoryImplementation.saveAll(
-                List.of(ap1, ap2, ap3, ap4, ap5, ap6));
+        entityManager.persist(ap1);
+        entityManager.persist(ap2);
+        entityManager.persist(ap3);
+        entityManager.persist(ap4);
+        entityManager.persist(ap5);
+        entityManager.persist(ap6);
+        entityManager.flush();
     }
-
 }
