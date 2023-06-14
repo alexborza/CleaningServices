@@ -29,6 +29,11 @@ public class UserRepositoryImplementation implements UserRepository {
     }
 
     @Override
+    public Optional<User> findByRole(Role role) {
+        return jpaRepository.findByRole(role);
+    }
+
+    @Override
     public List<User> findAllByRole(Role role) {
         return jpaRepository.findAllByRole(role);
     }

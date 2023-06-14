@@ -1,7 +1,6 @@
 package com.cleaning;
 
 import com.cleaning.domain.users.*;
-import com.cleaning.infrastructure.*;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.boot.*;
@@ -15,12 +14,13 @@ import java.util.*;
 @SpringBootApplication
 public class CleaningServicesApplication implements CommandLineRunner {
 
+	private static final Logger LOG = LoggerFactory.getLogger(CleaningServicesApplication.class);
+
 	@Autowired
-	private UserJpaRepository userJpaRepository;
+	private UserRepository userRepository;
 
 	@Autowired
 	private PasswordEncoder encoder;
-	private static final Logger LOG = LoggerFactory.getLogger(CleaningServicesApplication.class);
 
 	public static void main(String[] args) {
 		SpringApplication.run(CleaningServicesApplication.class, args);
@@ -32,7 +32,7 @@ public class CleaningServicesApplication implements CommandLineRunner {
 	}
 
 	private void addAdminAccount(){
-		Optional<User> user = userJpaRepository.findByRole(Role.ADMIN);
+		Optional<User> user = userRepository.findByRole(Role.ADMIN);
 		if(user.isPresent()){
 			LOG.info("Admin account already exists. Nothing will be done.");
 		} else {
@@ -41,7 +41,7 @@ public class CleaningServicesApplication implements CommandLineRunner {
 					.withEmail("email")
 					.withPassword(encoder.encode("admin"))
 					.build();
-			userJpaRepository.save(admin);
+			userRepository.save(admin);
 		}
 	}
 }

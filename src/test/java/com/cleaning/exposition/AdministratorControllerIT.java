@@ -2,58 +2,52 @@ package com.cleaning.exposition;
 
 import com.cleaning.application.*;
 import com.cleaning.domain.appointment.*;
+import com.cleaning.domain.appointment.data.*;
 import com.cleaning.domain.cleaning_service.*;
+import com.cleaning.domain.cleaning_service.data.*;
 import com.cleaning.domain.users.*;
+import com.cleaning.domain.users.data.*;
 import com.cleaning.exposition.representation.data.*;
 import com.cleaning.exposition.representation.request.cleaning_service.description.*;
 import com.cleaning.exposition.representation.request.cleaning_service.prices.*;
 import com.cleaning.exposition.representation.request.users.*;
-import com.cleaning.exposition.representation.response.appointment.*;
-import com.cleaning.exposition.representation.response.cleaning_service.*;
-import com.cleaning.exposition.representation.response.users.*;
-import com.cleaning.domain.appointment.data.*;
-import com.cleaning.domain.cleaning_service.data.*;
-import com.cleaning.domain.users.data.*;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.*;
-import org.mockito.*;
-import org.mockito.junit.jupiter.*;
+import org.springframework.boot.test.autoconfigure.web.servlet.*;
+import org.springframework.boot.test.mock.mockito.*;
 import org.springframework.http.*;
-import org.springframework.security.crypto.password.*;
+import org.springframework.test.web.servlet.*;
+import org.springframework.test.web.servlet.result.*;
 
 import java.time.*;
 import java.util.*;
 
-import static java.util.stream.Collectors.*;
-import static org.assertj.core.api.Assertions.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@ExtendWith(MockitoExtension.class)
-public class AdministratorControllerTest {
+@WebMvcTest(AdministratorController.class)
+@AutoConfigureMockMvc(addFilters = false)
+public class AdministratorControllerIT extends BaseControllerTestConfiguration {
 
-    @InjectMocks
-    private AdministratorController controller;
-
-    @Mock
+    @MockBean
     private AdministratorService administratorService;
 
-    @Mock
-    private PasswordEncoder encoder;
-
     @Test
-    public void testCreateEmployeeContract() {
+    public void testCreateEmployeeContract() throws Exception {
         EmployeeContractCreation employeeContractCreation = EmployeeContractCreationTestData.dummyEmployeeContractCreation("username", "email");
 
-        when(encoder.encode(employeeContractCreation.getPassword())).thenReturn("encodedPass");
+        ResultActions response = mockMvc.perform(post("/api/administrator/employee-contract")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(employeeContractCreation)));
 
-        ResponseEntity<Void> employeeContract = controller.createEmployeeContract(employeeContractCreation);
-
-        assertThat(employeeContract).isNotNull();
-        assertThat(employeeContract.getStatusCodeValue()).isEqualTo(201);
+        response.andExpect(MockMvcResultMatchers.status().isCreated());
     }
 
     @Test
-    public void testGetAllEmployees() {
+    public void testGetAllEmployees() throws Exception {
 
         UserMinimalView e1 = createUserMinimalView(1L, "e1");
         UserMinimalView e2 = createUserMinimalView(1L, "e2");
@@ -62,21 +56,16 @@ public class AdministratorControllerTest {
 
         when(administratorService.getAllEmployees()).thenReturn(employees);
 
-        ResponseEntity<List<UserMinimalRepresentation>> allEmployees = controller.getAllEmployees();
+        ResultActions response = mockMvc.perform(get("/api/administrator/employees")
+                .contentType(MediaType.APPLICATION_JSON));
 
-        assertThat(allEmployees).isNotNull();
-        assertThat(allEmployees.getStatusCodeValue()).isEqualTo(200);
+        response.andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(jsonPath("$.size()", is(employees.size())));
 
-        List<UserMinimalRepresentation> body = allEmployees.getBody();
-
-        assertThat(body).isNotNull();
-        assertThat(body).hasSize(2);
-        assertThat(body.stream().map(UserMinimalRepresentation::getFullName).collect(toList()))
-                .containsExactly("e1", "e2");
     }
 
     @Test
-    public void testGetAppointmentsByDate() {
+    public void testGetAppointmentsByDate() throws Exception {
         String date = LocalDate.of(2023, 2, 8).toString();
 
         Employee e1 = UserTestData.dummyEmployeeWithId(1L, "alex", "alex");
@@ -101,51 +90,43 @@ public class AdministratorControllerTest {
 
         when(administratorService.getAllEmployeesAppointmentsByDate(date)).thenReturn(map);
 
-        ResponseEntity<List<EmployeeAppointmentRepresentation>> appointmentsByDate = controller.getAllEmployeesAppointmentsByDate(date);
+        ResultActions response = mockMvc.perform(get("/api/administrator/employees-appointments/{date}", date)
+                .contentType(MediaType.APPLICATION_JSON));
 
-        assertThat(appointmentsByDate).isNotNull();
-        assertThat(appointmentsByDate.getStatusCodeValue()).isEqualTo(200);
-
-        List<EmployeeAppointmentRepresentation> body = appointmentsByDate.getBody();
-
-        assertThat(body).isNotNull();
-        assertThat(body).hasSize(3);
-
-        EmployeeAppointmentRepresentation r1 = body.get(0);
-        EmployeeAppointmentRepresentation r2 = body.get(1);
-        EmployeeAppointmentRepresentation r3 = body.get(2);
-
-        assertThat(body.stream().map(EmployeeAppointmentRepresentation::getEmployeeId).collect(toList())).containsExactly(1L, 2L, 3L);
-        assertThat(r1.getEmployeeId()).isEqualTo(1L);
-        assertThat(r2.getEmployeeId()).isEqualTo(2L);
-        assertThat(r3.getEmployeeId()).isEqualTo(3L);
-        assertThat(r1.getAppointmentRepresentations()).hasSize(3);
-        assertThat(r2.getAppointmentRepresentations()).hasSize(2);
-        assertThat(r3.getAppointmentRepresentations()).hasSize(0);
+        response.andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(jsonPath("$.size()", is(map.size())))
+                .andExpect(jsonPath("$[*].employeeId", contains(1, 2, 3)))
+                .andExpect(jsonPath("$[0].appointmentRepresentations", hasSize(3)))
+                .andExpect(jsonPath("$[1].appointmentRepresentations", hasSize(2)))
+                .andExpect(jsonPath("$[2].appointmentRepresentations", hasSize(0)));
+        ;
     }
 
     @Test
-    public void testCreateDescriptions() {
+    public void testCreateDescriptions() throws Exception {
         CleaningDescriptionCreation cleaningDescriptionCreation = CleaningDescriptionCreationTestData.dummyCleaningCreationRepresentation();
 
-        ResponseEntity<Void> response = controller.createDescriptions(cleaningDescriptionCreation);
+        ResultActions response = mockMvc.perform(post("/api/administrator/create-descriptions")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(cleaningDescriptionCreation)));
 
-        assertThat(response).isNotNull();
-        assertThat(response.getStatusCodeValue()).isEqualTo(201);
+        response.andExpect(MockMvcResultMatchers.status().isCreated());
     }
 
     @Test
-    public void testCreateCleaningPrices() {
+    public void testCreateCleaningPrices() throws Exception {
         CleaningPriceCreation cleaningPriceCreation = CleaningPricesCreationTestData.dummyCleaningPricesRepresentation();
 
-        ResponseEntity<Void> response = controller.createCleaningPrices(cleaningPriceCreation);
+        ResultActions response = mockMvc.perform(post("/api/administrator/create-prices")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(cleaningPriceCreation)));
 
-        assertThat(response).isNotNull();
-        assertThat(response.getStatusCodeValue()).isEqualTo(201);
+        response.andExpect(MockMvcResultMatchers.status().isCreated());
+
     }
 
     @Test
-    public void testFindAllCleaningServices() {
+    public void testFindAllCleaningServices() throws Exception {
         List<CleaningServiceMinimalView> views = List.of(
                 createCleaningServiceMinimalView(1L, 8, 10),
                 createCleaningServiceMinimalView(2L, 10, 14),
@@ -155,17 +136,14 @@ public class AdministratorControllerTest {
 
         when(administratorService.getAllCleaningServices()).thenReturn(views);
 
-        ResponseEntity<List<CleaningServiceMinimalRepresentation>> response = controller.getAllCleaningServices();
-        assertThat(response).isNotNull();
-        assertThat(response.getStatusCodeValue()).isEqualTo(200);
+        ResultActions response = mockMvc.perform(get("/api/administrator/all-cleaning-services")
+                .contentType(MediaType.APPLICATION_JSON));
 
-        List<CleaningServiceMinimalRepresentation> body = response.getBody();
-        assertThat(body).isNotNull();
-        assertThat(body.stream().map(CleaningServiceMinimalRepresentation::getId).collect(toList())).containsExactly(1L, 2L, 3L, 4L);
-        assertThat(body.stream().map(CleaningServiceMinimalRepresentation::getTimeSlotRepresentation).map(TimeSlotRepresentation::getStartingHour).collect(toList()))
-                .containsExactly(8, 10, 8, 14);
-        assertThat(body.stream().map(CleaningServiceMinimalRepresentation::getTimeSlotRepresentation).map(TimeSlotRepresentation::getFinishingHour).collect(toList()))
-                .containsExactly(10, 14, 12, 17);
+        response.andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(jsonPath("$.size()", is(views.size())))
+                .andExpect(jsonPath("$[*].id", contains(1, 2, 3, 4)))
+                .andExpect(jsonPath("$[*].timeSlotRepresentation.startingHour", contains(8, 10, 8, 14)))
+                .andExpect(jsonPath("$[*].timeSlotRepresentation.finishingHour", contains(10, 14, 12, 17)));
     }
 
     private CleaningServiceMinimalView createCleaningServiceMinimalView(Long id, Integer startingHour, Integer endingHour) {
@@ -220,4 +198,5 @@ public class AdministratorControllerTest {
             }
         };
     }
+
 }

@@ -37,7 +37,7 @@ public class AdministratorController {
         Employee employee = employeeContractCreation.toDomain(encodedPassword);
 
         administratorService.createEmployeeContract(employee);
-        return ResponseEntity.ok().build();
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping("/employees")
@@ -66,14 +66,14 @@ public class AdministratorController {
     public ResponseEntity<Void> createDescriptions(@RequestBody CleaningDescriptionCreation cleaningDescriptionCreation){
         CleaningDescription cleaningDescription = cleaningDescriptionCreation.toDomain();
         administratorService.createDescriptions(cleaningDescription);
-        return ResponseEntity.ok().build();
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PostMapping("/create-prices")
     public ResponseEntity<Void> createCleaningPrices(@RequestBody CleaningPriceCreation cleaningPriceCreation) {
         CleaningPrice cleaningPrice = cleaningPriceCreation.toDomain();
         administratorService.createCleaningPrices(cleaningPrice);
-        return ResponseEntity.ok().build();
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping("/all-cleaning-services")

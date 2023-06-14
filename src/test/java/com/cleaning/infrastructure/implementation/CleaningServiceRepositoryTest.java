@@ -11,6 +11,7 @@ import com.cleaning.exposition.representation.response.cleaning_service.*;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.boot.test.autoconfigure.orm.jpa.*;
+import org.springframework.boot.test.mock.mockito.*;
 import org.springframework.context.annotation.*;
 import org.springframework.security.crypto.bcrypt.*;
 import org.springframework.test.annotation.*;
@@ -31,6 +32,9 @@ public class CleaningServiceRepositoryTest {
 
     @Autowired
     private TestEntityManager entityManager;
+
+    @MockBean
+    private UserRepository userRepository;
 
     @Test
     @DirtiesContext

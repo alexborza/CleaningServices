@@ -10,6 +10,8 @@ public interface UserRepository {
 
     Optional<User> findById(Long id);
 
+    Optional<User> findByRole(Role role);
+
     List<User> findAllByRole(Role role);
 
     List<Long> findAllEmployeeIds();
